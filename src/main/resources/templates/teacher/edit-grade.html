@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Edytuj Ocenę</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Dzienniczek</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active dropdown" sec:authorize="hasRole('STUDENT')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudent" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Ucznia
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownStudent">
+                    <a class="dropdown-item" th:href="@{/uczen/oceny}">Oceny</a>
+                    <a class="dropdown-item" th:href="@{/uczen/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
+                </div>
+            </li>
+            <li class="nav-item active dropdown" sec:authorize="hasRole('TEACHER')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTeacher" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Nauczyciela
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownTeacher">
+                    <a class="dropdown-item" th:href="@{/nauczyciel/wybierz-klase}">Dodaj oceny</a>
+                    <a class="dropdown-item" th:href="@{/nauczyciel/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
+                </div>
+            </li>
+            <li class="nav-item active dropdown" sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownModerator" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Moderatora
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownModerator">
+                    <a class="dropdown-item" th:href="@{/moderator/lista-uczniow/{pageId}(pageId=${0})}">Lista uczniów
+                        (zmiana klasy)</a>
+                </div>
+            </li>
+            <li class="nav-item active dropdown" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Administracyjny
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                    <a class="dropdown-item" th:href="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}">Lista
+                        użytkowników</a>
+                    <a class="dropdown-item" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
+                    <a class="dropdown-item" th:href="@{/admin/utworz-klase}">Stwórz klasę</a>
+                </div>
+            </li>
+            <li class="nav-item active" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<br><br>
+
+<h3>&nbspEdytuj Ocenę</h3>
+<hr>
+
+<div class="col-md-10">
+    <form th:action="@{/nauczyciel/edytuj-ocene/{userId}/{subject-name}/{semester}/{gradeId}
+    (userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.get().id})}" method="post">
+        <div class="form-group">
+            Aktualnie wybrany uczeń : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
+            <br><br>
+            Aktualna kategoria : <i th:text="${grade.get().category}"></i>
+            <br><br>
+            Aktualna ocena : <i th:text="${grade.get().printRating()}"></i>
+            <br><br>
+            Aktualna waga oceny : <i th:text="${grade.get().printRatingWeight()}"></i>
+            <br><br>
+            Data wystawienia oceny : <i th:text="${grade.get().timestamp}"></i>
+            <br><br>
+            <td id="chooseCategory">Wybierz Kategorię:</td>
+            <td>
+                <label>
+                    <select name="category">
+                        <option th:value="${currentCategory}" th:text="${currentCategory}"></option>
+                        <option
+                                th:each="category : ${categories}"
+                                th:value="${category}"
+                                th:text="${category}"></option>
+                    </select>
+                    (Kategorie : bz,np i zw nie liczą się do średniej)
+                </label>
+                <br>
+                *bz (brak zadania)
+                <br>
+                *np (nieprzygotowanie)
+                <br>
+                *zw (zwolenienie)
+            </td>
+            <br><br>
+            <td id="chooseRating">Wybierz Ocenę:</td>
+            <td>
+                <label>
+                    <select name="rating">
+                        <option th:value="${currentRating}" th:text="${currentRating}"></option>
+                        <option
+                                th:each="rating : ${ratings}"
+                                th:value="${rating}"
+                                th:text="${rating}"></option>
+                    </select>
+                </label>
+            </td>
+            <br><br>
+            <td id="chooseRatingWeight">Wybierz wagę oceny:</td>
+            <td>
+                <label>
+                    <select name="ratingWeight">
+                        <option th:value="${currentRatingWeight}" th:text="${currentRatingWeight}"></option>
+                        <option
+                                th:each="ratingWeight : ${ratingWeights}"
+                                th:value="${ratingWeight}"
+                                th:text="${ratingWeight}"></option>
+                    </select>
+                </label>
+            </td>
+        </div>
+        <div class="form-row" th:object="${grade}">
+            <div class="form-group col-md-6">
+                <label for="comment">Dodaj komentarz do oceny</label>
+                <input th:value="${grade.get().comment}" th:name="comment" type="text" class="form-control" id="comment"
+                       placeholder="max 100 znaków...">
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Potwierdź</button>
+        </div>
+    </form>
+    <form th:action="@{/nauczyciel/usun-ocene/{userId}/{subject-name}/{semester}/{gradeId}
+(userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.get().id})}"
+          method="post">
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger">Usuń ocenę</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>

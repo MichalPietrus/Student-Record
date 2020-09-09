@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Rejestracja</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Dzienniczek</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Strona główna<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Panel Administracyjny
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/admin/lista-uzytkownikow">Lista użytkowników</a>
+                    <a class="dropdown-item" href="/admin/dodaj-przedmiot">Dodaj Przedmiot</a>
+                    <a class="dropdown-item" href="/admin/utworz-klase">Stwórz klasę</a>
+                </div>
+            </li>
+            <li class="nav-item" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Rejestracja powiodła się</div>
+            </div>
+            <h1>Rejestracja</h1>
+            <form th:action="@{/registration}" th:object="${user}" method="post">
+
+                <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
+                   th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+                    error</p>
+
+                <div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
+                    <label for="firstName" class="control-label">First name</label> <input id="firstName"
+                                                                                           class="form-control"
+                                                                                           th:field="*{firstName}"/>
+                    <p class="error-message" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">
+                        Validation error</p>
+                </div>
+                <div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
+                    <label for="lastName" class="control-label">Last name</label> <input id="lastName"
+                                                                                         class="form-control"
+                                                                                         th:field="*{lastName}"/>
+                    <p class="error-message" th:each="error : ${#fields.errors('lastName')}" th:text="${error}">
+                        Validation error</p>
+                </div>
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
+                    <label for="email" class="control-label">E-mail</label> <input
+                        id="email" class="form-control" th:field="*{email}"/>
+                    <p class="error-message"
+                       th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation
+                        error</p>
+                </div>
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
+                    <label for="confirmEmail" class="control-label">Confirm
+                        e-mail</label> <input id="confirmEmail" class="form-control"
+                                              th:field="*{confirmEmail}"/>
+                    <p class="error-message"
+                       th:each="error : ${#fields.errors('confirmEmail')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
+                    <label for="password" class="control-label">Hasło</label> <input
+                        id="password" class="form-control" type="password"
+                        th:field="*{password}"/>
+                    <p class="error-message"
+                       th:each="error : ${#fields.errors('password')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <div class="form-group"
+                     th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
+                    <label for="confirmPassword" class="control-label">Potwierdź hasło
+                    </label> <input id="confirmPassword" class="form-control"
+                                    type="password" th:field="*{confirmPassword}"/>
+                    <p class="error-message"
+                       th:each="error : ${#fields.errors('confirmPassword')}"
+                       th:text="${error}">Validation error</p>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Załóż konto</button>
+                    <span>Jesteś już zarejestrowany? <a href="/" th:href="@{/login}">Zaloguj się tutaj</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

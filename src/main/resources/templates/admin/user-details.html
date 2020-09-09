@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Szczegółowe informacje</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Dzienniczek</a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active dropdown" sec:authorize="hasRole('STUDENT')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudent" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Ucznia
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownStudent">
+                    <a class="dropdown-item" th:href="@{/uczen/oceny}">Oceny</a>
+                    <a class="dropdown-item" th:href="@{/uczen/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
+                </div>
+            </li>
+            <li class="nav-item active dropdown" sec:authorize="hasRole('TEACHER')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTeacher" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Nauczyciela
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownTeacher">
+                    <a class="dropdown-item" th:href="@{/nauczyciel/wybierz-klase}">Dodaj oceny</a>
+                    <a class="dropdown-item" th:href="@{/nauczyciel/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
+                </div>
+            </li>
+            <li class="nav-item active dropdown" sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownModerator" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Moderatora
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownModerator">
+                    <a class="dropdown-item" th:href="@{/moderator/lista-uczniow/{pageId}(pageId=${0})}">Lista uczniów
+                        (zmiana klasy)</a>
+                </div>
+            </li>
+            <li class="nav-item active dropdown" sec:authorize="hasRole('ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Administracyjny
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                    <a class="dropdown-item" th:href="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}">Lista
+                        użytkowników</a>
+                    <a class="dropdown-item" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
+                    <a class="dropdown-item" th:href="@{/admin/utworz-klase}">Stwórz klasę</a>
+                </div>
+            </li>
+            <li class="nav-item active" sec:authorize="isAuthenticated()">
+                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<br>
+
+<h3>Dane użytkownika</h3>
+
+<br>
+
+<form th:action="@{/admin/zapisz-szczegoly-uzytkownika/{id}(id=${user.id})}" method="post">
+    <div class="form-row" th:object="${user}">
+        <div class="col">
+            <label for="firstName">Imię</label>
+            <input th:value="${user.firstName}" th:name="firstName" type="text" class="form-control" placeholder="Imię"
+                   id="firstName">
+            <p class="has-error" th:if="${#fields.hasErrors('firstName')}">Pole nie może być puste</p>
+        </div>
+        <div class="col">
+            <label for="lastName">Nazwisko</label>
+            <input th:value="${user.lastName}" th:name="lastName" id="lastName" type="text" class="form-control"
+                   placeholder="Nazwisko">
+            <p class="has-error" th:if="${#fields.hasErrors('lastName')}">Pole nie może być puste</p>
+        </div>
+    </div>
+    <br>
+    <div class="form-row" th:object="${user}">
+        <div class="form-group col-md-6">
+            <label for="email">Zmień E-mail</label>
+            <input th:value="${user.email}" th:name="email" type="text" class="form-control" id="email"
+                   placeholder="Hasło">
+            <p class="has-error" th:if="${#fields.hasErrors('email')}">Nieprawidłowy adres e-mail</p>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="password">Zmień hasło</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Hasło"/>
+        </div>
+    </div>
+    <div class="form-row" th:object="${user}">
+        <div class="form-group col-md-6">
+            <label for="PESEL">PESEL</label>
+            <input th:value="${user.PESEL}" th:name="PESEL" type="text" class="form-control" id="PESEL"
+                   placeholder="PESEL">
+            <p class="has-error" th:if="${#fields.hasErrors('PESEL')}">Niepoprawny polski narodowy numer identyfikacyjny
+                (PESEL)</p>
+        </div>
+    </div>
+    <div class="form-row" th:object="${userDetails}">
+        <div class="col">
+            <label for="birthday">Data Urodzenia</label>
+            <input th:value="${userDetails.birthday}" th:name="birthday" type="text" class="form-control" id="birthday"
+                   placeholder="MM-DD-YYYY">
+            <p class="has-error" th:if="${#fields.hasErrors('birthday')}">Niepoprawna data urodzenia lub jej format</p>
+        </div>
+        <div class="col">
+            <label for="userPhoneNumber">Numer telefonu</label>
+            <input th:value="${userDetails.phoneNumber}" th:name="phoneNumber" type="text" class="form-control"
+                   id="userPhoneNumber" placeholder="Numer telefonu"/>
+            <p class="error-message" th:if="${#fields.hasErrors('phoneNumber')}">Nieprawidłowy numer telefonu lub
+                nieprawidłowy format : poprawny format to +48000000000</p>
+        </div>
+    </div>
+
+    <br>
+
+    <h3>Miejsce zamieszkania</h3>
+
+    <br>
+
+    <div class="form-row" th:object="${placeOfResident}">
+        <div class="form-group col-md-6">
+            <label for="City">Miasto</label>
+            <input th:value="${placeOfResident.city}" th:name="city" type="text" class="form-control" id="City"
+                   placeholder="Miasto">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="country">Kraj</label>
+            <input th:value="${placeOfResident.country}" th:name="country" type="text" class="form-control" id="country"
+                   placeholder="Kraj">
+        </div>
+        <div class="form-group col-md-2">
+            <label for="postalCode">Kod Pocztowy</label>
+            <input th:value="${placeOfResident.postalCode}" th:name="postalCode" type="text" class="form-control"
+                   id="postalCode" placeholder="00-000">
+            <p class="error-message" th:if="${#fields.hasErrors('postalCode')}">Nieprawidłowy kod pocztowy lub
+                format</p>
+        </div>
+    </div>
+    <div class="form-row" th:object="${placeOfResident}">
+        <div class="form-group col-md-6">
+            <label for="street">Ulica</label>
+            <input th:value="${placeOfResident.street}" th:name="street" type="text" class="form-control" id="street"
+                   placeholder="Ulica">
+        </div>
+        <div class="form-group col-md-4">
+            <label for="houseNumber">Nr domu</label>
+            <input th:value="${placeOfResident.houseNumber}" th:name="houseNumber" type="text" class="form-control"
+                   id="houseNumber">
+            <p class="error-message" th:if="${#fields.hasErrors('houseNumber')}">Nieprawidłowy numer domu</p>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="apartmentNumber">Nr lokalu</label>
+            <input th:value="${placeOfResident.apartmentNumber}" th:name="apartmentNumber" type="text"
+                   class="form-control" id="apartmentNumber">
+            <p class="error-message" th:if="${#fields.hasErrors('apartmentNumber')}">Nieprawidłowy numer lokalu</p>
+        </div>
+    </div>
+
+    <br>
+
+    <h3>Dane rodzica</h3>
+
+    <br>
+
+    <div class="form-row" th:object="${parent}">
+        <div class="col">
+            <label for="parentFirstName">Imię</label>
+            <input th:value="${parent.parentFirstName}" th:name="parentFirstName" type="text" class="form-control"
+                   placeholder="Imię" id="parentFirstName">
+        </div>
+        <div class="col">
+            <label for="parentLastName">Nazwisko</label>
+            <input th:value="${parent.parentLastName}" th:name="parentLastName" id="parentLastName" type="text"
+                   class="form-control" placeholder="Nazwisko">
+        </div>
+    </div>
+
+    <br>
+
+    <div class="form-row" th:object="${parent}">
+        <div class="col">
+            <label for="parentEmail">E-mail</label>
+            <input th:value="${parent.parentEmail}" th:name="parentEmail" type="text" class="form-control"
+                   placeholder="E-mail" id="parentEmail">
+            <p class="has-error" th:if="${#fields.hasErrors('parentEmail')}">Nieprawidłowy adres e-mail</p>
+        </div>
+        <div class="col">
+            <label for="parentPhoneNumber">Numer telefonu</label>
+            <input th:value="${parent.parentPhoneNumber}" th:name="parentPhoneNumber" id="parentPhoneNumber" type="text"
+                   class="form-control"
+                   placeholder="Numer telefonu">
+            <p class="error-message" th:if="${#fields.hasErrors('parentPhoneNumber')}">Nieprawidłowy numer telefonu lub
+                nieprawidłowy format : poprawny format to +48000000000</p>
+        </div>
+    </div>
+
+    <br>
+
+    <button type="submit" class="btn btn-primary">Potwiedź</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
