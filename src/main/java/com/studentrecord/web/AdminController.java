@@ -75,7 +75,7 @@ public class AdminController {
     @GetMapping("/lista-uzytkownikow/{pageId}")
     public String changeRoleForm(Model model, String keyword,
                                  @PathVariable Integer pageId) {
-        Pageable pageable = PageRequest.of(pageId, 3, Sort.by(Sort.Order.asc("firstName")));
+        Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("firstName")));
         List<User> users = userService.findAllPageable(pageable.next());
         ControllersHelper.addPageModels(model, users, pageId);
         if (keyword != null)

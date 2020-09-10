@@ -242,7 +242,8 @@ public class User {
         List<Grade> filtredStudentGrades = new ArrayList<>();
         for (int i = 0; i < studentGrades.size(); i++) {
             Grade grade = studentGrades.get(i);
-            if (grade.getSemester() == semester && grade.getSubject().getName().equals(subjectName) && studentGrades.get(i).getIsFinal() == null)
+            if (grade.getSemester() == semester && grade.getSubject().getName().equals(subjectName)
+                    && studentGrades.get(i).getIsFinal() == null)
                 filtredStudentGrades.add(grade);
         }
         return filtredStudentGrades;

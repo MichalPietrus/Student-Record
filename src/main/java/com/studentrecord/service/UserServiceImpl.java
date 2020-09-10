@@ -131,6 +131,9 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Extracts Students (Users with Student Role) from the users list.
+     */
     private void extractStudents(List<User> users, List<User> students) {
         for (User user : users) {
             Optional<Role> role = user.getRoles().stream()

@@ -76,7 +76,7 @@
         <div class="form-group">
             Aktualnie wybrany uczeń : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
             <br><br>
-            Aktualna ocena : <i th:text="${user.printExpectedFinalGrade(semester,isFinal)}"></i>
+            Aktualna ocena : <i th:text="${user.printExpectedFinalGrade(semester,isFinal,false)}"></i>
             <br><br>
             Średnia ocen w semestrze : <i th:text="${user.getAverageGrade(subjectName,semester)}"></i>
             <br><br>
