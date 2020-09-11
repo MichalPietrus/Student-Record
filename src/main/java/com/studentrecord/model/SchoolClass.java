@@ -1,5 +1,7 @@
 package com.studentrecord.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
@@ -9,6 +11,8 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "class")
 public class SchoolClass {
@@ -33,9 +37,6 @@ public class SchoolClass {
     @OneToMany(mappedBy = "schoolClass")
     private List<SchoolHours> schoolHours;
 
-    public SchoolClass() {
-    }
-
     public SchoolClass(String name, String year, String specialization) {
         this.name = name;
         this.year = year;
@@ -52,75 +53,18 @@ public class SchoolClass {
         this.schoolHours = schoolHours;
     }
 
-    public List<SchoolHours> getSchoolHours() {
-        return schoolHours;
-    }
-
-    public void setSchoolHours(List<SchoolHours> schoolHours) {
-        this.schoolHours = schoolHours;
-    }
-
-    public List<Subject> getSubjects() {
-        return subjects;
-    }
-
-    public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
     public String getSchoolClassNameAndYear() {
-        return this.name + " " + "(" + year + ")";
+        if(this.year != null && this.name != null)
+            return this.name + " " + "(" + this.year + ")";
+        else
+            return this.name;
     }
 
-    @Override
-    public String toString() {
-        return "SchoolClass{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", year='" + year + '\'' +
-                ", specialization='" + specialization + '\'' +
-                ", users=" + users +
-                '}';
+    public String getSchoolClassName() {
+        if(this.year != null)
+            return this.year;
+        else
+            return "0";
     }
 
 }

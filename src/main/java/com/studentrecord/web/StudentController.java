@@ -22,6 +22,11 @@ public class StudentController {
     @Autowired
     private GradeService gradeService;
 
+    @GetMapping("/error")
+    public String error(){
+        return "student/error";
+    }
+
     @GetMapping("/panel")
     public String showStudentPanel() {
         return "student/student-panel";

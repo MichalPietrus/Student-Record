@@ -1,8 +1,13 @@
 package com.studentrecord.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class UserDetailsDB {
 
@@ -22,74 +27,12 @@ public class UserDetailsDB {
     @OneToOne(mappedBy = "userDetailsDB")
     private User user;
 
-    public UserDetailsDB() {
-    }
-
     public UserDetailsDB(String phoneNumber, String birthday, PlaceOfResident placeOfResident, Parent parent, User user) {
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.placeOfResident = placeOfResident;
         this.parent = parent;
         this.user = user;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public PlaceOfResident getPlaceOfResident() {
-        return placeOfResident;
-    }
-
-    public void setPlaceOfResident(PlaceOfResident placeOfResident) {
-        this.placeOfResident = placeOfResident;
-    }
-
-    public Parent getParent() {
-        return parent;
-    }
-
-    public void setParent(Parent parent) {
-        this.parent = parent;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "UserDetailsDB{" +
-                "id=" + id +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", birthday=" + birthday +
-                ", placeOfResident=" + placeOfResident +
-                ", parent=" + parent +
-                '}';
     }
 
 }

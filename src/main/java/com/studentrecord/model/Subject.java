@@ -1,9 +1,14 @@
 package com.studentrecord.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Optional;
 
+@Data
+@NoArgsConstructor
 @Entity
 public class Subject {
 
@@ -22,9 +27,6 @@ public class Subject {
     @OneToOne(mappedBy = "subject")
     private SchoolHours schoolHours;
 
-    public Subject() {
-    }
-
     public Subject(String name) {
         this.name = name;
     }
@@ -33,64 +35,6 @@ public class Subject {
         this.name = name;
         this.teacher = teacher;
         this.schoolClass = schoolClass;
-    }
-
-    public SchoolHours getSchoolHours() {
-        return schoolHours;
-    }
-
-    public void setSchoolHours(SchoolHours schoolHours) {
-        this.schoolHours = schoolHours;
-    }
-
-    public List<Grade> getGrades() {
-        return grades;
-    }
-
-    public void setGrades(List<Grade> grades) {
-        this.grades = grades;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User getTeacher() {
-        return teacher;
-    }
-
-    public void setTeacher(User teacher) {
-        this.teacher = teacher;
-    }
-
-    public SchoolClass getSchoolClass() {
-        return schoolClass;
-    }
-
-    public void setSchoolClass(SchoolClass schoolClass) {
-        this.schoolClass = schoolClass;
-    }
-
-    @Override
-    public String toString() {
-        return "Subject{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", teacher=" + teacher +
-                ", schoolClass=" + schoolClass +
-                '}';
     }
 
 }

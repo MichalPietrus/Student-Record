@@ -1,5 +1,7 @@
 package com.studentrecord.model;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.pl.PESEL;
 
@@ -11,6 +13,8 @@ import javax.validation.constraints.Size;
 import java.text.DecimalFormat;
 import java.util.*;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
@@ -48,172 +52,6 @@ public class User {
     private Grade grade;
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<Grade> studentGrades;
-
-    public User() {
-    }
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String email, String password, Collection<Role> roles) {
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public User(String email, String password, Collection<Role> roles, SchoolClass schoolClass, Subject subject) {
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.schoolClass = schoolClass;
-        this.subject = subject;
-    }
-
-    public User(String email, String password, Collection<Role> roles, SchoolClass schoolClass, Subject subject, UserDetailsDB userDetailsDB) {
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.schoolClass = schoolClass;
-        this.subject = subject;
-        this.userDetailsDB = userDetailsDB;
-    }
-
-    public User(String PESEL, String password, String email, String firstName, String lastName,
-                Collection<Role> roles, SchoolClass schoolClass, Subject subject, UserDetailsDB userDetailsDB, Grade grade) {
-        this.PESEL = PESEL;
-        this.password = password;
-        this.email = email;
-        this.roles = roles;
-        this.schoolClass = schoolClass;
-        this.subject = subject;
-        this.userDetailsDB = userDetailsDB;
-        this.grade = grade;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    public User(int studentNumber, String PESEL, String firstName, String lastName, String email, String password,
-                Collection<Role> roles, SchoolClass schoolClass, Subject subject, UserDetailsDB userDetailsDB,
-                Grade grade, List<Grade> studentGrades) {
-        this.studentNumber = studentNumber;
-        this.PESEL = PESEL;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.schoolClass = schoolClass;
-        this.subject = subject;
-        this.userDetailsDB = userDetailsDB;
-        this.grade = grade;
-        this.studentGrades = studentGrades;
-    }
-
-    public List<Grade> getStudentGrades() {
-        return studentGrades;
-    }
-
-    public void setStudentGrades(List<Grade> studentGrade) {
-        this.studentGrades = studentGrade;
-    }
-
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
-    }
-
-    public SchoolClass getSchoolClass() {
-        return schoolClass;
-    }
-
-    public void setSchoolClass(SchoolClass schoolClass) {
-        this.schoolClass = schoolClass;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
-    public UserDetailsDB getUserDetailsDB() {
-        return userDetailsDB;
-    }
-
-    public void setUserDetailsDB(UserDetailsDB userDetailsDB) {
-        this.userDetailsDB = userDetailsDB;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPESEL() {
-        return PESEL;
-    }
-
-    public void setPESEL(String PESEL) {
-        this.PESEL = PESEL;
-    }
-
-    public int getStudentNumber() {
-        return studentNumber;
-    }
-
-    public void setStudentNumber(int studentNumber) {
-        this.studentNumber = studentNumber;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public void addGrade(Grade grade) {
         if (grade != null && !grade.getCategory().equals("")) {
@@ -310,13 +148,4 @@ public class User {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + "*********" + '\'' +
-                ", roles=" + roles +
-                '}';
-    }
 }
