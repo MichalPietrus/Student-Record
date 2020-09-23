@@ -1,12 +1,7 @@
 package com.studentrecord.service;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import com.studentrecord.model.Role;
-import com.studentrecord.model.User;
+import com.studentrecord.model.*;
 import com.studentrecord.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,34 +10,50 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
 
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
-    public User register(User user) {
+    @Override
+    public void register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singletonList(new Role("ROLE_STUDENT")));
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Override
-    public List<User> findByKeyword(String keyword) {
-        return userRepository.findByKeyword(keyword);
+    public void setStudentNumbers(String schoolClassName, User user, SchoolClass oldSchoolClass) {
+        if (oldSchoolClass != null && !oldSchoolClass.getName().equals(schoolClassName)) {
+            oldSchoolClass.getUsers().remove(user);
+            List<User> oldClassStudents = oldSchoolClass.getUsers();
+            oldClassStudents.sort(Comparator.comparing(User::getFirstName));
+            for (int x = 0; x < oldClassStudents.size(); x++)
+                oldClassStudents.get(x).setStudentNumber(x + 1);
+        }
     }
 
-    public User saveAndEncode(User user) {
+    @Override
+    public void saveAndEncode(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.saveAndFlush(user);
+        userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -52,7 +63,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAllStudentsPageable(Pageable pageable) {
-        return userRepository.findAllByRolesNameEquals("ROLE_STUDENT",pageable);
+        return userRepository.findAllByRolesNameEquals("ROLE_STUDENT", pageable);
     }
 
     @Override
@@ -62,12 +73,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<User> findAllStudentsByKeywordPageable(String keyword, Pageable pageable) {
-        return userRepository.findAllByKeywordAndRolesNameEquals(keyword,"ROLE_STUDENT",pageable);
+        return userRepository.findAllByKeywordAndRolesNameEquals(keyword, pageable);
     }
 
     @Override
-    public User saveWithoutEncoding(User user) {
-        return userRepository.saveAndFlush(user);
+    public void saveWithoutEncoding(User user) {
+        userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -83,14 +94,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(User user) {
         userRepository.delete(user);
-    }
-
-    @Override
-    public List<User> findAllStudents() {
-        List<User> users = userRepository.findAll();
-        List<User> students = new ArrayList<>();
-        extractStudents(users, students);
-        return students;
     }
 
     @Override
@@ -118,6 +121,81 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void setUserDetailsAndModels(Model model, User user) {
+        UserDetailsDB userDetailsDB;
+        PlaceOfResident placeOfResident;
+        Parent parent;
+        if (user.getUserDetailsDB() == null) {
+            userDetailsDB = new UserDetailsDB();
+            placeOfResident = new PlaceOfResident();
+            parent = new Parent();
+        } else {
+            userDetailsDB = user.getUserDetailsDB();
+            placeOfResident = user.getUserDetailsDB().getPlaceOfResident();
+            parent = user.getUserDetailsDB().getParent();
+        }
+        model.addAttribute("userDetails", userDetailsDB);
+        model.addAttribute("placeOfResident", placeOfResident);
+        model.addAttribute("parent", parent);
+        model.addAttribute("user", user);
+    }
+
+    @Override
+    public void setUserDetails(User user, UserDetailsDB userDetails, Parent parent, PlaceOfResident placeOfResident, User userDB) {
+        int userDetailsDbId = 0;
+        int userDBParentId = 0;
+        int userDBPlaceOfResidentId = 0;
+        if (userDB.getUserDetailsDB() != null) {
+            userDetailsDbId = userDB.getUserDetailsDB().getId();
+            userDBParentId = userDB.getUserDetailsDB().getParent().getId();
+            userDBPlaceOfResidentId = userDB.getUserDetailsDB().getPlaceOfResident().getId();
+        }
+        userDB.setFirstName(user.getFirstName());
+        userDB.setLastName(user.getLastName());
+        userDB.setEmail(user.getEmail());
+        userDB.setPESEL(user.getPESEL());
+        userDB.setUserDetailsDB(userDetails);
+        userDB.getUserDetailsDB().setParent(parent);
+        userDB.getUserDetailsDB().setPlaceOfResident(placeOfResident);
+        if (userDetailsDbId != 0 && userDBParentId != 0 && userDBPlaceOfResidentId != 0) {
+            userDB.getUserDetailsDB().setId(userDetailsDbId);
+            userDB.getUserDetailsDB().getParent().setId(userDBParentId);
+            userDB.getUserDetailsDB().getPlaceOfResident().setId(userDBPlaceOfResidentId);
+        }
+    }
+
+    @Override
+    public void extractTeachers(List<User> users, List<User> teachers) {
+        for (User user : users) {
+            Optional<Role> role = user.getRoles().stream()
+                    .filter(u -> u.getName().equals("ROLE_TEACHER"))
+                    .findAny();
+            if (role.isPresent())
+                teachers.add(user);
+        }
+    }
+
+    @Override
+    public void setTeacherDetails(User user, UserDetailsDB userDetails, PlaceOfResident placeOfResident, User userDB) {
+        int userDetailsDbId = 0;
+        int userDBPlaceOfResidentId = 0;
+        if (userDB.getUserDetailsDB() != null) {
+            userDetailsDbId = userDB.getUserDetailsDB().getId();
+            userDBPlaceOfResidentId = userDB.getUserDetailsDB().getPlaceOfResident().getId();
+        }
+        userDB.setFirstName(user.getFirstName());
+        userDB.setLastName(user.getLastName());
+        userDB.setEmail(user.getEmail());
+        userDB.setPESEL(user.getPESEL());
+        userDB.setUserDetailsDB(userDetails);
+        userDB.getUserDetailsDB().setPlaceOfResident(placeOfResident);
+        if (userDetailsDbId != 0 && userDBPlaceOfResidentId != 0) {
+            userDB.getUserDetailsDB().setId(userDetailsDbId);
+            userDB.getUserDetailsDB().getPlaceOfResident().setId(userDBPlaceOfResidentId);
+        }
+    }
+
     /**
      * Extracts Students (Users with Student Role) from the users list.
      */
@@ -130,4 +208,5 @@ public class UserServiceImpl implements UserService {
                 students.add(user);
         }
     }
+
 }

@@ -2,6 +2,7 @@ package com.studentrecord.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -22,16 +23,7 @@ public class PlaceOfResident {
     @Pattern(regexp = "[0-9]{2}-[0-9]{3}")
     private String postalCode;
     @OneToOne(mappedBy = "placeOfResident")
+    @ToString.Exclude
     private UserDetailsDB userDetailsDB;
-
-    public PlaceOfResident(String country, String city, String street, String houseNumber, int apartmentNumber, String postalCode, UserDetailsDB userDetailsDB) {
-        this.country = country;
-        this.city = city;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.apartmentNumber = apartmentNumber;
-        this.postalCode = postalCode;
-        this.userDetailsDB = userDetailsDB;
-    }
 
 }

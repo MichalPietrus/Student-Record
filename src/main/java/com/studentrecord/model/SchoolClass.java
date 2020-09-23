@@ -2,13 +2,11 @@ package com.studentrecord.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -54,17 +52,10 @@ public class SchoolClass {
     }
 
     public String getSchoolClassNameAndYear() {
-        if(this.year != null && this.name != null)
+        if (this.year != null && this.name != null)
             return this.name + " " + "(" + this.year + ")";
         else
             return this.name;
-    }
-
-    public String getSchoolClassName() {
-        if(this.year != null)
-            return this.year;
-        else
-            return "0";
     }
 
 }

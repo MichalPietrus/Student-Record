@@ -2,10 +2,10 @@ package com.studentrecord.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Entity
@@ -23,14 +23,7 @@ public class Parent {
     @Pattern(regexp = "^(?:[+][0-9]{2}\\s?[0-9]{3}[-]?[0-9]{3,}|(?:[(][0-9]{3}[)]|[0-9]{3})\\s*[-]?\\s*[0-9]{3}[-][0-9]{4})(?:\\s*x\\s*[0-9]+)?")
     private String parentPhoneNumber;
     @OneToOne(mappedBy = "parent")
+    @ToString.Exclude
     private UserDetailsDB userDetailsDB;
-
-    public Parent(String parentFirstName, String parentLastName, String parentEmail, String parentPhoneNumber, UserDetailsDB userDetailsDB) {
-        this.parentFirstName = parentFirstName;
-        this.parentLastName = parentLastName;
-        this.parentEmail = parentEmail;
-        this.parentPhoneNumber = parentPhoneNumber;
-        this.userDetailsDB = userDetailsDB;
-    }
 
 }

@@ -46,34 +46,25 @@
 
 <br><br>
 
-<h3>Zmień klasę</h3>
-<hr>
 
 <form th:action="@{/moderator/zmien-klase/{id}(id=${user.id})}" method="post">
-    <div class="form-group">
-        <table>
-            <tr>
-                Użytkownik : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
-                <br>
-                Aktualna klasa : <i th:text="${user.getSchoolClassName()}"></i>
-                <br>
-                <td id="chooseRole">Wybierz Klasę:</td>
-                <td>
-                    <label>
-                        <select name="schoolClass.name">
-                            <option value="">--</option>
-                            <option
-                                    th:each="schoolClass : ${schoolClasses}"
-                                    th:value="${schoolClass.name}"
-                                    th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
-                        </select>
-                    </label>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-success">Potwierdź</button>
+    <div class="col-md-10">
+        <h2>Zmień klasę</h2>
+        <hr>
+        <h6 th:text="${'Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></h6>
+        <label for="schoolClass"></label><h6>Wybierz klasę:</h6>
+        <select id="schoolClass" name="schoolClass.name" class="form-control" style="width: 400px">
+            <option th:if="${!user.getSchoolClassName().equals('Brak')}"
+                    th:value="${userSchoolClass.name}"
+                    th:text="${userSchoolClass.getSchoolClassNameAndYear()}"
+            ></option>
+            <option
+                    th:each="schoolClass : ${schoolClasses}"
+                    th:value="${schoolClass.name}"
+                    th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
+        </select>
+    <br>
+    <button type="submit" class="btn btn-success">Potwierdź</button>
     </div>
 </form>
 

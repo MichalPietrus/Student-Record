@@ -27,12 +27,17 @@
     <h2 th:case="null">No users yet!</h2>
     <div th:case="*">
         <h2>Użytkownicy</h2>
+
+        <!--   Search     -->
+
         <form th:action="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}" method="get">
             <input id="txtSearch" type="text" name="keyword" placeholder="Search...">
             <button type="submit">Go</button>
         </form>
 
         <br>
+
+        <!--   Admin Table     -->
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -52,14 +57,13 @@
                 <td th:text="${user.lastName}"></td>
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.PESEL}"></td>
-                <td class="Center"><a th:href="@{/admin/szczegoly-uzytkownika/{id}(id=${user.id})}"
-                                      class="btn btn-secondary">Edytuj</a></td>
                 <td class="Center">
-                    <button th:text="${user.getRoleNameWithoutPrefix(user)}" class="btn btn-info btn-md"></button>
+                    <a th:href="@{/admin/szczegoly-uzytkownika/{id}(id=${user.id})}" class="btn btn-secondary">Edytuj</a></td>
+                <td class="Center">
+                    <button th:text="${user.getRoleNameWithoutPrefix()}" class="btn btn-info btn-md"></button>
                 </td>
                 <td class="Center">
-                    <a th:href="@{/admin/zmien-role/{id}(id=${user.id})}" class="btn btn-secondary btn-customButton">Zmień
-                        Rolę</a>
+                    <a th:href="@{/admin/zmien-role/{id}(id=${user.id})}" class="btn btn-secondary btn-customButton">Zmień Rolę</a>
                 </td>
                 <td class="Center">
                     <a class="btn btn-danger" th:href="@{/admin/usun-uzytkownika/{id}/{pageId}(id=${user.id},pageId=${pageId})}"
@@ -68,6 +72,9 @@
             </tr>
             </tbody>
         </table>
+
+        <!--  Paging     -->
+
         <nav aria-label="...">
             <ul class="pagination justify-content-center">
                 <li class="page-item">

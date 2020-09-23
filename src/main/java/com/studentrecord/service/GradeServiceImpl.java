@@ -1,17 +1,24 @@
 package com.studentrecord.service;
 
 import com.studentrecord.model.Grade;
+import com.studentrecord.model.Subject;
+import com.studentrecord.model.User;
 import com.studentrecord.repository.GradeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class GradeServiceImpl implements GradeService {
 
-    @Autowired
-    private GradeRepository gradeRepository;
+    private final GradeRepository gradeRepository;
+
+    public GradeServiceImpl(GradeRepository gradeRepository) {
+        this.gradeRepository = gradeRepository;
+    }
 
     @Override
     public Optional<Grade> findById(Integer id) {
@@ -28,6 +35,25 @@ public class GradeServiceImpl implements GradeService {
         Grade grade = gradeRepository.findById(gradeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid grade Id: " + gradeId));
         gradeRepository.delete(grade);
+    }
+
+    @Override
+    public void setGradeDetails(String subjectName, Integer semester, String category,
+                                Integer rating, Integer ratingWeight, User user, Grade grade) {
+        grade.setCategory(category);
+        grade.setRating(rating);
+        grade.setRatingWeight(ratingWeight);
+        setSubjectForGrade(subjectName, user, grade);
+        grade.setTimestamp(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date()));
+        grade.setSemester(semester);
+    }
+
+    @Override
+    public void setSubjectForGrade(String subjectName, User user, Grade grade) {
+        List<Subject> subjects = user.getSchoolClass().getSubjects();
+        for (Subject subject : subjects)
+            if (subject.getName().equals(subjectName))
+                grade.setSubject(subject);
     }
 
 

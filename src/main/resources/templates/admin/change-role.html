@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,35 +17,27 @@
 
 <br><br>
 
-<h3>Zmień rolę użytkownika</h3>
-<hr>
+
 
 <form th:action="@{/admin/zapisz-role/{id}(id=${user.id})}" method="post">
-    <div class="form-group">
-        <table>
-            <tr>
-                Użytkownik : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
-                <br>
-                <label for="chooseRole">Aktualna rola : <i th:text="${user.getRoleNameWithoutPrefix(user)}"></i></label>
-                <td id="chooseRole">Wybierz Rolę:</td>
-                <td>
-                    <label>
-                        <select name="role.name">
-                            <option value=""> --</option>
-                            <option
-                                    th:each="role : ${roles}"
-                                    th:value="${role.name}"
-                                    th:text="${role.name}"></option>
-                        </select>
-                    </label>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <div class="form-group">
+    <div class="col-md-10">
+        <h2>Zmień role</h2>
+        <hr>
+        <h6 th:text="${'Aktualnie wybrany użytkownik : ' + user.firstName + ' ' + user.lastName}"></h6>
+        <label for="role"></label><h6>Wybierz role:</h6>
+        <select id="role" name="role.name" class="form-control" style="width: 400px">
+            <option th:value="${currentlySelectedRole.name}"
+                    th:text="${user.getRoleNameWithoutPrefix()}"></option>
+            <option
+                    th:each="role : ${roles}"
+                    th:value="${role.name}"
+                    th:text="${role.name}"></option>
+        </select>
+        <br>
         <button type="submit" class="btn btn-success">Potwierdź</button>
     </div>
 </form>
+
 
 
 <script th:src="@{/js/adminNavbar.js}"></script>

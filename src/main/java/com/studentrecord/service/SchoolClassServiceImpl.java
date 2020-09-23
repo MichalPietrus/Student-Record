@@ -2,7 +2,6 @@ package com.studentrecord.service;
 
 import com.studentrecord.model.SchoolClass;
 import com.studentrecord.repository.SchoolClassRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +10,11 @@ import java.util.Optional;
 @Service
 public class SchoolClassServiceImpl implements SchoolClassService {
 
-    @Autowired
-    private SchoolClassRepository schoolClassRepository;
+    private final SchoolClassRepository schoolClassRepository;
 
+    public SchoolClassServiceImpl(SchoolClassRepository schoolClassRepository) {
+        this.schoolClassRepository = schoolClassRepository;
+    }
 
     @Override
     public Optional<SchoolClass> findById(Integer id) {

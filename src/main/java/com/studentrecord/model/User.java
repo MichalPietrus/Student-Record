@@ -2,16 +2,16 @@ package com.studentrecord.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Range;
+import lombok.ToString;
 import org.hibernate.validator.constraints.pl.PESEL;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -43,6 +43,7 @@ public class User {
     private Collection<Role> roles;
     @ManyToOne
     @JoinColumn(name = "class_id")
+    @ToString.Exclude
     private SchoolClass schoolClass;
     @OneToOne(mappedBy = "teacher")
     private Subject subject;
@@ -60,8 +61,8 @@ public class User {
         }
     }
 
-    public String getRoleNameWithoutPrefix(User user) {
-        Role role = user.roles.stream().findAny().orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
+    public String getRoleNameWithoutPrefix() {
+        Role role = this.roles.stream().findAny().orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         String[] strings = role.getName().split("_");
         return strings[1];
     }
@@ -78,10 +79,9 @@ public class User {
 
     public List<Grade> getStudentGradesBySemesterAndSubject(int semester, String subjectName) {
         List<Grade> filtredStudentGrades = new ArrayList<>();
-        for (int i = 0; i < studentGrades.size(); i++) {
-            Grade grade = studentGrades.get(i);
+        for (Grade grade : studentGrades) {
             if (grade.getSemester() == semester && grade.getSubject().getName().equals(subjectName)
-                    && studentGrades.get(i).getIsFinal() == null)
+                    && grade.getIsFinal() == null)
                 filtredStudentGrades.add(grade);
         }
         return filtredStudentGrades;
@@ -92,8 +92,7 @@ public class User {
         double x = 0;
         double y = 0;
         double result;
-        for (int i = 0; i < this.studentGrades.size(); i++) {
-            Grade grade = this.studentGrades.get(i);
+        for (Grade grade : this.studentGrades) {
             if (grade.getSemester() == semester
                     && grade.getSubject().getName().equals(subjectName)
                     && semester != 3 && grade.getIsFinal() == null
@@ -105,9 +104,7 @@ public class User {
                     && !(grade.getCategory().equals("bz") || grade.getCategory().equals("np") || grade.getCategory().equals("zw")))
                 filteredStudentGrades.add(grade);
         }
-
-        for (int i = 0; i < filteredStudentGrades.size(); i++) {
-            Grade grade = filteredStudentGrades.get(i);
+        for (Grade grade : filteredStudentGrades) {
             double rating = grade.getRating();
             double ratingWeight = grade.getRatingWeight();
             x += rating * ratingWeight;
@@ -123,20 +120,20 @@ public class User {
 
     public Integer getExpectedFinalGradeId(int semester, String isFinal) {
         int expectedFinalGradeId = 0;
-        for (int i = 0; i < this.studentGrades.size(); i++) {
-            if (this.studentGrades.get(i).getIsFinal() != null)
-                if (this.studentGrades.get(i).getIsFinal().equals(isFinal) && this.studentGrades.get(i).getSemester() == semester)
-                    expectedFinalGradeId = this.studentGrades.get(i).getId();
+        for (Grade studentGrade : this.studentGrades) {
+            if (studentGrade.getIsFinal() != null)
+                if (studentGrade.getIsFinal().equals(isFinal) && studentGrade.getSemester() == semester)
+                    expectedFinalGradeId = studentGrade.getId();
         }
         return expectedFinalGradeId;
     }
 
     public String printExpectedFinalGrade(int semester, String isFinal, boolean isUserPanel) {
         int expectedFinalGrade = 0;
-        for (int i = 0; i < this.studentGrades.size(); i++) {
-            if (this.studentGrades.get(i).getIsFinal() != null)
-                if (this.studentGrades.get(i).getIsFinal().equals(isFinal) && this.studentGrades.get(i).getSemester() == semester)
-                    expectedFinalGrade = this.studentGrades.get(i).getRating();
+        for (Grade studentGrade : this.studentGrades) {
+            if (studentGrade.getIsFinal() != null)
+                if (studentGrade.getIsFinal().equals(isFinal) && studentGrade.getSemester() == semester)
+                    expectedFinalGrade = studentGrade.getRating();
         }
         String result;
         if (expectedFinalGrade == 0 && !isUserPanel)

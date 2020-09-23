@@ -2,10 +2,10 @@ package com.studentrecord.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Optional;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +21,7 @@ public class Subject {
     private User teacher;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "school_class_id")
+    @ToString.Exclude
     private SchoolClass schoolClass;
     @OneToMany(mappedBy = "subject")
     private List<Grade> grades;

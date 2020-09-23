@@ -1,6 +1,7 @@
 package com.studentrecord.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.studentrecord.model.User;
+import com.studentrecord.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,17 +10,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.studentrecord.model.User;
-import com.studentrecord.service.UserService;
-
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/registration")
 public class UserRegistrationController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserRegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @ModelAttribute("user")
     public User userRegistration() {
@@ -27,7 +28,7 @@ public class UserRegistrationController {
     }
 
     @GetMapping
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm() {
         return "registration";
     }
 

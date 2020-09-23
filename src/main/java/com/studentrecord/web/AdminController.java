@@ -4,7 +4,6 @@ import com.studentrecord.model.*;
 import com.studentrecord.service.SchoolClassService;
 import com.studentrecord.service.SubjectService;
 import com.studentrecord.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -15,20 +14,27 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private SchoolClassService schoolClassService;
+    private final SchoolClassService schoolClassService;
 
-    @Autowired
-    private SubjectService subjectService;
+    private final SubjectService subjectService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public AdminController(SchoolClassService schoolClassService, SubjectService subjectService, UserService userService) {
+        this.schoolClassService = schoolClassService;
+        this.subjectService = subjectService;
+        this.userService = userService;
+    }
 
     @GetMapping("/utworz-klase")
     public String createSchoolClassForm(Model model) {
@@ -41,7 +47,7 @@ public class AdminController {
         if (bindingResult.hasErrors())
             return "admin/create-school-class";
         schoolClassService.save(schoolClass);
-        return "redirect:/admin/panel";
+        return "redirect:/";
     }
 
     @GetMapping("/dodaj-przedmiot")
@@ -52,7 +58,7 @@ public class AdminController {
             model.addAttribute("schoolClasses", schoolClasses);
         List<User> users = userService.findAll();
         List<User> teachers = new ArrayList<>();
-        ControllersHelper.extractTeachers(users, teachers);
+        userService.extractTeachers(users, teachers);
         model.addAttribute("teachers", teachers);
         return "admin/add-subject";
     }
@@ -65,7 +71,7 @@ public class AdminController {
         Optional<User> userOptional = userService.findById(teacherId);
         userOptional.ifPresent(subject::setTeacher);
         subjectService.save(subject);
-        return "redirect:/admin/panel";
+        return "redirect:/";
     }
 
     @GetMapping("/lista-uzytkownikow/{pageId}")
@@ -73,7 +79,7 @@ public class AdminController {
                                  @PathVariable Integer pageId) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("firstName")));
         if (keyword != null)
-            model.addAttribute("users", userService.findByKeywordPageable(keyword,pageable));
+            model.addAttribute("users", userService.findByKeywordPageable(keyword, pageable));
         else
             model.addAttribute("users", userService.findAllPageable(pageable));
         return "admin/show-users";
@@ -84,7 +90,7 @@ public class AdminController {
                                   Model model) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        ControllersHelper.setUserDetailsAndModels(model, user);
+        userService.setUserDetailsAndModels(model, user);
         return "admin/user-details";
     }
 
@@ -96,7 +102,7 @@ public class AdminController {
                                     @ModelAttribute("placeOfResident") @Valid PlaceOfResident placeOfResident, BindingResult placeOfResidentResult) {
         User userDB = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        ControllersHelper.setUserDetails(user, userDetails, parent, placeOfResident, userDB);
+        userService.setUserDetails(user, userDetails, parent, placeOfResident, userDB);
         if (userResult.hasErrors() || userDetailsResult.hasErrors() || parentResult.hasErrors() || placeOfResidentResult.hasErrors()) {
             user.setId(id);
             return "admin/user-details";
@@ -114,12 +120,13 @@ public class AdminController {
     public String showChangeRoleForm(Model model, @PathVariable Long id) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        Role role = user.getRoles().stream().findAny()
+        Role currentlySelectedRole = user.getRoles().stream().findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid role Id: " + id));
         List<Role> roles = Arrays.asList(new Role("STUDENT"), new Role("TEACHER"),
                 new Role("ADMIN"), new Role("MODERATOR"));
-        model.addAttribute("role", role);
-        model.addAttribute("roles", roles);
+        model.addAttribute("currentlySelectedRole", currentlySelectedRole);
+        model.addAttribute("roles", roles.stream()
+                .filter(role -> !role.getName().equals(user.getRoleNameWithoutPrefix())).collect(Collectors.toList()));
         model.addAttribute("user", user);
         return "admin/change-role";
     }
@@ -129,10 +136,11 @@ public class AdminController {
                            @RequestParam(value = "role.name") String role) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        if (role.equals(""))
-            role = user.getRoleNameWithoutPrefix(user);
-        String changedRole = "ROLE_" + role;
-        user.getRoles().forEach(role1 -> role1.setName(changedRole));
+        String changedRole;
+        if (!role.contains("ROLE_")) {
+            changedRole = "ROLE_" + role;
+            user.getRoles().forEach(role1 -> role1.setName(changedRole));
+        }
         userService.saveWithoutEncoding(user);
         return "redirect:/admin/lista-uzytkownikow/0";
     }
@@ -143,7 +151,7 @@ public class AdminController {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         userService.delete(user);
-        redirectAttributes.addAttribute("pageId",pageId);
+        redirectAttributes.addAttribute("pageId", pageId);
         return "redirect:/admin/lista-uzytkownikow/{pageId}";
     }
 

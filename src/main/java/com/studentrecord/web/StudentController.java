@@ -3,7 +3,6 @@ package com.studentrecord.web;
 import com.studentrecord.model.*;
 import com.studentrecord.service.GradeService;
 import com.studentrecord.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,15 +15,13 @@ import java.security.Principal;
 @RequestMapping("/uczen")
 public class StudentController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private GradeService gradeService;
+    private final GradeService gradeService;
 
-    @GetMapping("/error")
-    public String error(){
-        return "student/error";
+    public StudentController(UserService userService, GradeService gradeService) {
+        this.userService = userService;
+        this.gradeService = gradeService;
     }
 
     @GetMapping("/oceny")
@@ -46,7 +43,7 @@ public class StudentController {
     @GetMapping("/szczegoly-uzytkownika")
     public String showUserDetailsForm(Model model, Principal principal) {
         User user = userService.findByEmail(principal.getName());
-        ControllersHelper.setUserDetailsAndModels(model, user);
+        userService.setUserDetailsAndModels(model, user);
         return "student/user-details";
     }
 
@@ -57,17 +54,16 @@ public class StudentController {
                                   @ModelAttribute("placeOfResident") @Valid PlaceOfResident placeOfResident, BindingResult placeOfResidentResult,
                                   Principal principal) {
         User userDb = userService.findByEmail(principal.getName());
-        ControllersHelper.setUserDetails(user, userDetails, parent, placeOfResident, userDb);
-        if (userResult.hasErrors() || userDetailsResult.hasErrors() || parentResult.hasErrors() || placeOfResidentResult.hasErrors()) {
+        userService.setUserDetails(user, userDetails, parent, placeOfResident, userDb);
+        if (userResult.hasErrors() || userDetailsResult.hasErrors() || parentResult.hasErrors() || placeOfResidentResult.hasErrors())
             return "student/user-details";
-        }
         if (user.getPassword().equals(""))
             userService.saveWithoutEncoding(userDb);
         else {
             userDb.setPassword(user.getPassword());
             userService.saveAndEncode(userDb);
         }
-        return "redirect:/uczen/panel";
+        return "redirect:/";
     }
 
 }

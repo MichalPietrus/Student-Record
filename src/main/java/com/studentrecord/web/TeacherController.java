@@ -4,13 +4,11 @@ import com.studentrecord.model.*;
 import com.studentrecord.service.GradeService;
 import com.studentrecord.service.SchoolClassService;
 import com.studentrecord.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -21,19 +19,22 @@ import java.util.*;
 @RequestMapping("/nauczyciel")
 public class TeacherController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private SchoolClassService schoolClassService;
+    private final SchoolClassService schoolClassService;
 
-    @Autowired
-    private GradeService gradeService;
+    private final GradeService gradeService;
 
     private final List<String> categories = Arrays.asList("Sprawdzian", "Kartkówka",
             "Odpowiedź ustna", "Zadanie domowe", "Projekt", "inne", "bz", "np", "zw");
     private final List<Integer> ratings = Arrays.asList(0, 1, 2, 3, 4, 5, 6);
     private final List<Integer> ratingWeights = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+    public TeacherController(UserService userService, SchoolClassService schoolClassService, GradeService gradeService) {
+        this.userService = userService;
+        this.schoolClassService = schoolClassService;
+        this.gradeService = gradeService;
+    }
 
     @GetMapping("/wybierz-klase")
     public String showChooseClassForm(Model model, Principal principal) {
@@ -41,19 +42,19 @@ public class TeacherController {
         List<SchoolClass> schoolClassList = schoolClassService.findAll();
         List<SchoolClass> schoolClasses = new ArrayList<>();
         List<Subject> subjectsList = new ArrayList<>();
-        for (int i = 0; i < schoolClassList.size(); i++) {
-            List<Subject> subjects = schoolClassList.get(i).getSubjects();
-            for (int x = 0; x < subjects.size(); x++) {
-                if (subjects.get(x).getTeacher().getEmail().equals(activeUserEmail)) {
-                    if (!schoolClasses.contains(schoolClassList.get(i)))
-                        schoolClasses.add(schoolClassList.get(i));
+        for (SchoolClass schoolClass : schoolClassList) {
+            List<Subject> subjects = schoolClass.getSubjects();
+            for (Subject subject : subjects) {
+                if (subject.getTeacher().getEmail().equals(activeUserEmail)) {
+                    if (!schoolClasses.contains(schoolClass))
+                        schoolClasses.add(schoolClass);
                     if (!subjectsList.isEmpty()) {
                         for (int y = 0; y < subjectsList.size(); y++) {
-                            if (!subjectsList.get(y).equals(subjects.get(x)))
-                                subjectsList.add(subjects.get(x));
+                            if (!subjectsList.get(y).equals(subject))
+                                subjectsList.add(subject);
                         }
                     } else
-                        subjectsList.add(subjects.get(x));
+                        subjectsList.add(subject);
                 }
             }
         }
@@ -110,7 +111,7 @@ public class TeacherController {
                            RedirectAttributes redirectAttributes) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        ControllersHelper.setGradeDetails(subjectName, semester, category, rating, ratingWeight, user, grade);
+        gradeService.setGradeDetails(subjectName, semester, category, rating, ratingWeight, user, grade);
         user.addGrade(grade);
         userService.saveWithoutEncoding(user);
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
@@ -155,7 +156,7 @@ public class TeacherController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         Grade grade = gradeService.findById(gradeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid grade Id: " + gradeId));
-        ControllersHelper.setGradeDetails(subjectName, semester, category, rating, ratingWeight, user, grade);
+        gradeService.setGradeDetails(subjectName, semester, category, rating, ratingWeight, user, grade);
         grade.setComment(comment);
         grade.setStudent(user);
         userService.saveWithoutEncoding(user);
@@ -217,7 +218,7 @@ public class TeacherController {
         grade.setCategory(isFinal);
         grade.setIsFinal(isFinal);
         grade.setSemester(semester);
-        ControllersHelper.setSubjectForGrade(subjectName, user, grade);
+        gradeService.setSubjectForGrade(subjectName, user, grade);
         grade.setTimestamp(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date()));
         user.addGrade(grade);
         userService.saveWithoutEncoding(user);
@@ -250,7 +251,7 @@ public class TeacherController {
                                   @ModelAttribute("placeOfResident") @Valid PlaceOfResident placeOfResident, BindingResult placeOfResidentResult,
                                   Principal principal) {
         User userDb = userService.findByEmail(principal.getName());
-        ControllersHelper.setTeacherDetails(user, userDetails, placeOfResident, userDb);
+        userService.setTeacherDetails(user, userDetails, placeOfResident, userDb);
         if (userResult.hasErrors() || userDetailsResult.hasErrors() || placeOfResidentResult.hasErrors()) {
             return "teacher/user-details";
         }
@@ -260,7 +261,7 @@ public class TeacherController {
             userDb.setPassword(user.getPassword());
             userService.saveAndEncode(userDb);
         }
-        return "redirect:/nauczyciel/panel";
+        return "redirect:/";
     }
 
 }

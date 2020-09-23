@@ -2,6 +2,7 @@ package com.studentrecord.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -25,14 +26,7 @@ public class UserDetailsDB {
     @JoinColumn(name = "parent_id")
     private Parent parent;
     @OneToOne(mappedBy = "userDetailsDB")
+    @ToString.Exclude
     private User user;
-
-    public UserDetailsDB(String phoneNumber, String birthday, PlaceOfResident placeOfResident, Parent parent, User user) {
-        this.phoneNumber = phoneNumber;
-        this.birthday = birthday;
-        this.placeOfResident = placeOfResident;
-        this.parent = parent;
-        this.user = user;
-    }
 
 }

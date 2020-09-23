@@ -4,7 +4,6 @@ import com.studentrecord.model.SchoolClass;
 import com.studentrecord.model.User;
 import com.studentrecord.service.SchoolClassService;
 import com.studentrecord.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,20 +18,23 @@ import java.util.List;
 @RequestMapping("/moderator")
 public class ModeratorController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private SchoolClassService schoolClassService;
+    private final SchoolClassService schoolClassService;
+
+    public ModeratorController(UserService userService, SchoolClassService schoolClassService) {
+        this.userService = userService;
+        this.schoolClassService = schoolClassService;
+    }
 
     @GetMapping("/lista-uczniow/{pageId}")
     public String showAddStudentForm(Model model, String keyword,
                                      @PathVariable Integer pageId) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("firstName")));
         if (keyword != null)
-            model.addAttribute("students", userService.findStudentsByKeyword(keyword));
+            model.addAttribute("users", userService.findAllStudentsByKeywordPageable(keyword, pageable));
         else
-            model.addAttribute("students", userService.findAllStudentsPageable(pageable));
+            model.addAttribute("users", userService.findAllStudentsPageable(pageable));
         return "/moderator/students-list";
     }
 
@@ -41,7 +43,10 @@ public class ModeratorController {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         List<SchoolClass> schoolClasses = schoolClassService.findAll();
+        if (user.getSchoolClass() != null)
+            schoolClasses.remove(user.getSchoolClass());
         model.addAttribute("user", user);
+        model.addAttribute("userSchoolClass", user.getSchoolClass());
         model.addAttribute("schoolClasses", schoolClasses);
         return "/moderator/change-class";
     }
@@ -63,19 +68,12 @@ public class ModeratorController {
         schoolClass.getUsers().add(user);
         List<User> students = schoolClass.getUsers();
         students.sort(Comparator.comparing(User::getFirstName));
-        for (int i = 0; i < students.size(); i++) {
+        for (int i = 0; i < students.size(); i++)
             students.get(i).setStudentNumber(i + 1);
-        }
-        if (oldSchoolClass != null && !oldSchoolClass.getName().equals(schoolClassName)) {
-            oldSchoolClass.getUsers().remove(user);
-            List<User> oldClassStudents = oldSchoolClass.getUsers();
-            oldClassStudents.sort(Comparator.comparing(User::getFirstName));
-            for (int x = 0; x < oldClassStudents.size(); x++) {
-                oldClassStudents.get(x).setStudentNumber(x + 1);
-            }
-        }
+        userService.setStudentNumbers(schoolClassName, user, oldSchoolClass);
         userService.saveWithoutEncoding(user);
         return "redirect:/moderator/lista-uczniow/0";
     }
+
 
 }

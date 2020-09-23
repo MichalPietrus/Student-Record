@@ -1,11 +1,11 @@
 package com.studentrecord.service;
 
 
+import com.studentrecord.model.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import com.studentrecord.model.User;
+import org.springframework.ui.Model;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,21 +14,27 @@ public interface UserService extends UserDetailsService {
 
     User findByEmail(String email);
 
-    User register(User registration);
+    void register(User user);
 
-    User saveAndEncode(User user);
+    void setStudentNumbers(String schoolClassName, User user, SchoolClass oldSchoolClass);
 
-    User saveWithoutEncoding(User user);
+    void setUserDetailsAndModels(Model model, User user);
+
+    void setUserDetails(User user, UserDetailsDB userDetails, Parent parent, PlaceOfResident placeOfResident, User userDB);
+
+    void extractTeachers(List<User> users, List<User> teachers);
+
+    void setTeacherDetails(User user, UserDetailsDB userDetails, PlaceOfResident placeOfResident, User userDB);
+
+    void saveAndEncode(User user);
+
+    void saveWithoutEncoding(User user);
 
     Optional<User> findById(Long id);
 
     List<User> findAll();
 
-    List<User> findByKeyword(String keyword);
-
     void delete(User user);
-
-    List<User> findAllStudents();
 
     List<User> findStudentsByKeyword(String keyword);
 
