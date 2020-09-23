@@ -22,6 +22,11 @@
 <br>
 
 <form th:action="@{/admin/zapisz-szczegoly-uzytkownika/{id}(id=${user.id})}" method="post">
+
+
+<!-- User   -->
+
+
     <div class="form-row" th:object="${user}">
         <div class="col">
             <label for="firstName">Imię</label>
@@ -58,6 +63,11 @@
                 (PESEL)</p>
         </div>
     </div>
+
+
+<!--  User Details  -->
+
+
     <div class="form-row" th:object="${userDetails}">
         <div class="col">
             <label for="birthday">Data Urodzenia</label>
@@ -73,6 +83,10 @@
                 nieprawidłowy format : poprawny format to +48000000000</p>
         </div>
     </div>
+
+
+<!-- Place of resident   -->
+
 
     <br>
 
@@ -118,6 +132,11 @@
             <p class="error-message" th:if="${#fields.hasErrors('apartmentNumber')}">Nieprawidłowy numer lokalu</p>
         </div>
     </div>
+
+
+<!-- Parent  -->
+
+
 
     <br>
 
