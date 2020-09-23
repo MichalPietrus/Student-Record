@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.studentrecord.model.User;
 import com.studentrecord.service.UserService;
-import com.studentrecord.web.dto.UserRegistrationDto;
 
 import javax.validation.Valid;
 
@@ -23,8 +22,8 @@ public class UserRegistrationController {
     private UserService userService;
 
     @ModelAttribute("user")
-    public UserRegistrationDto userRegistrationDto() {
-        return new UserRegistrationDto();
+    public User userRegistration() {
+        return new User();
     }
 
     @GetMapping
@@ -33,17 +32,14 @@ public class UserRegistrationController {
     }
 
     @PostMapping
-    public String registerUserAccount(@ModelAttribute("user") @Valid UserRegistrationDto userDto,
+    public String registerUserAccount(@ModelAttribute("user") @Valid User user,
                                       BindingResult result) {
-        User existing = userService.findByEmail(userDto.getEmail());
-        if (existing != null) {
+        User existing = userService.findByEmail(user.getEmail());
+        if (existing != null)
             result.rejectValue("email", null, "There is already an account registered with that email");
-        }
-
-        if (result.hasErrors()) {
+        if (result.hasErrors())
             return "registration";
-        }
-        userService.register(userDto);
+        userService.register(user);
         return "redirect:/registration?success";
     }
 

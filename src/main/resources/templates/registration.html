@@ -14,59 +14,9 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Dzienniczek</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active dropdown" sec:authorize="hasRole('STUDENT')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudent" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Ucznia
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownStudent">
-                    <a class="dropdown-item" th:href="@{/uczen/oceny}">Oceny</a>
-                    <a class="dropdown-item" th:href="@{/uczen/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="hasRole('TEACHER')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTeacher" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Nauczyciela
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownTeacher">
-                    <a class="dropdown-item" th:href="@{/nauczyciel/wybierz-klase}">Dodaj oceny</a>
-                    <a class="dropdown-item" th:href="@{/nauczyciel/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownModerator" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Moderatora
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownModerator">
-                    <a class="dropdown-item" th:href="@{/moderator/lista-uczniow/{pageId}(pageId=${0})}">Lista uczniów
-                        (zmiana klasy)</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="hasRole('ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Administracyjny
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                    <a class="dropdown-item" th:href="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}">Lista
-                        użytkowników</a>
-                    <a class="dropdown-item" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
-                    <a class="dropdown-item" th:href="@{/admin/utworz-klase}">Stwórz klasę</a>
-                </div>
-            </li>
-            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
-            </li>
-        </ul>
-    </div>
 </nav>
 
-<br>
-<br>
+<br><br>
 
 <div class="container">
     <div class="row">
@@ -77,58 +27,22 @@
             <h1>Rejestracja</h1>
             <form th:action="@{/registration}" th:object="${user}" method="post">
 
-                <p class="error-message" th:if="${#fields.hasGlobalErrors()}"
-                   th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
-                    error</p>
-
-                <div class="form-group" th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
-                    <label for="firstName" class="control-label">First name</label> <input id="firstName"
-                                                                                           class="form-control"
-                                                                                           th:field="*{firstName}"/>
-                    <p class="error-message" th:each="error: ${#fields.errors('firstName')}" th:text="${error}">
-                        Validation error</p>
+                <div class="form-group">
+                    <label for="firstName" class="control-label">First name</label>
+                    <input id="firstName" class="form-control" th:field="*{firstName}" required/>
                 </div>
-                <div class="form-group" th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
-                    <label for="lastName" class="control-label">Last name</label> <input id="lastName"
-                                                                                         class="form-control"
-                                                                                         th:field="*{lastName}"/>
-                    <p class="error-message" th:each="error : ${#fields.errors('lastName')}" th:text="${error}">
-                        Validation error</p>
+                <div class="form-group">
+                    <label for="lastName" class="control-label">Last name</label>
+                    <input id="lastName" class="form-control" th:field="*{lastName}" required/>
                 </div>
-                <div class="form-group"
-                     th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
-                    <label for="email" class="control-label">E-mail</label> <input
-                        id="email" class="form-control" th:field="*{email}"/>
-                    <p class="error-message"
-                       th:each="error : ${#fields.errors('email')}" th:text="${error}">Validation
-                        error</p>
+                <div class="form-group">
+                    <label for="email" class="control-label">E-mail</label>
+                    <input id="email" class="form-control" th:field="*{email}" required/>
+                    <p class="has-error" th:if="${#fields.hasErrors('email')}">Nieprawidłowy adres e-mail</p>
                 </div>
-                <div class="form-group"
-                     th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
-                    <label for="confirmEmail" class="control-label">Confirm
-                        e-mail</label> <input id="confirmEmail" class="form-control"
-                                              th:field="*{confirmEmail}"/>
-                    <p class="error-message"
-                       th:each="error : ${#fields.errors('confirmEmail')}"
-                       th:text="${error}">Validation error</p>
-                </div>
-                <div class="form-group"
-                     th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
-                    <label for="password" class="control-label">Hasło</label> <input
-                        id="password" class="form-control" type="password"
-                        th:field="*{password}"/>
-                    <p class="error-message"
-                       th:each="error : ${#fields.errors('password')}"
-                       th:text="${error}">Validation error</p>
-                </div>
-                <div class="form-group"
-                     th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
-                    <label for="confirmPassword" class="control-label">Potwierdź hasło
-                    </label> <input id="confirmPassword" class="form-control"
-                                    type="password" th:field="*{confirmPassword}"/>
-                    <p class="error-message"
-                       th:each="error : ${#fields.errors('confirmPassword')}"
-                       th:text="${error}">Validation error</p>
+                <div class="form-group">
+                    <label for="password" class="control-label">Hasło</label>
+                    <input id="password" class="form-control" type="password" th:field="*{password}" required/>
                 </div>
                 <div class="form-group">
                     <button type="submit" class="btn btn-success">Załóż konto</button>

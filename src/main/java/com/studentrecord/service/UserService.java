@@ -1,7 +1,6 @@
 package com.studentrecord.service;
 
-import com.studentrecord.model.UserDetailsDB;
-import com.studentrecord.web.dto.UserRegistrationDto;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +14,7 @@ public interface UserService extends UserDetailsService {
 
     User findByEmail(String email);
 
-    User register(UserRegistrationDto registration);
+    User register(User registration);
 
     User saveAndEncode(User user);
 
@@ -33,12 +32,12 @@ public interface UserService extends UserDetailsService {
 
     List<User> findStudentsByKeyword(String keyword);
 
-    List<User> findAllPageable(Pageable pageable);
+    Page<User> findAllPageable(Pageable pageable);
 
-    List<User> findAllStudentsPageable(Pageable pageable);
+    Page<User> findAllStudentsPageable(Pageable pageable);
 
-    List<User> findByKeywordPageable(String keyword, Pageable pageable);
+    Page<User> findByKeywordPageable(String keyword, Pageable pageable);
 
-    List<User> findAllStudentsByKeywordPageable(String keyword, Pageable pageable);
+    Page<User> findAllStudentsByKeywordPageable(String keyword, Pageable pageable);
 
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -76,10 +77,8 @@ public class AdminController {
     public String changeRoleForm(Model model, String keyword,
                                  @PathVariable Integer pageId) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("firstName")));
-        List<User> users = userService.findAllPageable(pageable.next());
-        ControllersHelper.addPageModels(model, users, pageId);
         if (keyword != null)
-            model.addAttribute("users", userService.findByKeywordPageable(keyword, pageable));
+            model.addAttribute("users", userService.findByKeywordPageable(keyword,pageable));
         else
             model.addAttribute("users", userService.findAllPageable(pageable));
         return "admin/show-users";
@@ -121,7 +120,7 @@ public class AdminController {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         Role role = user.getRoles().stream().findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Invalid role Id: " + id));
         List<Role> roles = Arrays.asList(new Role("STUDENT"), new Role("TEACHER"),
                 new Role("ADMIN"), new Role("MODERATOR"));
         model.addAttribute("role", role);
@@ -143,14 +142,14 @@ public class AdminController {
         return "redirect:/admin/lista-uzytkownikow/0";
     }
 
-    @GetMapping("usun-uzytkownika/{id}")
-    public String deleteUser(@PathVariable Long id, Model model) {
-        System.out.println("Im in deleteUser Controller = " + id);
+    @GetMapping("usun-uzytkownika/{id}/{pageId}")
+    public String deleteUser(@PathVariable Long id,
+                             @PathVariable("pageId") Integer pageId, RedirectAttributes redirectAttributes) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         userService.delete(user);
-        model.addAttribute("users", userService.findAll());
-        return "admin/show-users";
+        redirectAttributes.addAttribute("pageId",pageId);
+        return "redirect:/admin/lista-uzytkownikow/{pageId}";
     }
 
 }

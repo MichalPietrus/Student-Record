@@ -5,12 +5,9 @@ import java.util.stream.Collectors;
 
 import com.studentrecord.model.Role;
 import com.studentrecord.model.User;
-import com.studentrecord.model.UserDetailsDB;
 import com.studentrecord.repository.UserRepository;
-import com.studentrecord.web.dto.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,13 +29,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email);
     }
 
-    public User register(UserRegistrationDto registration) {
-        User user = new User();
-        user.setFirstName(registration.getFirstName());
-        user.setLastName(registration.getLastName());
-        user.setEmail(registration.getEmail());
-        user.setPassword(passwordEncoder.encode(registration.getPassword()));
-        user.setRoles(Arrays.asList(new Role("ROLE_STUDENT")));
+    public User register(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(Collections.singletonList(new Role("ROLE_STUDENT")));
         return userRepository.save(user);
     }
 
@@ -53,29 +46,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllPageable(Pageable pageable) {
-        return userRepository.findAll(pageable).getContent();
+    public Page<User> findAllPageable(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 
     @Override
-    public List<User> findAllStudentsPageable(Pageable pageable) {
-        List<User> users = userRepository.findAll(pageable).getContent();
-        List<User> students = new ArrayList<>();
-        extractStudents(users, students);
-        return students;
+    public Page<User> findAllStudentsPageable(Pageable pageable) {
+        return userRepository.findAllByRolesNameEquals("ROLE_STUDENT",pageable);
     }
 
     @Override
-    public List<User> findByKeywordPageable(String keyword, Pageable pageable) {
+    public Page<User> findByKeywordPageable(String keyword, Pageable pageable) {
         return userRepository.findByKeywordPageable(keyword, pageable);
     }
 
     @Override
-    public List<User> findAllStudentsByKeywordPageable(String keyword, Pageable pageable) {
-        List<User> users = userRepository.findByKeywordPageable(keyword, pageable);
-        List<User> students = new ArrayList<>();
-        extractStudents(users, students);
-        return students;
+    public Page<User> findAllStudentsByKeywordPageable(String keyword, Pageable pageable) {
+        return userRepository.findAllByKeywordAndRolesNameEquals(keyword,"ROLE_STUDENT",pageable);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.studentrecord.service;
 
 import com.studentrecord.model.SchoolClass;
-import com.studentrecord.model.User;
-import com.studentrecord.web.dto.UserRegistrationDto;
 
 import java.util.List;
 import java.util.Optional;

@@ -66,16 +66,6 @@ public class ControllersHelper {
         model.addAttribute("user", user);
     }
 
-    static void addPageModels(Model model, List<User> users, int pageId) {
-        int numberOfElements;
-        String isEmpty = "Not Empty";
-        numberOfElements = users.size();
-        if (numberOfElements == 0)
-            isEmpty = "Empty";
-        model.addAttribute("isEmpty", isEmpty);
-        model.addAttribute("pageId", pageId);
-    }
-
     /**
      * Methods for teacher controller.
      */

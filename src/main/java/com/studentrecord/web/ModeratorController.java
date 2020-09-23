@@ -33,9 +33,7 @@ public class ModeratorController {
     @GetMapping("/lista-uczniow/{pageId}")
     public String showAddStudentForm(Model model, String keyword,
                                      @PathVariable Integer pageId) {
-        Pageable pageable = PageRequest.of(pageId, 4, Sort.by(Sort.Order.asc("firstName")));
-        List<User> users = userService.findAllPageable(pageable.next());
-        ControllersHelper.addPageModels(model, users, pageId);
+        Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("firstName")));
         if (keyword != null)
             model.addAttribute("students", userService.findStudentsByKeyword(keyword));
         else
