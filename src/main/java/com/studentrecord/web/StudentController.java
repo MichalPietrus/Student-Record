@@ -27,11 +27,6 @@ public class StudentController {
         return "student/error";
     }
 
-    @GetMapping("/panel")
-    public String showStudentPanel() {
-        return "student/student-panel";
-    }
-
     @GetMapping("/oceny")
     public String showUsersForm(Model model, Principal principal) {
         User user = userService.findByEmail(principal.getName());

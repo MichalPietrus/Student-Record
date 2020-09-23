@@ -35,11 +35,6 @@ public class TeacherController {
     private final List<Integer> ratings = Arrays.asList(0, 1, 2, 3, 4, 5, 6);
     private final List<Integer> ratingWeights = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-    @GetMapping("/panel")
-    public String showTeacherPanel() {
-        return "teacher/teacher-panel";
-    }
-
     @GetMapping("/wybierz-klase")
     public String showChooseClassForm(Model model, Principal principal) {
         String activeUserEmail = principal.getName();

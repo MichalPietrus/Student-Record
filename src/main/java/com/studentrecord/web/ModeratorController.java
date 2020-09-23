@@ -25,11 +25,6 @@ public class ModeratorController {
     @Autowired
     private SchoolClassService schoolClassService;
 
-    @GetMapping("/panel")
-    public String showModeratorPanel() {
-        return "moderator/moderator-panel";
-    }
-
     @GetMapping("/lista-uczniow/{pageId}")
     public String showAddStudentForm(Model model, String keyword,
                                      @PathVariable Integer pageId) {

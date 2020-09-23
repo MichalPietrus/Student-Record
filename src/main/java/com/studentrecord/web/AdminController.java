@@ -30,11 +30,6 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/panel")
-    public String showAdminPanel() {
-        return "admin/admin-panel";
-    }
-
     @GetMapping("/utworz-klase")
     public String createSchoolClassForm(Model model) {
         model.addAttribute("schoolClass", new SchoolClass());
