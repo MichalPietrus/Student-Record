@@ -72,8 +72,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAllStudentsByKeywordPageable(String keyword, Pageable pageable) {
-        return userRepository.findAllByKeywordAndRolesNameEquals(keyword, pageable);
+    public Page<User> findAllByKeywordAndRolePageable(String keyword, String role, Pageable pageable) {
+        return userRepository.findAllByKeywordAndRolesNameEqualsPageable(keyword, role, pageable);
+    }
+
+    @Override
+    public List<User> findAllByRoleName(String role) {
+        return userRepository.findAllByRolesNameEquals(role);
     }
 
     @Override
@@ -196,9 +201,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    /**
-     * Extracts Students (Users with Student Role) from the users list.
-     */
     private void extractStudents(List<User> users, List<User> students) {
         for (User user : users) {
             Optional<Role> role = user.getRoles().stream()

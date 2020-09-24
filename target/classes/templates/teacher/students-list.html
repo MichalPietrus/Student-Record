@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-      xmlns:display="http://www.w3.org/1999/xhtml">
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -69,7 +68,8 @@
                 <td th:text="${user.studentNumber}"></td>
                 <td>
                     <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(1,subjectName)}">
-                        <a th:href="@{/nauczyciel/edytuj-ocene/{userId}/{subject-name}/{semester}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${1},gradeId=${grade.id})}"
+                        <a th:href="@{/nauczyciel/edytuj-ocene/{userId}/{subject-name}/{semester}/{gradeId}
+                           (userId=${user.id},subject-name=${subjectName},semester=${1},gradeId=${grade.id})}"
                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm">
                         </a>
                     </div>
@@ -82,18 +82,21 @@
                        th:text="${user.getAverageGrade(subjectName,1)}"></i>
                 </td>
                 <td>
-                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${1},gradeId=${user.getExpectedFinalGradeId(1,'Przewidywana')},isFinal=${'Przewidywana'})}"
+                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
+                       (userId=${user.id},subject-name=${subjectName},semester=${1},gradeId=${user.getExpectedFinalGradeId(1,'Przewidywana')},isFinal=${'Przewidywana'})}"
                        th:text="${user.printExpectedFinalGrade(1,'Przewidywana',false)}"
                        class="btn btn-secondary btn-sm Element"></a>
                 </td>
                 <td>
-                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${1},gradeId=${user.getExpectedFinalGradeId(1,'Końcowa')},isFinal=${'Końcowa'})}"
+                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
+                       (userId=${user.id},subject-name=${subjectName},semester=${1},gradeId=${user.getExpectedFinalGradeId(1,'Końcowa')},isFinal=${'Końcowa'})}"
                        th:text="${user.printExpectedFinalGrade(1,'Końcowa',false)}"
                        class="btn btn-secondary btn-sm Element"></a>
                 </td>
                 <td>
                     <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(2,subjectName)}">
-                        <a th:href="@{/nauczyciel/edytuj-ocene/{userId}/{subject-name}/{semester}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${2},gradeId=${grade.id})}"
+                        <a th:href="@{/nauczyciel/edytuj-ocene/{userId}/{subject-name}/{semester}/{gradeId}
+                           (userId=${user.id},subject-name=${subjectName},semester=${2},gradeId=${grade.id})}"
                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"></a>
                     </div>
                     &nbsp
@@ -105,12 +108,14 @@
                        th:text="${user.getAverageGrade(subjectName,2)}"></i>
                 </td>
                 <td>
-                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${2},gradeId=${user.getExpectedFinalGradeId(2,'Przewidywana')},isFinal=${'Przewidywana'})}"
+                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
+                       (userId=${user.id},subject-name=${subjectName},semester=${2},gradeId=${user.getExpectedFinalGradeId(2,'Przewidywana')},isFinal=${'Przewidywana'})}"
                        th:text="${user.printExpectedFinalGrade(2,'Przewidywana',false)}"
                        class="btn btn-secondary btn-sm Element"></a>
                 </td>
                 <td>
-                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${2},gradeId=${user.getExpectedFinalGradeId(2,'Końcowa')},isFinal=${'Końcowa'})}"
+                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
+                       (userId=${user.id},subject-name=${subjectName},semester=${2},gradeId=${user.getExpectedFinalGradeId(2,'Końcowa')},isFinal=${'Końcowa'})}"
                        th:text="${user.printExpectedFinalGrade(2,'Końcowa',false)}"
                        class="btn btn-secondary btn-sm Element"></a>
                 </td>
@@ -119,12 +124,14 @@
                        th:text="${user.getAverageGrade(subjectName,3)}"></i>
                 </td>
                 <td>
-                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${3},gradeId=${user.getExpectedFinalGradeId(3,'Przewidywana')},isFinal=${'Przewidywana'})}"
+                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
+                    (userId=${user.id},subject-name=${subjectName},semester=${3},gradeId=${user.getExpectedFinalGradeId(3,'Przewidywana')},isFinal=${'Przewidywana'})}"
                        th:text="${user.printExpectedFinalGrade(3,'Przewidywana',false)}"
                        class="btn btn-secondary btn-sm Element"></a>
                 </td>
                 <td>
-                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}(userId=${user.id},subject-name=${subjectName},semester=${3},gradeId=${user.getExpectedFinalGradeId(3,'Końcowa')},isFinal=${'Końcowa'})}"
+                    <a th:href="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
+                    (userId=${user.id},subject-name=${subjectName},semester=${3},gradeId=${user.getExpectedFinalGradeId(3,'Końcowa')},isFinal=${'Końcowa'})}"
                        th:text="${user.printExpectedFinalGrade(3,'Końcowa',false)}"
                        class="btn btn-secondary btn-sm Element"></a>
                 </td>

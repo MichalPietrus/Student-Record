@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,6 +10,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Wybierz klasę</title>
 </head>
+<style>
+    .form-control{
+        width: 500px;
+    }
+</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="teacherNavbar">
 </nav>
@@ -17,49 +22,34 @@
 
 <br><br>
 
-<h3>&nbspWybierz klasę i przedmiot</h3>
-<hr>
+<h1 style="position:relative; left: 560px">Wybierz klasę i przedmiot</h1>
 
 <form th:action="@{wybierz-klase}" method="post">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px; top: 10px">
         <div class="form-group">
-            <table>
-                <tr>
-                    <td>Wybierz klasę:</td>
-                    <td>
-                        <label>
-                            <select name="schoolClass.id">
-                                <option value=""> --</option>
-                                <option
-                                        th:each="schoolClass : ${schoolClasses}"
-                                        th:value="${schoolClass.id}"
-                                        th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
-                            </select>
-                        </label>
-                    </td>
-                </tr>
-            </table>
+            <label>Wybierz klasę
+                <select name="schoolClass.id" class="form-control" required>
+                    <option value="">--</option>
+                    <option
+                            th:each="schoolClass : ${schoolClasses}"
+                            th:value="${schoolClass.id}"
+                            th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
+                </select>
+            </label>
         </div>
         <div class="form-group">
-            <table>
-                <tr>
-                    <td>Wybierz przedmiot:</td>
-                    <td>
-                        <label>
-                            <select name="subject.name">
-                                <option value=""> --</option>
-                                <option
-                                        th:each="subject : ${subjects}"
-                                        th:value="${subject.name}"
-                                        th:text="${subject.name}"></option>
-                            </select>
-                        </label>
-                    </td>
-                </tr>
-            </table>
+            <label>Wybierz przedmiot
+                <select name="subject.name" class="form-control" required>
+                    <option value="">--</option>
+                    <option
+                            th:each="subject : ${subjects}"
+                            th:value="${subject.name}"
+                            th:text="${subject.name}"></option>
+                </select>
+            </label>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Potwierdź</button>
+            <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">Potwierdź</button>
         </div>
     </div>
 </form>

@@ -44,6 +44,8 @@ public interface UserService extends UserDetailsService {
 
     Page<User> findByKeywordPageable(String keyword, Pageable pageable);
 
-    Page<User> findAllStudentsByKeywordPageable(String keyword, Pageable pageable);
+    Page<User> findAllByKeywordAndRolePageable(String keyword, String role, Pageable pageable);
+
+    List<User> findAllByRoleName(String role);
 
 }

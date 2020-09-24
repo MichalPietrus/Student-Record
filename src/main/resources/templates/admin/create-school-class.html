@@ -10,6 +10,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Elektroniczny dzienniczek</title>
 </head>
+<style>
+    .form-group {
+        width: 500px;
+    }
+</style>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="adminNavbar">
@@ -18,9 +23,9 @@
 
 <br><br>
 
-<h1>&nbspDodaj nową klasę</h1>
+<h1 style="position:relative; left: 645px">Dodaj nową klasę</h1>
 <form th:action="@{zapisz-klase}" th:object="${schoolClass}" method="post">
-    <div class="col-md-6 col-md-offset-3">
+    <div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px; top: 10px">
         <div class="form-group">
             <label for="name" class="control-label">Nazwa klasy</label>
             <input type="text" class="form-control" th:field="*{name}" id="name" placeholder="np. 1A"/>
@@ -38,7 +43,7 @@
             <p th:if="${#fields.hasErrors('year')}">Nieprawidłowy rocznik lub format</p>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Potwierdź</button>
+            <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">Potwierdź</button>
         </div>
     </div>
 </form>

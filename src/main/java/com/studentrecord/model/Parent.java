@@ -20,7 +20,7 @@ public class Parent {
     private String parentLastName;
     @Email
     private String parentEmail;
-    @Pattern(regexp = "^(?:[+][0-9]{2}\\s?[0-9]{3}[-]?[0-9]{3,}|(?:[(][0-9]{3}[)]|[0-9]{3})\\s*[-]?\\s*[0-9]{3}[-][0-9]{4})(?:\\s*x\\s*[0-9]+)?")
+    @Pattern(regexp = "^$|^(?:[+][0-9]{2}\\s?[0-9]{3}[-]?[0-9]{3,}|(?:[(][0-9]{3}[)]|[0-9]{3})\\s*[-]?\\s*[0-9]{3}[-][0-9]{4})(?:\\s*x\\s*[0-9]+)?")
     private String parentPhoneNumber;
     @OneToOne(mappedBy = "parent")
     @ToString.Exclude

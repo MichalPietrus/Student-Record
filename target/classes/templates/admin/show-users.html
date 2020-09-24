@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -58,16 +58,20 @@
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.PESEL}"></td>
                 <td class="Center">
-                    <a th:href="@{/admin/szczegoly-uzytkownika/{id}(id=${user.id})}" class="btn btn-secondary">Edytuj</a></td>
+                    <a th:href="@{/admin/szczegoly-uzytkownika/{id}(id=${user.id})}"
+                       class="btn btn-secondary">Edytuj</a></td>
                 <td class="Center">
                     <button th:text="${user.getRoleNameWithoutPrefix()}" class="btn btn-info btn-md"></button>
                 </td>
                 <td class="Center">
-                    <a th:href="@{/admin/zmien-role/{id}(id=${user.id})}" class="btn btn-secondary btn-customButton">Zmień Rolę</a>
+                    <a th:href="@{/admin/zmien-role/{id}(id=${user.id})}" class="btn btn-secondary btn-customButton">Zmień
+                        Rolę</a>
                 </td>
                 <td class="Center">
-                    <a class="btn btn-danger" th:href="@{/admin/usun-uzytkownika/{id}/{pageId}(id=${user.id},pageId=${pageId})}"
-                       onclick="if(!(confirm('Are you sure you want to delete this user? '))) return false">Usuń użytkownika</a>
+                    <a class="btn btn-danger"
+                       th:href="@{/admin/usun-uzytkownika/{id}/{pageId}(id=${user.id},pageId=${pageId})}"
+                       onclick="if(!(confirm('Are you sure you want to delete this user? '))) return false">Usuń
+                        użytkownika</a>
                 </td>
             </tr>
             </tbody>

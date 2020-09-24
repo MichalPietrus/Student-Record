@@ -32,7 +32,7 @@ public class ModeratorController {
                                      @PathVariable Integer pageId) {
         Pageable pageable = PageRequest.of(pageId, 5, Sort.by(Sort.Order.asc("firstName")));
         if (keyword != null)
-            model.addAttribute("users", userService.findAllStudentsByKeywordPageable(keyword, pageable));
+            model.addAttribute("users", userService.findAllByKeywordAndRolePageable(keyword,"ROLE_STUDENT", pageable));
         else
             model.addAttribute("users", userService.findAllStudentsPageable(pageable));
         return "/moderator/students-list";

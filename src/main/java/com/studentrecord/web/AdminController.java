@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -52,19 +51,17 @@ public class AdminController {
 
     @GetMapping("/dodaj-przedmiot")
     public String addSubjectForm(Model model) {
-        model.addAttribute("subject", new Subject());
         List<SchoolClass> schoolClasses = schoolClassService.findAll();
         if (!schoolClasses.isEmpty())
             model.addAttribute("schoolClasses", schoolClasses);
-        List<User> users = userService.findAll();
-        List<User> teachers = new ArrayList<>();
-        userService.extractTeachers(users, teachers);
+        List<User> teachers = userService.findAllByRoleName("ROLE_TEACHER");
+        model.addAttribute("subject", new Subject());
         model.addAttribute("teachers", teachers);
         return "admin/add-subject";
     }
 
     @PostMapping("/zapisz-przedmiot")
-    public String saveSubject(Subject subject, @RequestParam(value = "schoolClass.id") Integer id,
+    public String saveSubject(@ModelAttribute("subject") Subject subject, @RequestParam(value = "schoolClass.id") Integer id,
                               @RequestParam(value = "teacher.id") Long teacherId) {
         Optional<SchoolClass> classOptional = schoolClassService.findById(id);
         classOptional.ifPresent(subject::setSchoolClass);
@@ -90,7 +87,9 @@ public class AdminController {
                                   Model model) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
+        String role = user.getRoles().stream().findAny().get().getName();
         userService.setUserDetailsAndModels(model, user);
+        model.addAttribute("role",role);
         return "admin/user-details";
     }
 
@@ -103,10 +102,13 @@ public class AdminController {
         User userDB = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         userService.setUserDetails(user, userDetails, parent, placeOfResident, userDB);
+
+
         if (userResult.hasErrors() || userDetailsResult.hasErrors() || parentResult.hasErrors() || placeOfResidentResult.hasErrors()) {
             user.setId(id);
             return "admin/user-details";
         }
+
         if (user.getPassword().equals(""))
             userService.saveWithoutEncoding(userDB);
         else {

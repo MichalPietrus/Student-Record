@@ -20,7 +20,7 @@ public class PlaceOfResident {
     private String street;
     private String houseNumber;
     private int apartmentNumber;
-    @Pattern(regexp = "[0-9]{2}-[0-9]{3}")
+    @Pattern(regexp = "^$|[0-9]{2}-[0-9]{3}")
     private String postalCode;
     @OneToOne(mappedBy = "placeOfResident")
     @ToString.Exclude

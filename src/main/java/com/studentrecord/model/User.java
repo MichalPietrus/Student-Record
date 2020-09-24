@@ -30,7 +30,6 @@ public class User {
     @NotNull
     private String email;
     private String password;
-    @PESEL
     private String PESEL;
     private int studentNumber;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

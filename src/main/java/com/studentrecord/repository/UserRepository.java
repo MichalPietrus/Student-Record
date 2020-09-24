@@ -23,7 +23,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "from User u where u.firstName like %:keyword% or u.lastName like %:keyword%")
     Page<User> findByKeywordPageable(@Param("keyword") String keyword, Pageable pageable);
 
-    @Query(value = "select u from User u left join u.roles r where (u.firstName like %:keyword% or u.lastName like %:keyword%) and r.name = 'ROLE_STUDENT'")
-    Page<User> findAllByKeywordAndRolesNameEquals(@Param("keyword") String keyword, Pageable pageable);
+    @Query(value = "select u from User u left join u.roles r where (u.firstName like %:keyword% or u.lastName like %:keyword%) and r.name = :role")
+    Page<User> findAllByKeywordAndRolesNameEqualsPageable(@Param("keyword") String keyword,@Param("role") String role, Pageable pageable);
 
+    @Query(value = "select u from User u left join u.roles r where r.name = :role")
+    List<User> findAllByRolesNameEquals(@Param("role") String role);
 }
