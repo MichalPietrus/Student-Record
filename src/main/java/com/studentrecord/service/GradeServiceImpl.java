@@ -37,23 +37,28 @@ public class GradeServiceImpl implements GradeService {
         gradeRepository.delete(grade);
     }
 
+    /*
     @Override
     public void setGradeDetails(String subjectName, Integer semester, String category,
                                 Integer rating, Integer ratingWeight, User user, Grade grade) {
         grade.setCategory(category);
         grade.setRating(rating);
         grade.setRatingWeight(ratingWeight);
-        setSubjectForGrade(subjectName, user, grade);
-        grade.setTimestamp(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date()));
+        setGradeDetails(subjectName, user, grade);
+        grade.setDate(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date()));
         grade.setSemester(semester);
     }
 
+     */
+
     @Override
-    public void setSubjectForGrade(String subjectName, User user, Grade grade) {
+    public void setGradeDetails(String subjectName, User user, Grade grade, Integer semester) {
+        grade.setSemester(semester);
         List<Subject> subjects = user.getSchoolClass().getSubjects();
         for (Subject subject : subjects)
             if (subject.getName().equals(subjectName))
                 grade.setSubject(subject);
+        user.addGrade(grade);
     }
 
 

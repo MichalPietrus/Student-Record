@@ -19,7 +19,7 @@ public class SchoolClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name", unique = true)
-    @Size(min = 1, max = 3)
+    @Size(max = 2)
     @NotNull
     private String name;
     @NotNull

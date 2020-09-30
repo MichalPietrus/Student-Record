@@ -10,6 +10,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Edytuj Ocenę</title>
 </head>
+<style>
+    .form-control {
+        width: 500px;
+    }
+</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="teacherNavbar">
 </nav>
@@ -17,89 +22,77 @@
 
 <br><br>
 
-<h3>&nbspEdytuj Ocenę</h3>
-<hr>
+<h1 style="position:relative; left: 690px">Edytuj Ocenę</h1>
 
-<div class="col-md-10">
+<div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px; top: 10px">
     <form th:action="@{/nauczyciel/edytuj-ocene/{userId}/{subject-name}/{semester}/{gradeId}
-    (userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.get().id})}" method="post">
+    (userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.id})}" th:object="${grade}"
+          method="post">
         <div class="form-group">
-            Aktualnie wybrany uczeń : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
-            <br><br>
-            Aktualna kategoria : <i th:text="${grade.get().category}"></i>
-            <br><br>
-            Aktualna ocena : <i th:text="${grade.get().printRating()}"></i>
-            <br><br>
-            Aktualna waga oceny : <i th:text="${grade.get().printRatingWeight()}"></i>
-            <br><br>
-            Data wystawienia oceny : <i th:text="${grade.get().timestamp}"></i>
-            <br><br>
-            <td id="chooseCategory">Wybierz Kategorię:</td>
-            <td>
-                <label>
-                    <select name="category">
-                        <option th:value="${currentCategory}" th:text="${currentCategory}"></option>
-                        <option
-                                th:each="category : ${categories}"
-                                th:value="${category}"
-                                th:text="${category}"></option>
-                    </select>
-                    (Kategorie : bz,np i zw nie liczą się do średniej)
-                </label>
-                <br>
-                *bz (brak zadania)
-                <br>
-                *np (nieprzygotowanie)
-                <br>
-                *zw (zwolenienie)
-            </td>
-            <br><br>
-            <td id="chooseRating">Wybierz Ocenę:</td>
-            <td>
-                <label>
-                    <select name="rating">
-                        <option th:value="${currentRating}" th:text="${currentRating}"></option>
-                        <option
-                                th:each="rating : ${ratings}"
-                                th:value="${rating}"
-                                th:text="${rating}"></option>
-                    </select>
-                </label>
-            </td>
-            <br><br>
-            <td id="chooseRatingWeight">Wybierz wagę oceny:</td>
-            <td>
-                <label>
-                    <select name="ratingWeight">
-                        <option th:value="${currentRatingWeight}" th:text="${currentRatingWeight}"></option>
-                        <option
-                                th:each="ratingWeight : ${ratingWeights}"
-                                th:value="${ratingWeight}"
-                                th:text="${ratingWeight}"></option>
-                    </select>
-                </label>
-            </td>
-        </div>
-        <div class="form-row" th:object="${grade}">
-            <div class="form-group col-md-6">
-                <label for="comment">Dodaj komentarz do oceny</label>
-                <input th:value="${grade.get().comment}" th:name="comment" type="text" class="form-control" id="comment"
-                       placeholder="max 100 znaków...">
-            </div>
+            <label>Kategoria
+                <select name="category" class="form-control" required>
+                    <option th:value="${currentCategory}"
+                            th:text="${currentCategory}">
+                    </option>
+                    <option
+                            th:each="category : ${categories}"
+                            th:value="${category}"
+                            th:text="${category}"></option>
+                </select>
+            </label>
+            <br>
+            <label>Ocena
+                <select name="rating" class="form-control" required>
+                    <option th:value="${currentRating}"
+                            th:text="${currentRating}">
+                    </option>
+                    <option
+                            th:each="rating : ${ratings}"
+                            th:value="${rating}"
+                            th:text="${rating}"></option>
+                </select>
+            </label>
+            <br>
+            <label>Waga oceny
+                <select name="ratingWeight" class="form-control" required>
+                    <option th:value="${currentRatingWeight}"
+                            th:text="${currentRatingWeight}">
+                    </option>
+                    <option
+                            th:each="ratingWeight : ${ratingWeights}"
+                            th:value="${ratingWeight}"
+                            th:text="${ratingWeight}"></option>
+                </select>
+            </label>
+            <br>
+            <label for="date"></label>Data wystawienia oceny
+            <input th:field="*{date}" type="date" class="form-control" id="date" required>
+            <br>
+            <label for="comment"></label>Dodaj komentarz do oceny
+            <input th:field="*{comment}" type="text" class="form-control" id="comment" maxlength="100"
+                   placeholder="max 100 znaków...">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success">Potwierdź</button>
+            <button type="submit" class="btn btn-success" style="float: left;position:relative;width: 240px">Potwierdź</button>
         </div>
     </form>
     <form th:action="@{/nauczyciel/usun-ocene/{userId}/{subject-name}/{semester}/{gradeId}
-(userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.get().id})}"
-          method="post">
-        <div class="form-group">
-            <button type="submit" class="btn btn-danger">Usuń ocenę</button>
-        </div>
+                     (userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.id})}" method="post">
+            <button type="submit" class="btn btn-danger" style="width: 240px; position: relative; left: 20px">Usuń ocenę</button>
     </form>
+    <br>
+    <div style="text-align: left">
+        <i th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
+        <br>
+        <i>* Kategorie : bz, np i zw nie liczą się do średniej</i>
+        <br>
+        <i>* bz (brak zadania)</i>
+        <br>
+        <i>* np (nieprzygotowanie)</i>
+        <br>
+        <i>* zw (zwolenienie)</i>
+    </div>
 </div>
-
 
 <script th:src="@{/js/teacherNavbar.js}"></script>
 <script>

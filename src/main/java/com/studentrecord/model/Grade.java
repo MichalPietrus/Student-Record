@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -16,7 +17,7 @@ public class Grade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int rating;
-    private String timestamp;
+    private String date;
     @Size(max = 100)
     private String comment;
     private String category;

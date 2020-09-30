@@ -10,6 +10,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Zmień Rolę</title>
 </head>
+<style>
+    .form-control {
+        width: 500px;
+    }
+</style>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="adminNavbar">
@@ -17,25 +22,30 @@
 
 <br><br>
 
+<h1 style="position:relative; left: 720px">Zmień rolę</h1>
 
-<form th:action="@{/admin/zapisz-role/{id}(id=${user.id})}" method="post">
-    <div class="col-md-10">
-        <h2>Zmień role</h2>
-        <hr>
-        <h6 th:text="${'Aktualnie wybrany użytkownik : ' + user.firstName + ' ' + user.lastName}"></h6>
-        <label for="role"></label><h6>Wybierz role:</h6>
-        <select id="role" name="role.name" class="form-control" style="width: 400px">
-            <option th:value="${currentlySelectedRole.name}"
-                    th:text="${user.getRoleNameWithoutPrefix()}"></option>
-            <option
-                    th:each="role : ${roles}"
-                    th:value="${role.name}"
-                    th:text="${role.name}"></option>
-        </select>
-        <br>
-        <button type="submit" class="btn btn-success">Potwierdź</button>
-    </div>
-</form>
+<div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px">
+    <form th:action="@{/admin/zapisz-role/{id}(id=${user.id})}" method="post">
+        <div class="col-md-10">
+            <label for="role"></label><h6>Wybierz role:</h6>
+            <select id="role" name="role.name" class="form-control">
+                <option th:value="${currentlySelectedRole.name}"
+                        th:text="${user.getRoleNameWithoutPrefix()}"></option>
+                <option
+                        th:each="role : ${roles}"
+                        th:value="${role.name}"
+                        th:text="${role.name}"></option>
+            </select>
+            <br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">
+                    Potwierdź
+                </button>
+            </div>
+            <i th:text="${'* Aktualnie wybrany użytkownik : ' + user.firstName + ' ' + user.lastName}"></i>
+        </div>
+    </form>
+</div>
 
 
 <script th:src="@{/js/adminNavbar.js}"></script>

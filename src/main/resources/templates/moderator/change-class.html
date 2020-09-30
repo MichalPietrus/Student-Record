@@ -10,6 +10,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Zmień Klasę</title>
 </head>
+<style>
+    .form-control {
+        width: 500px;
+    }
+</style>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="/">Dzienniczek</a>
@@ -46,27 +51,31 @@
 
 <br><br>
 
+<h1 style="position:relative; left: 715px">Zmień klasę</h1>
 
-<form th:action="@{/moderator/zmien-klase/{id}(id=${user.id})}" method="post">
-    <div class="col-md-10">
-        <h2>Zmień klasę</h2>
-        <hr>
-        <h6 th:text="${'Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></h6>
-        <label for="schoolClass"></label><h6>Wybierz klasę:</h6>
-        <select id="schoolClass" name="schoolClass.name" class="form-control" style="width: 400px">
-            <option th:if="${!user.getSchoolClassName().equals('Brak')}"
-                    th:value="${userSchoolClass.name}"
-                    th:text="${userSchoolClass.getSchoolClassNameAndYear()}"
-            ></option>
-            <option
-                    th:each="schoolClass : ${schoolClasses}"
-                    th:value="${schoolClass.name}"
-                    th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
-        </select>
-        <br>
-        <button type="submit" class="btn btn-success">Potwierdź</button>
-    </div>
-</form>
+<div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px">
+    <form th:action="@{/moderator/zmien-klase/{id}(id=${user.id})}" method="post">
+        <div class="col-md-10">
+            <label for="schoolClass"></label><h6>Wybierz klasę:</h6>
+            <select id="schoolClass" name="schoolClass.name" class="form-control">
+                <option th:if="${!user.getSchoolClassName().equals('Brak')}"
+                        th:value="${userSchoolClass.name}"
+                        th:text="${userSchoolClass.getSchoolClassNameAndYear()}"
+                ></option>
+                <option
+                        th:each="schoolClass : ${schoolClasses}"
+                        th:value="${schoolClass.name}"
+                        th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
+            </select>
+            <br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">Potwierdź
+                </button>
+            </div>
+        </div>
+        <i th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
+    </form>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

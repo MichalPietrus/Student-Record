@@ -25,11 +25,11 @@
 
 <div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px; top: 10px">
     <form th:action="@{/nauczyciel/dodaj-ocene/{userId}/{subject-name}/{semester}(userId=${user.id},subject-name=${subjectName},semester=${semester})}"
-          method="post">
+          th:object="${grade}" method="post">
         <div class="form-group">
             <label>Kategoria
                 <select name="category" class="form-control" required>
-                    <option value=""> --</option>
+                    <option value="">--</option>
                     <option
                             th:each="category : ${categories}"
                             th:value="${category}"
@@ -39,7 +39,7 @@
             <br>
             <label>Ocena
                 <select name="rating" class="form-control" required>
-                    <option value=""> --</option>
+                    <option value="">--</option>
                     <option
                             th:each="rating : ${ratings}"
                             th:value="${rating}"
@@ -49,35 +49,38 @@
             <br>
             <label>Waga oceny
                 <select name="ratingWeight" class="form-control" required>
-                    <option value=""> --</option>
+                    <option value="">--</option>
                     <option
                             th:each="ratingWeight : ${ratingWeights}"
                             th:value="${ratingWeight}"
                             th:text="${ratingWeight}"></option>
                 </select>
             </label>
-        </div>
-        <div class="form-group" th:object="${grade}">
+            <br>
+            <label for="date"></label>Data wystawienia oceny
+            <input th:field="*{date}" type="date" class="form-control" id="date" required>
+            <br>
             <label for="comment"></label>Dodaj komentarz do oceny
-            <input th:name="comment" type="text" class="form-control" id="comment" maxlength="100" placeholder="max 100 znaków...">
+            <input th:field="*{comment}" type="text" class="form-control" id="comment" maxlength="100"
+                   placeholder="max 100 znaków...">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">Potwierdź</button>
+            <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">Potwierdź
+            </button>
         </div>
     </form>
     <div style="text-align: left">
-    * Kategorie : bz, np i zw nie liczą się do średniej
-    <br>
-    * bz (brak zadania)
-    <br>
-    * np (nieprzygotowanie)
-    <br>
-    * zw (zwolenienie)
-    <br>
-    <i th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
+        <i th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
+        <br>
+        <i>* Kategorie : bz, np i zw nie liczą się do średniej</i>
+        <br>
+        <i>* bz (brak zadania)</i>
+        <br>
+        <i>* np (nieprzygotowanie)</i>
+        <br>
+        <i>* zw (zwolenienie)</i>
     </div>
 </div>
-
 
 
 <script th:src="@{/js/teacherNavbar.js}"></script>

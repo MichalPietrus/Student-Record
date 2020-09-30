@@ -12,7 +12,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Controller
@@ -41,25 +40,14 @@ public class TeacherController {
         String activeUserEmail = principal.getName();
         List<SchoolClass> schoolClassList = schoolClassService.findAll();
         List<SchoolClass> schoolClasses = new ArrayList<>();
-        List<Subject> subjectsList = new ArrayList<>();
         for (SchoolClass schoolClass : schoolClassList) {
-            List<Subject> subjects = schoolClass.getSubjects();
-            for (Subject subject : subjects) {
-                if (subject.getTeacher().getEmail().equals(activeUserEmail)) {
+            for (Subject subject : schoolClass.getSubjects()) {
+                if (subject.getTeacher().getEmail().equals(activeUserEmail))   // Checks if subject teacher email is the same as the logged in teacher
                     if (!schoolClasses.contains(schoolClass))
-                        schoolClasses.add(schoolClass);
-                    if (!subjectsList.isEmpty()) {
-                        for (int y = 0; y < subjectsList.size(); y++) {
-                            if (!subjectsList.get(y).equals(subject))
-                                subjectsList.add(subject);
-                        }
-                    } else
-                        subjectsList.add(subject);
-                }
+                        schoolClasses.add(schoolClass); // If schoolClasses do not have previously downloaded class, it adds it to the class list
             }
         }
         model.addAttribute("schoolClasses", schoolClasses);
-        model.addAttribute("subjects", subjectsList);
         return "teacher/choose-class";
     }
 
@@ -86,17 +74,19 @@ public class TeacherController {
     }
 
     @GetMapping("/dodaj-ocene/{userId}/{subject-name}/{semester}")
-    public String showAddGradeForm(Model model, @PathVariable("userId") Long id, @PathVariable("subject-name") String subjectName, @PathVariable Integer semester) {
+    public String showAddGradeForm(Model model,
+                                   @PathVariable("userId") Long id,
+                                   @PathVariable("subject-name") String subjectName,
+                                   @PathVariable Integer semester) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        Grade grade = new Grade();
-        model.addAttribute("grade", grade);
+        model.addAttribute("grade", new Grade());
         model.addAttribute("user", user);
         model.addAttribute("subjectName", subjectName);
+        model.addAttribute("semester", semester);
         model.addAttribute("categories", categories);
         model.addAttribute("ratings", ratings);
         model.addAttribute("ratingWeights", ratingWeights);
-        model.addAttribute("semester", semester);
         return "teacher/add-grade";
     }
 
@@ -104,15 +94,11 @@ public class TeacherController {
     public String addGrade(@PathVariable("userId") Long id,
                            @PathVariable("subject-name") String subjectName,
                            @PathVariable("semester") Integer semester,
-                           @RequestParam(value = "category") String category,
-                           @RequestParam(value = "rating") Integer rating,
-                           @RequestParam(value = "ratingWeight") Integer ratingWeight,
                            @ModelAttribute("grade") Grade grade,
                            RedirectAttributes redirectAttributes) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        gradeService.setGradeDetails(subjectName, semester, category, rating, ratingWeight, user, grade);
-        user.addGrade(grade);
+        gradeService.setGradeDetails(subjectName,user,grade,semester);
         userService.saveWithoutEncoding(user);
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
@@ -129,10 +115,13 @@ public class TeacherController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         Grade grade = gradeService.findById(gradeId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid grade Id: " + gradeId));
-        model.addAttribute("currentCategory", grade.getCategory());
-        model.addAttribute("currentRating", grade.getRating());
-        model.addAttribute("currentRatingWeight", grade.getRatingWeight());
-        model.addAttribute("grade", gradeService.findById(gradeId));
+        String currentCategory = grade.getCategory();
+        int currentRating = grade.getRating();
+        int currentRatingWeight = grade.getRatingWeight();
+        model.addAttribute("currentCategory", currentCategory);
+        model.addAttribute("currentRating", currentRating);
+        model.addAttribute("currentRatingWeight", currentRatingWeight);
+        model.addAttribute("grade", grade);
         model.addAttribute("user", user);
         model.addAttribute("subjectName", subjectName);
         model.addAttribute("categories", categories);
@@ -146,19 +135,13 @@ public class TeacherController {
     public String editGradeModel(@PathVariable("userId") Long id,
                                  @PathVariable("subject-name") String subjectName,
                                  @PathVariable("semester") Integer semester,
-                                 @RequestParam(value = "category") String category,
-                                 @RequestParam(value = "rating") Integer rating,
-                                 @RequestParam(value = "ratingWeight") Integer ratingWeight,
-                                 @RequestParam(value = "comment") String comment,
                                  @PathVariable("gradeId") Integer gradeId,
+                                 @ModelAttribute("grade") Grade grade,
                                  RedirectAttributes redirectAttributes) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        Grade grade = gradeService.findById(gradeId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid grade Id: " + gradeId));
-        gradeService.setGradeDetails(subjectName, semester, category, rating, ratingWeight, user, grade);
-        grade.setComment(comment);
-        grade.setStudent(user);
+        grade.setId(gradeId);
+        gradeService.setGradeDetails(subjectName,user,grade,semester);
         userService.saveWithoutEncoding(user);
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
@@ -217,10 +200,7 @@ public class TeacherController {
         grade.setRating(rating);
         grade.setCategory(isFinal);
         grade.setIsFinal(isFinal);
-        grade.setSemester(semester);
-        gradeService.setSubjectForGrade(subjectName, user, grade);
-        grade.setTimestamp(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date()));
-        user.addGrade(grade);
+        gradeService.setGradeDetails(subjectName, user, grade,semester);
         userService.saveWithoutEncoding(user);
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);

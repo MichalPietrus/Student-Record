@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+// TODO: 29.09.2020 this class is for later feature
+
 @Data
 @NoArgsConstructor
 @Entity

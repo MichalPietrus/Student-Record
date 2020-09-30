@@ -22,7 +22,7 @@
 </nav>
 
 <br>
-<div class="col-md-10">
+<div class="col-lg-12">
     <h2>Oceny</h2>
     <hr>
     Uczeń : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
@@ -57,10 +57,25 @@
             <td>
                 <i th:text="${subject.name}"></i>
             </td>
+
+            <!--    Semester 1 grades      -->
+
             <td>
                 <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(1,subject.name)}">
-                    <a th:href="@{/uczen/szczegoly-oceny/{gradeId}(gradeId=${grade.id})}"
-                       th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"></a>
+                    <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
+                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                            th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
+                                   ${'Waga oceny : ' + grade.ratingWeight} + '&#xA;' +
+                                   ${'Kategoria : ' + grade.category} + '&#xA;' +
+                                   ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
+                                   ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
+                                   ${'Komentarz do oceny : ' + grade.comment}"></button>
+                    <button th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
+                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                            th:title="${'Kategoria : ' + grade.category} + '&#xA;' +
+                                      ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
+                                      ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
+                                      ${'Komentarz do oceny : ' + grade.comment}"></button>
                 </div>
             </td>
             <td>
@@ -75,10 +90,25 @@
                 <i th:text="${user.printExpectedFinalGrade(1,'Końcowa',true)}"
                    class="btn btn-secondary btn-sm Element"></i>
             </td>
+
+            <!--     Semester 2 grades      -->
+
             <td>
                 <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(2,subject.name)}">
-                    <a th:href="@{/uczen/szczegoly-oceny/{gradeId}(gradeId=${grade.id})}"
-                       th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"></a>
+                    <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
+                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                            th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
+                                      ${'Waga oceny : ' + grade.ratingWeight} + '&#xA;' +
+                                      ${'Kategoria : ' + grade.category} + '&#xA;' +
+                                      ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
+                                      ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
+                                      ${'Komentarz do oceny : ' + grade.comment}"></button>
+                    <button th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
+                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                            th:title="${'Kategoria : ' + grade.category} + '&#xA;' +
+                                      ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
+                                      ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
+                                      ${'Komentarz do oceny : ' + grade.comment}"></button>
                 </div>
             </td>
             <td>
@@ -93,6 +123,10 @@
                 <i th:text="${user.printExpectedFinalGrade(2,'Końcowa',true)}"
                    class="btn btn-secondary btn-sm Element"></i>
             </td>
+
+            <!--     End of the year grades    -->
+
+
             <td>
                 <i class="btn btn-secondary btn-sm Element Center"
                    th:text="${user.getAverageGrade(subject.name,3)}"></i>
@@ -120,6 +154,7 @@
     <br>
     *K. (Ocena końcowa)
 </div>
+
 
 <script th:src="@{/js/studentNavbar.js}"></script>
 <script>

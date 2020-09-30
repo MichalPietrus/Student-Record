@@ -25,7 +25,7 @@
 
 <br>
 
-<div class="col-md-10" th:switch="${users}">
+<div class="col-lg-12" th:switch="${users}">
     <h2 th:case="null">Brak uczniów!</h2>
     <div th:case="*">
         <h2>Uczniowie</h2>
@@ -138,17 +138,17 @@
             </tr>
             </tbody>
         </table>
-        *bz (brak zadania)
+        <i>*bz (brak zadania)</i>
         <br>
-        *np (nieprzygotowanie)
+        <i>*np (nieprzygotowanie)</i>
         <br>
-        *zw (zwolenienie)
+        <i>*zw (zwolenienie)</i>
         <br>
-        *Śr. (Średnia ocena)
+        <i>*Śr. (Średnia ocena)</i>
         <br>
-        *P. (Przewidywana ocena)
+        <i>*P. (Przewidywana ocena)</i>
         <br>
-        *K. (Ocena końcowa)
+        <i>*K. (Ocena końcowa)</i>
     </div>
 </div>
 

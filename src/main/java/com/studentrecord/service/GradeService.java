@@ -13,9 +13,10 @@ public interface GradeService {
 
     void deleteById(Integer gradeId);
 
+    /*
     void setGradeDetails(String subjectName, Integer semester, String category,
                          Integer rating, Integer ratingWeight, User user, Grade grade);
-
-    void setSubjectForGrade(String subjectName, User user, Grade grade);
+     */
+    void setGradeDetails(String subjectName, User user, Grade grade,Integer semester);
 
 }

@@ -17,11 +17,8 @@ public class StudentController {
 
     private final UserService userService;
 
-    private final GradeService gradeService;
-
-    public StudentController(UserService userService, GradeService gradeService) {
+    public StudentController(UserService userService) {
         this.userService = userService;
-        this.gradeService = gradeService;
     }
 
     @GetMapping("/oceny")
@@ -29,15 +26,6 @@ public class StudentController {
         User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user);
         return "student/grades-list";
-    }
-
-    @GetMapping("/szczegoly-oceny/{gradeId}")
-    public String showGradeDetails(Model model,
-                                   @PathVariable("gradeId") Integer gradeId) {
-        Grade grade = gradeService.findById(gradeId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid grade Id: " + gradeId));
-        model.addAttribute("grade", grade);
-        return "student/show-grade-details";
     }
 
     @GetMapping("/szczegoly-uzytkownika")
