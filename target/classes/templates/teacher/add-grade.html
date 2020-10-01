@@ -28,7 +28,7 @@
           th:object="${grade}" method="post">
         <div class="form-group">
             <label>Kategoria
-                <select name="category" class="form-control" required>
+                <select id="category" name="category" class="form-control" onchange="hideGrades()" required>
                     <option value="">--</option>
                     <option
                             th:each="category : ${categories}"
@@ -36,9 +36,9 @@
                             th:text="${category}"></option>
                 </select>
             </label>
-            <br>
-            <label>Ocena
-                <select name="rating" class="form-control" required>
+            <br id="ratingBr">
+            <label id="ratingLabel">Ocena
+                <select id="ratingSelect" name="rating" class="form-control" required>
                     <option value="">--</option>
                     <option
                             th:each="rating : ${ratings}"
@@ -46,9 +46,9 @@
                             th:text="${rating}"></option>
                 </select>
             </label>
-            <br>
-            <label>Waga oceny
-                <select name="ratingWeight" class="form-control" required>
+            <br id="ratingWeightBr">
+            <label id="ratingWeightLabel">Waga oceny
+                <select id="ratingWeightSelect" name="ratingWeight" class="form-control" required>
                     <option value="">--</option>
                     <option
                             th:each="ratingWeight : ${ratingWeights}"
@@ -59,7 +59,6 @@
             <br>
             <label for="date"></label>Data wystawienia oceny
             <input th:field="*{date}" type="date" class="form-control" id="date" required>
-            <br>
             <label for="comment"></label>Dodaj komentarz do oceny
             <input th:field="*{comment}" type="text" class="form-control" id="comment" maxlength="100"
                    placeholder="max 100 znaków...">
@@ -84,6 +83,7 @@
 
 
 <script th:src="@{/js/teacherNavbar.js}"></script>
+<script th:src="@{/js/hideGrades.js}"></script>
 <script>
     window.onload = function () {
         printTeacherNavbar();

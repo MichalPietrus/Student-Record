@@ -67,27 +67,69 @@
 
 <br><br>
 
-<h3>Przejdź do: </h3>
-<hr>
 
-<form:form sec:authorize="hasRole('ADMIN')">
-    Panel administratora : <a href="/admin/panel">Kliknij tutaj</a>
-    <br><br>
-</form:form>
+<!--   ADMIN   -->
 
-<form:form sec:authorize="hasRole('TEACHER')">
-    Panel nauczyciela : <a href="/nauczyciel/panel">Kliknij tutaj</a>
-    <br><br>
-</form:form>
 
-<form:form sec:authorize="hasRole('STUDENT')">
-    Panel ucznia : <a href="/uczen/panel">Kliknij tutaj</a>
-    <br><br>
-</form:form>
+<div sec:authorize="hasRole('ADMIN')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+    <div class="row">
+        <div class="col-xl-6 col-xl-offset-3">
+            <h4>Funkcje administratora</h4>
+            <hr>
+            <a class="btn btn-dark" th:href="@{/admin/lista-uzytkownikow/0}" style="width: 170px">Lista Użytkowników</a>
+            <a class="btn btn-dark" th:href="@{/admin/utworz-klase}" style="width: 170px">Stwórz nową klasę</a>
+            <a class="btn btn-dark" th:href="@{/admin/dodaj-przedmiot}" style="width: 170px">Dodaj Przedmiot</a>
+            <br><br>
+            <h4>Funkcje moderatora</h4>
+            <hr>
+            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana klasy)</a>
+        </div>
+    </div>
+</div>
 
-<form:form sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
-    Panel moderatora : <a href="/moderator/panel">Kliknij tutaj</a>
-</form:form>
+
+<!--   MODERATOR   -->
+
+
+<div sec:authorize="hasRole('MODERATOR')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+    <div class="row">
+        <div class="col-xl-6 col-xl-offset-3">
+            <h4>Funkcje moderatora</h4>
+            <hr>
+            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana klasy)</a>
+        </div>
+    </div>
+</div>
+
+
+<!--  Teacher  -->
+
+
+<div sec:authorize="hasRole('TEACHER')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+    <div class="row">
+        <div class="col-xl-6 col-xl-offset-3">
+            <h4>Funkcje Nauczyciela</h4>
+            <hr>
+            <a class="btn btn-dark" th:href="@{/nauczyciel/wybierz-klase}" style="width: 200px">Dodaj Oceny</a>
+            <a class="btn btn-dark" th:href="@{/nauczyciel/szczegoly-uzytkownika}" style="width: 200px">Szczegóły użytkownika</a>
+        </div>
+    </div>
+</div>
+
+
+<!--  Student  -->
+
+
+<div sec:authorize="hasRole('STUDENT')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+    <div class="row">
+        <div class="col-xl-6 col-xl-offset-3">
+            <h4>Funkcje Ucznia</h4>
+            <hr>
+            <a class="btn btn-dark" th:href="@{/uczen/oceny}" style="width: 200px">Oceny</a>
+            <a class="btn btn-dark" th:href="@{/uczen/szczegoly-uzytkownika}" style="width: 200px">Szczegóły użytkownika</a>
+        </div>
+    </div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

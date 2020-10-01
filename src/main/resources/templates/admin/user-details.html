@@ -14,7 +14,6 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="adminNavbar">
 </nav>
 
-
 <br>
 
 <form class="col-lg-12" th:action="@{/admin/zapisz-szczegoly-uzytkownika/{id}(id=${user.id})}" method="post">
@@ -57,7 +56,8 @@
     <div class="form-row" th:object="${user}">
         <div class="form-group col-md-6">
             <label for="PESEL">PESEL</label>
-            <input th:value="${user.PESEL}" name="PESEL" type="text" class="form-control" id="PESEL" placeholder="PESEL">
+            <input th:value="${user.PESEL}" name="PESEL" type="text" class="form-control" id="PESEL"
+                   placeholder="PESEL">
         </div>
     </div>
 
@@ -68,14 +68,17 @@
     <div class="form-row" th:object="${userDetails}">
         <div class="col">
             <label for="birthday">Data Urodzenia</label>
-            <input th:value="${userDetails.birthday}" name="birthday" type="text" class="form-control" id="birthday" placeholder="MM-DD-YYYY">
+            <input th:value="${userDetails.birthday}" name="birthday" type="text" class="form-control" id="birthday"
+                   placeholder="MM-DD-YYYY">
             <p class="has-error" th:if="${#fields.hasErrors('birthday')}">Niepoprawna data urodzenia lub jej format</p>
         </div>
 
         <div class="col">
             <label for="userPhoneNumber">Numer telefonu</label>
-            <input th:value="${userDetails.phoneNumber}" name="phoneNumber" type="text" class="form-control" id="userPhoneNumber" placeholder="Numer telefonu"/>
-            <p class="error-message" th:if="${#fields.hasErrors('phoneNumber')}">Nieprawidłowy numer telefonu lub nieprawidłowy format : poprawny format to +48000000000</p>
+            <input th:value="${userDetails.phoneNumber}" name="phoneNumber" type="text" class="form-control"
+                   id="userPhoneNumber" placeholder="Numer telefonu"/>
+            <p class="error-message" th:if="${#fields.hasErrors('phoneNumber')}">Nieprawidłowy numer telefonu lub
+                nieprawidłowy format : poprawny format to +48000000000</p>
         </div>
     </div>
 
@@ -92,74 +95,86 @@
     <div class="form-row" th:object="${placeOfResident}">
         <div class="form-group col-md-6">
             <label for="City">Miasto</label>
-            <input th:value="${placeOfResident.city}" name="city" type="text" class="form-control" id="City" placeholder="Miasto">
+            <input th:value="${placeOfResident.city}" name="city" type="text" class="form-control" id="City"
+                   placeholder="Miasto">
         </div>
         <div class="form-group col-md-4">
             <label for="country">Kraj</label>
-            <input th:value="${placeOfResident.country}" name="country" type="text" class="form-control" id="country" placeholder="Kraj">
+            <input th:value="${placeOfResident.country}" name="country" type="text" class="form-control" id="country"
+                   placeholder="Kraj">
         </div>
         <div class="form-group col-md-2">
             <label for="postalCode">Kod Pocztowy</label>
-            <input th:value="${placeOfResident.postalCode}" name="postalCode" type="text" class="form-control" id="postalCode" placeholder="00-000">
-            <p class="error-message" th:if="${#fields.hasErrors('postalCode')}">Nieprawidłowy kod pocztowy lub format</p>
+            <input th:value="${placeOfResident.postalCode}" name="postalCode" type="text" class="form-control"
+                   id="postalCode" placeholder="00-000">
+            <p class="error-message" th:if="${#fields.hasErrors('postalCode')}">Nieprawidłowy kod pocztowy lub
+                format</p>
         </div>
     </div>
     <div class="form-row" th:object="${placeOfResident}">
         <div class="form-group col-md-6">
             <label for="street">Ulica</label>
-            <input th:value="${placeOfResident.street}" name="street" type="text" class="form-control" id="street" placeholder="Ulica">
+            <input th:value="${placeOfResident.street}" name="street" type="text" class="form-control" id="street"
+                   placeholder="Ulica">
         </div>
         <div class="form-group col-md-4">
             <label for="houseNumber">Nr domu</label>
-            <input th:value="${placeOfResident.houseNumber}" name="houseNumber" type="text" class="form-control" id="houseNumber">
+            <input th:value="${placeOfResident.houseNumber}" name="houseNumber" type="text" class="form-control"
+                   id="houseNumber">
             <p class="error-message" th:if="${#fields.hasErrors('houseNumber')}">Nieprawidłowy numer domu</p>
         </div>
         <div class="form-group col-md-2">
             <label for="apartmentNumber">Nr lokalu</label>
-            <input th:value="${placeOfResident.apartmentNumber}" name="apartmentNumber" type="text" class="form-control" id="apartmentNumber">
+            <input th:value="${placeOfResident.apartmentNumber}" name="apartmentNumber" type="text" class="form-control"
+                   id="apartmentNumber">
             <p class="error-message" th:if="${#fields.hasErrors('apartmentNumber')}">Nieprawidłowy numer lokalu</p>
         </div>
     </div>
 
-<div th:if="${role.equals('ROLE_STUDENT')}">
+    <div th:if="${role.equals('ROLE_STUDENT')}">
 
 
-    <!-- Parent  -->
+        <!-- Parent  -->
 
 
-    <br>
+        <br>
 
-    <h3>Dane rodzica</h3>
+        <h3>Dane rodzica</h3>
 
-    <br>
+        <br>
 
-    <div class="form-row" th:object="${parent}">
-        <div class="col">
-            <label for="parentFirstName">Imię</label>
-            <input th:value="${parent.parentFirstName}" name="parentFirstName" type="text" class="form-control" placeholder="Imię" id="parentFirstName">
+        <div class="form-row" th:object="${parent}">
+            <div class="col">
+                <label for="parentFirstName">Imię</label>
+                <input th:value="${parent.parentFirstName}" name="parentFirstName" type="text" class="form-control"
+                       placeholder="Imię" id="parentFirstName">
+            </div>
+            <div class="col">
+                <label for="parentLastName">Nazwisko</label>
+                <input th:value="${parent.parentLastName}" name="parentLastName" id="parentLastName" type="text"
+                       class="form-control" placeholder="Nazwisko">
+            </div>
         </div>
-        <div class="col">
-            <label for="parentLastName">Nazwisko</label>
-            <input th:value="${parent.parentLastName}" name="parentLastName" id="parentLastName" type="text" class="form-control" placeholder="Nazwisko">
+
+        <br>
+
+        <div class="form-row" th:object="${parent}">
+            <div class="col">
+                <label for="parentEmail">E-mail</label>
+                <input th:value="${parent.parentEmail}" name="parentEmail" type="text" class="form-control"
+                       placeholder="E-mail" id="parentEmail">
+                <p class="has-error" th:if="${#fields.hasErrors('parentEmail')}">Nieprawidłowy adres e-mail</p>
+            </div>
+            <div class="col">
+                <label for="parentPhoneNumber">Numer telefonu</label>
+                <input th:value="${parent.parentPhoneNumber}" name="parentPhoneNumber" id="parentPhoneNumber"
+                       type="text" class="form-control" placeholder="Numer telefonu">
+                <p class="error-message" th:if="${#fields.hasErrors('parentPhoneNumber')}">Nieprawidłowy numer telefonu
+                    lub nieprawidłowy format : poprawny format to +48000000000</p>
+            </div>
         </div>
+
     </div>
-
-    <br>
-
-    <div class="form-row" th:object="${parent}">
-        <div class="col">
-            <label for="parentEmail">E-mail</label>
-            <input th:value="${parent.parentEmail}" name="parentEmail" type="text" class="form-control" placeholder="E-mail" id="parentEmail">
-            <p class="has-error" th:if="${#fields.hasErrors('parentEmail')}">Nieprawidłowy adres e-mail</p>
-        </div>
-        <div class="col">
-            <label for="parentPhoneNumber">Numer telefonu</label>
-            <input th:value="${parent.parentPhoneNumber}" name="parentPhoneNumber" id="parentPhoneNumber" type="text" class="form-control" placeholder="Numer telefonu">
-            <p class="error-message" th:if="${#fields.hasErrors('parentPhoneNumber')}">Nieprawidłowy numer telefonu lub nieprawidłowy format : poprawny format to +48000000000</p>
-        </div>
-    </div>
-
-</div>
 
     <br>
 
@@ -182,6 +197,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
-
 </body>
 </html>

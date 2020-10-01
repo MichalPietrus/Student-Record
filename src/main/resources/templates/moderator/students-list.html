@@ -48,15 +48,15 @@
 <br>
 
 <div class="col-lg-12" th:switch="${users}">
-    <h2 th:case="null">No students yet!</h2>
+    <h2 th:case="null">Brak uczniów!</h2>
     <div th:case="*">
         <h2>Uczniowie</h2>
 
         <!--   Search     -->
 
         <form th:action="@{/moderator/lista-uczniow/{pageId}(pageId=${0})}" method="get">
-            <input id="txtSearch" type="text" name="keyword" placeholder="Search...">
-            <button type="submit">Go</button>
+            <input id="txtSearch" type="text" name="keyword" placeholder="Wyszukaj...">
+            <button type="submit">Przejdź</button>
         </form>
 
         <br>
