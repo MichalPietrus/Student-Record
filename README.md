@@ -23,7 +23,7 @@ TODO List:
 
 # Project Presentation:
 
-#### Sign in page :
+### Sign in page :
 
 <br>
 
@@ -36,7 +36,7 @@ TODO List:
 <br>
 
 
-#### Sign up page :
+## Sign up page :
 
 <br>
 
