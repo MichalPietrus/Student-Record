@@ -95,10 +95,10 @@
             <ul class="pagination justify-content-center">
                 <li class="page-item">
                     <div th:if="${pageId <= 0}">
-                        <a class="page-link disabled">Previous</a>
+                        <a class="page-link disabled"><--></a>
                     </div>
                     <div th:if="${pageId > 0}">
-                        <a class="page-link" th:href="${pageId - 1}">Previous</a>
+                        <a class="page-link" th:href="${pageId - 1}"><--></a>
                     </div>
                 </li>
                 <li class="page-item">
@@ -120,9 +120,9 @@
                 </li>
                 <li class="page-item">
                     <div th:if="${users.isLast()}">
-                        <a class="page-link disabled">Next</a></div>
+                        <a class="page-link disabled">--></a></div>
                     <div th:if="${!users.isLast()}">
-                        <a class="page-link" th:href="${pageId + 1}">Next</a>
+                        <a class="page-link" th:href="${pageId + 1}">--></a>
                     </div>
                 </li>
             </ul>
