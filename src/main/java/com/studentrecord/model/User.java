@@ -117,21 +117,21 @@ public class User {
             return "0";
     }
 
-    public Integer getExpectedFinalGradeId(int semester, String isFinal) {
+    public Integer getExpectedFinalGradeId(int semester,String subjectName, String isFinal) {
         int expectedFinalGradeId = 0;
         for (Grade studentGrade : this.studentGrades) {
             if (studentGrade.getIsFinal() != null)
-                if (studentGrade.getIsFinal().equals(isFinal) && studentGrade.getSemester() == semester)
+                if (studentGrade.getIsFinal().equals(isFinal) && studentGrade.getSemester() == semester && studentGrade.getSubject().getName().equals(subjectName))
                     expectedFinalGradeId = studentGrade.getId();
         }
         return expectedFinalGradeId;
     }
 
-    public String printExpectedFinalGrade(int semester, String isFinal, boolean isUserPanel) {
+    public String printExpectedFinalGrade(int semester,String subjectName, String isFinal, boolean isUserPanel) {
         int expectedFinalGrade = 0;
         for (Grade studentGrade : this.studentGrades) {
             if (studentGrade.getIsFinal() != null)
-                if (studentGrade.getIsFinal().equals(isFinal) && studentGrade.getSemester() == semester)
+                if (studentGrade.getIsFinal().equals(isFinal) && studentGrade.getSemester() == semester && studentGrade.getSubject().getName().equals(subjectName))
                     expectedFinalGrade = studentGrade.getRating();
         }
         String result;

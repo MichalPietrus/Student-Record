@@ -35,7 +35,7 @@ public class ModeratorController {
             model.addAttribute("users", userService.findAllByKeywordAndRolePageable(keyword,"ROLE_STUDENT", pageable));
         else
             model.addAttribute("users", userService.findAllStudentsPageable(pageable));
-        return "/moderator/students-list";
+        return "moderator/students-list";
     }
 
     @GetMapping("/zmien-klase/{id}")
@@ -48,7 +48,7 @@ public class ModeratorController {
         model.addAttribute("user", user);
         model.addAttribute("userSchoolClass", user.getSchoolClass());
         model.addAttribute("schoolClasses", schoolClasses);
-        return "/moderator/change-class";
+        return "moderator/change-class";
     }
 
     /**

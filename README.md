@@ -21,3 +21,30 @@ TODO List:
 - Expansion of the administration and moderation panel
 - Scale up the application so that it can run in multiple schools, not just one
 - Unit tests
+
+Link to the site/project:
+
+http://electronicexpensemanager-env.eba-j2xi2hsp.eu-west-2.elasticbeanstalk.com/login
+
+For best experience log into these accounts as they have some sample data
+
+Admin account :
+
+- E-mail : admin@gmail.com
+- password : admin
+
+Moderator account :
+
+- E-mail : moderator@gmail.com
+- password : admin
+
+Teacher account :
+
+- E-mail : teacher@gmail.com
+- password : admin
+
+Moderator account :
+
+- E-mail : student8@gmail.com
+- password : admin
+

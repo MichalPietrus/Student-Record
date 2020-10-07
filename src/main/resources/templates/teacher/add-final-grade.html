@@ -26,7 +26,7 @@
 
 <div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px; top: 10px">
     <form th:action="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
-                     (userId=${user.id},subject-name=${subjectName},semester=${semester},isFinal=${isFinal},gradeId=${user.getExpectedFinalGradeId(semester,isFinal)})}"
+                     (userId=${user.id},subject-name=${subjectName},semester=${semester},isFinal=${isFinal},gradeId=${user.getExpectedFinalGradeId(semester,subjectName,isFinal)})}"
           method="post">
         <div class="form-group">
             <label>Ocena

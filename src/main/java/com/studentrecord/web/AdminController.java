@@ -94,7 +94,7 @@ public class AdminController {
     }
 
     @PostMapping("/zapisz-szczegoly-uzytkownika/{id}")
-    public String updateUserDetails(@PathVariable("id") long id,
+    public String updateUserDetails(@PathVariable("id") long id, Model model,
                                     @Valid User user, BindingResult userResult,
                                     @ModelAttribute("userDetails") @Valid UserDetailsDB userDetails, BindingResult userDetailsResult,
                                     @ModelAttribute("parent") @Valid Parent parent, BindingResult parentResult,
@@ -103,9 +103,9 @@ public class AdminController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         userService.setUserDetails(user, userDetails, parent, placeOfResident, userDB);
 
-
         if (userResult.hasErrors() || userDetailsResult.hasErrors() || parentResult.hasErrors() || placeOfResidentResult.hasErrors()) {
             user.setId(id);
+            model.addAttribute("role",userDB.getRoles().stream().findAny().get().getName());
             return "admin/user-details";
         }
 

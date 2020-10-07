@@ -25,136 +25,140 @@
 <div class="col-lg-12" th:switch="${user.schoolClass}">
     <h2 th:case="null">Nie jesteś w żadnej klasie</h2>
     <div th:case="*">
-    <h2>Oceny</h2>
-    <hr>
-    Uczeń : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
-    <br>
-    Klasa : <i th:text="${user.schoolClass.name}"></i>
-    <br><br>
-    <table class="table table-bordered table-striped">
-        <thead>
-        <tr>
-            <th rowspan="2" class="Center">Przedmiot</th>
-            <th colspan="4" class="Center">Okres 1</th>
-            <th colspan="4" class="Center">Okres 2</th>
-            <th colspan="3" class="Center">Koniec roku</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td></td>
-            <td class="Center">Oceny bieżące</td>
-            <td class="Center">Śr.I</td>
-            <td class="Center">P.</td>
-            <td class="Center">K.</td>
-            <td class="Center">Oceny bieżące</td>
-            <td class="Center">Śr.II</td>
-            <td class="Center">P.</td>
-            <td class="Center">K.</td>
-            <td class="Center">Śr.K</td>
-            <td class="Center">P.</td>
-            <td class="Center">K.</td>
-        </tr>
-        <tr th:each="subject : ${user.getSchoolClass().getSubjects()}">
-            <td>
-                <i th:text="${subject.name}"></i>
-            </td>
+        <h2>Oceny</h2>
+        <hr>
+        Uczeń : <i th:text="${user.firstName}"></i>&nbsp<i th:text="${user.lastName}"></i>
+        <br>
+        Klasa : <i th:text="${user.schoolClass.name}"></i>
+        <br>
+        Twój nr : <i th:text="${user.studentNumber}"></i>
+        <br><br>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <th rowspan="2" class="Center">Przedmiot</th>
+                <th colspan="4" class="Center">Okres 1</th>
+                <th colspan="4" class="Center">Okres 2</th>
+                <th colspan="3" class="Center">Koniec roku</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td></td>
+                <td class="Center">Oceny bieżące</td>
+                <td class="Center">Śr.I</td>
+                <td class="Center">P.</td>
+                <td class="Center">K.</td>
+                <td class="Center">Oceny bieżące</td>
+                <td class="Center">Śr.II</td>
+                <td class="Center">P.</td>
+                <td class="Center">K.</td>
+                <td class="Center">Śr.K</td>
+                <td class="Center">P.</td>
+                <td class="Center">K.</td>
+            </tr>
+            <tr th:each="subject : ${user.getSchoolClass().getSubjects()}">
+                <td>
+                    <i th:text="${subject.name}"></i>
+                </td>
 
-            <!--    Semester 1 grades      -->
+                <!--    Semester 1 grades      -->
 
-            <td>
-                <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(1,subject.name)}">
-                    <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
-                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
-                            th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
+                <td>
+                    <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(1,subject.name)}">
+                        <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
+                                th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                                th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
                                    ${'Waga oceny : ' + grade.ratingWeight} + '&#xA;' +
                                    ${'Kategoria : ' + grade.category} + '&#xA;' +
                                    ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
                                    ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
                                    ${'Komentarz do oceny : ' + grade.comment}"></button>
-                    <button th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
-                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
-                            th:title="${'Kategoria : ' + grade.category} + '&#xA;' +
+                        <button th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
+                                th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                                th:title="${'Kategoria : ' + grade.category} + '&#xA;' +
                                       ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
                                       ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
                                       ${'Komentarz do oceny : ' + grade.comment}"></button>
-                </div>
-            </td>
-            <td>
-                <i class="btn btn-secondary btn-sm Element Center"
-                   th:text="${user.getAverageGrade(subject.name,1)}"></i>
-            </td>
-            <td>
-                <i th:text="${user.printExpectedFinalGrade(1,'Przewidywana',true)}"
-                   class="btn btn-secondary btn-sm Element"></i>
-            </td>
-            <td>
-                <i th:text="${user.printExpectedFinalGrade(1,'Końcowa',true)}"
-                   class="btn btn-secondary btn-sm Element"></i>
-            </td>
+                    </div>
+                </td>
+                <td>
+                    <i class="btn btn-secondary btn-sm Element Center"
+                       th:text="${user.getAverageGrade(subject.name,1)}"></i>
+                </td>
+                <td>
+                    <i th:text="${user.printExpectedFinalGrade(1,subject.name,'Przewidywana',true)}"
+                       class="btn btn-secondary btn-sm Element"></i>
+                </td>
+                <td>
+                    <i th:text="${user.printExpectedFinalGrade(1,subject.name,'Końcowa',true)}"
+                       class="btn btn-secondary btn-sm Element"></i>
+                </td>
 
-            <!--     Semester 2 grades      -->
+                <!--     Semester 2 grades      -->
 
-            <td>
-                <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(2,subject.name)}">
-                    <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
-                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
-                            th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
+                <td>
+                    <div class="Element" th:each="grade : ${user.getStudentGradesBySemesterAndSubject(2,subject.name)}">
+                        <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
+                                th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                                th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
                                       ${'Waga oceny : ' + grade.ratingWeight} + '&#xA;' +
                                       ${'Kategoria : ' + grade.category} + '&#xA;' +
                                       ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
                                       ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
                                       ${'Komentarz do oceny : ' + grade.comment}"></button>
-                    <button th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
-                            th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
-                            th:title="${'Kategoria : ' + grade.category} + '&#xA;' +
+                        <button th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
+                                th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                                th:title="${'Kategoria : ' + grade.category} + '&#xA;' +
                                       ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
                                       ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
                                       ${'Komentarz do oceny : ' + grade.comment}"></button>
-                </div>
-            </td>
-            <td>
-                <i class="btn btn-secondary btn-sm Element Center"
-                   th:text="${user.getAverageGrade(subject.name,2)}"></i>
-            </td>
-            <td>
-                <i th:text="${user.printExpectedFinalGrade(2,'Przewidywana',true)}"
-                   class="btn btn-secondary btn-sm Element"></i>
-            </td>
-            <td>
-                <i th:text="${user.printExpectedFinalGrade(2,'Końcowa',true)}"
-                   class="btn btn-secondary btn-sm Element"></i>
-            </td>
+                    </div>
+                </td>
+                <td>
+                    <i class="btn btn-secondary btn-sm Element Center"
+                       th:text="${user.getAverageGrade(subject.name,2)}"></i>
+                </td>
+                <td>
+                    <i th:text="${user.printExpectedFinalGrade(2,subject.name,'Przewidywana',true)}"
+                       class="btn btn-secondary btn-sm Element"></i>
+                </td>
+                <td>
+                    <i th:text="${user.printExpectedFinalGrade(2,subject.name,'Końcowa',true)}"
+                       class="btn btn-secondary btn-sm Element"></i>
+                </td>
 
-            <!--     End of the year grades    -->
+                <!--     End of the year grades    -->
 
 
-            <td>
-                <i class="btn btn-secondary btn-sm Element Center"
-                   th:text="${user.getAverageGrade(subject.name,3)}"></i>
-            </td>
-            <td>
-                <i th:text="${user.printExpectedFinalGrade(3,'Przewidywana',true)}"
-                   class="btn btn-secondary btn-sm Element"></i>
-            </td>
-            <td>
-                <i th:text="${user.printExpectedFinalGrade(3,'Końcowa',true)}"
-                   class="btn btn-secondary btn-sm Element"></i>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    *bz (brak zadania)
-    <br>
-    *np (nieprzygotowanie)
-    <br>
-    *zw (zwolenienie)
-    <br>
-    *Śr. (Średnia ocena)
-    <br>
-    *P. (Przewidywana ocena)
-    <br>
-    *K. (Ocena końcowa)
+                <td>
+                    <i class="btn btn-secondary btn-sm Element Center"
+                       th:text="${user.getAverageGrade(subject.name,3)}"></i>
+                </td>
+                <td>
+                    <i th:text="${user.printExpectedFinalGrade(3,subject.name,'Przewidywana',true)}"
+                       class="btn btn-secondary btn-sm Element"></i>
+                </td>
+                <td>
+                    <i th:text="${user.printExpectedFinalGrade(3,subject.name,'Końcowa',true)}"
+                       class="btn btn-secondary btn-sm Element"></i>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        * Aby zobaczyć szczegóły oceny najedź na ocenę myszką
+        <br>
+        *bz (brak zadania)
+        <br>
+        *np (nieprzygotowanie)
+        <br>
+        *zw (zwolenienie)
+        <br>
+        *Śr. (Średnia ocena)
+        <br>
+        *P. (Przewidywana ocena)
+        <br>
+        *K. (Ocena końcowa)
     </div>
 </div>
 

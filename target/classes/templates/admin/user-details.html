@@ -131,49 +131,51 @@
         </div>
     </div>
 
-    <div th:if="${role.equals('ROLE_STUDENT')}">
+    <div th:switch="${role}">
+        <div th:case="null"></div>
+        <div th:case="!'ROLE_STUDENT'"></div>
+        <div th:case="'ROLE_STUDENT'">
 
+            <!-- Parent  -->
 
-        <!-- Parent  -->
+            <br>
 
+            <h3>Dane rodzica</h3>
 
-        <br>
+            <br>
 
-        <h3>Dane rodzica</h3>
-
-        <br>
-
-        <div class="form-row" th:object="${parent}">
-            <div class="col">
-                <label for="parentFirstName">Imię</label>
-                <input th:value="${parent.parentFirstName}" name="parentFirstName" type="text" class="form-control"
-                       placeholder="Imię" id="parentFirstName">
+            <div class="form-row" th:object="${parent}">
+                <div class="col">
+                    <label for="parentFirstName">Imię</label>
+                    <input th:value="${parent.parentFirstName}" name="parentFirstName" type="text" class="form-control"
+                           placeholder="Imię" id="parentFirstName">
+                </div>
+                <div class="col">
+                    <label for="parentLastName">Nazwisko</label>
+                    <input th:value="${parent.parentLastName}" name="parentLastName" id="parentLastName" type="text"
+                           class="form-control" placeholder="Nazwisko">
+                </div>
             </div>
-            <div class="col">
-                <label for="parentLastName">Nazwisko</label>
-                <input th:value="${parent.parentLastName}" name="parentLastName" id="parentLastName" type="text"
-                       class="form-control" placeholder="Nazwisko">
+
+            <br>
+
+            <div class="form-row" th:object="${parent}">
+                <div class="col">
+                    <label for="parentEmail">E-mail</label>
+                    <input th:value="${parent.parentEmail}" name="parentEmail" type="text" class="form-control"
+                           placeholder="E-mail" id="parentEmail">
+                    <p class="has-error" th:if="${#fields.hasErrors('parentEmail')}">Nieprawidłowy adres e-mail</p>
+                </div>
+                <div class="col">
+                    <label for="parentPhoneNumber">Numer telefonu</label>
+                    <input th:value="${parent.parentPhoneNumber}" name="parentPhoneNumber" id="parentPhoneNumber"
+                           type="text" class="form-control" placeholder="Numer telefonu">
+                    <p class="error-message" th:if="${#fields.hasErrors('parentPhoneNumber')}">Nieprawidłowy numer
+                        telefonu
+                        lub nieprawidłowy format : poprawny format to +48000000000</p>
+                </div>
             </div>
         </div>
-
-        <br>
-
-        <div class="form-row" th:object="${parent}">
-            <div class="col">
-                <label for="parentEmail">E-mail</label>
-                <input th:value="${parent.parentEmail}" name="parentEmail" type="text" class="form-control"
-                       placeholder="E-mail" id="parentEmail">
-                <p class="has-error" th:if="${#fields.hasErrors('parentEmail')}">Nieprawidłowy adres e-mail</p>
-            </div>
-            <div class="col">
-                <label for="parentPhoneNumber">Numer telefonu</label>
-                <input th:value="${parent.parentPhoneNumber}" name="parentPhoneNumber" id="parentPhoneNumber"
-                       type="text" class="form-control" placeholder="Numer telefonu">
-                <p class="error-message" th:if="${#fields.hasErrors('parentPhoneNumber')}">Nieprawidłowy numer telefonu
-                    lub nieprawidłowy format : poprawny format to +48000000000</p>
-            </div>
-        </div>
-
     </div>
 
     <br>
