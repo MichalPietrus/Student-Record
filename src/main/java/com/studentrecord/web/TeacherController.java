@@ -12,7 +12,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 @Controller
 @RequestMapping("/nauczyciel")
@@ -98,7 +101,7 @@ public class TeacherController {
                            RedirectAttributes redirectAttributes) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        gradeService.setGradeDetails(subjectName,user,grade,semester);
+        gradeService.setGradeDetails(subjectName, user, grade, semester);
         userService.saveWithoutEncoding(user);
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
@@ -141,7 +144,7 @@ public class TeacherController {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         grade.setId(gradeId);
-        gradeService.setGradeDetails(subjectName,user,grade,semester);
+        gradeService.setGradeDetails(subjectName, user, grade, semester);
         userService.saveWithoutEncoding(user);
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
@@ -200,7 +203,7 @@ public class TeacherController {
         grade.setRating(rating);
         grade.setCategory(isFinal);
         grade.setIsFinal(isFinal);
-        gradeService.setGradeDetails(subjectName, user, grade,semester);
+        gradeService.setGradeDetails(subjectName, user, grade, semester);
         userService.saveWithoutEncoding(user);
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);

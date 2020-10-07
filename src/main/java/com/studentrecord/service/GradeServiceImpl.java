@@ -6,8 +6,6 @@ import com.studentrecord.model.User;
 import com.studentrecord.repository.GradeRepository;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

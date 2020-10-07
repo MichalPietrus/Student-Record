@@ -89,7 +89,7 @@ public class AdminController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         String role = user.getRoles().stream().findAny().get().getName();
         userService.setUserDetailsAndModels(model, user);
-        model.addAttribute("role",role);
+        model.addAttribute("role", role);
         return "admin/user-details";
     }
 
@@ -105,7 +105,7 @@ public class AdminController {
 
         if (userResult.hasErrors() || userDetailsResult.hasErrors() || parentResult.hasErrors() || placeOfResidentResult.hasErrors()) {
             user.setId(id);
-            model.addAttribute("role",userDB.getRoles().stream().findAny().get().getName());
+            model.addAttribute("role", userDB.getRoles().stream().findAny().get().getName());
             return "admin/user-details";
         }
 

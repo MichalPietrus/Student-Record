@@ -7,8 +7,8 @@ function hideGrades() {
     let ratingWeightLabel = document.getElementById("ratingWeightLabel");
     let ratingBr = document.getElementById("ratingBr");
     let ratingWeightBr = document.getElementById("ratingWeightBr");
-    let table = [ratingSelect,ratingWeightSelect,ratingLabel,ratingWeightLabel,ratingBr,ratingWeightBr]
-    if(selectedCategory === 'bz' || selectedCategory === 'zw' || selectedCategory === 'np') {
+    let table = [ratingSelect, ratingWeightSelect, ratingLabel, ratingWeightLabel, ratingBr, ratingWeightBr]
+    if (selectedCategory === 'bz' || selectedCategory === 'zw' || selectedCategory === 'np') {
         table.forEach(hide);
     } else {
         table.forEach(show);
@@ -19,6 +19,7 @@ function hideGrades() {
         item.hidden = true;
         item.disabled = true;
     }
+
     function show(item) {
         item.hidden = false;
         item.disabled = false;

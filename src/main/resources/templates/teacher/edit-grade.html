@@ -72,12 +72,15 @@
                    placeholder="max 100 znaków...">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-success" style="float: left;position:relative;width: 240px">Potwierdź</button>
+            <button type="submit" class="btn btn-success" style="float: left;position:relative;width: 240px">Potwierdź
+            </button>
         </div>
     </form>
     <form th:action="@{/nauczyciel/usun-ocene/{userId}/{subject-name}/{semester}/{gradeId}
-                     (userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.id})}" method="post">
-            <button type="submit" class="btn btn-danger" style="width: 240px; position: relative; left: 20px">Usuń ocenę</button>
+                     (userId=${user.id},subject-name=${subjectName},semester=${semester},gradeId=${grade.id})}"
+          method="post">
+        <button type="submit" class="btn btn-danger" style="width: 240px; position: relative; left: 20px">Usuń ocenę
+        </button>
     </form>
     <br>
     <div style="text-align: left">

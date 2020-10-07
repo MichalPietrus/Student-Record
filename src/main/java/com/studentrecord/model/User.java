@@ -3,7 +3,6 @@ package com.studentrecord.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.validator.constraints.pl.PESEL;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -117,7 +116,7 @@ public class User {
             return "0";
     }
 
-    public Integer getExpectedFinalGradeId(int semester,String subjectName, String isFinal) {
+    public Integer getExpectedFinalGradeId(int semester, String subjectName, String isFinal) {
         int expectedFinalGradeId = 0;
         for (Grade studentGrade : this.studentGrades) {
             if (studentGrade.getIsFinal() != null)
@@ -127,7 +126,7 @@ public class User {
         return expectedFinalGradeId;
     }
 
-    public String printExpectedFinalGrade(int semester,String subjectName, String isFinal, boolean isUserPanel) {
+    public String printExpectedFinalGrade(int semester, String subjectName, String isFinal, boolean isUserPanel) {
         int expectedFinalGrade = 0;
         for (Grade studentGrade : this.studentGrades) {
             if (studentGrade.getIsFinal() != null)

@@ -1,12 +1,17 @@
 package com.studentrecord.web;
 
-import com.studentrecord.model.*;
-import com.studentrecord.service.GradeService;
+import com.studentrecord.model.Parent;
+import com.studentrecord.model.PlaceOfResident;
+import com.studentrecord.model.User;
+import com.studentrecord.model.UserDetailsDB;
 import com.studentrecord.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.security.Principal;

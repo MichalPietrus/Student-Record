@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:form="http://www.w3.org/1999/xhtml">
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -71,7 +71,8 @@
 <!--   ADMIN   -->
 
 
-<div sec:authorize="hasRole('ADMIN')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+<div sec:authorize="hasRole('ADMIN')" class="container"
+     style="text-align: center; position:relative; top: 20px; left: 200px">
     <div class="row">
         <div class="col-xl-6 col-xl-offset-3">
             <h4>Funkcje administratora</h4>
@@ -82,7 +83,8 @@
             <br><br>
             <h4>Funkcje moderatora</h4>
             <hr>
-            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana klasy)</a>
+            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana
+                klasy)</a>
         </div>
     </div>
 </div>
@@ -91,12 +93,14 @@
 <!--   MODERATOR   -->
 
 
-<div sec:authorize="hasRole('MODERATOR')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+<div sec:authorize="hasRole('MODERATOR')" class="container"
+     style="text-align: center; position:relative; top: 20px; left: 200px">
     <div class="row">
         <div class="col-xl-6 col-xl-offset-3">
             <h4>Funkcje moderatora</h4>
             <hr>
-            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana klasy)</a>
+            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana
+                klasy)</a>
         </div>
     </div>
 </div>
@@ -105,13 +109,15 @@
 <!--  Teacher  -->
 
 
-<div sec:authorize="hasRole('TEACHER')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+<div sec:authorize="hasRole('TEACHER')" class="container"
+     style="text-align: center; position:relative; top: 20px; left: 200px">
     <div class="row">
         <div class="col-xl-6 col-xl-offset-3">
             <h4>Funkcje Nauczyciela</h4>
             <hr>
             <a class="btn btn-dark" th:href="@{/nauczyciel/wybierz-klase}" style="width: 200px">Dodaj Oceny</a>
-            <a class="btn btn-dark" th:href="@{/nauczyciel/szczegoly-uzytkownika}" style="width: 200px">Szczegóły użytkownika</a>
+            <a class="btn btn-dark" th:href="@{/nauczyciel/szczegoly-uzytkownika}" style="width: 200px">Szczegóły
+                użytkownika</a>
         </div>
     </div>
 </div>
@@ -120,13 +126,15 @@
 <!--  Student  -->
 
 
-<div sec:authorize="hasRole('STUDENT')" class="container" style="text-align: center; position:relative; top: 20px; left: 200px">
+<div sec:authorize="hasRole('STUDENT')" class="container"
+     style="text-align: center; position:relative; top: 20px; left: 200px">
     <div class="row">
         <div class="col-xl-6 col-xl-offset-3">
             <h4>Funkcje Ucznia</h4>
             <hr>
             <a class="btn btn-dark" th:href="@{/uczen/oceny}" style="width: 200px">Oceny</a>
-            <a class="btn btn-dark" th:href="@{/uczen/szczegoly-uzytkownika}" style="width: 200px">Szczegóły użytkownika</a>
+            <a class="btn btn-dark" th:href="@{/uczen/szczegoly-uzytkownika}" style="width: 200px">Szczegóły
+                użytkownika</a>
         </div>
     </div>
 </div>
