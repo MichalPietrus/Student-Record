@@ -24,7 +24,7 @@ TODO List:
 
 Link to the site/project:
 
-http://electronicexpensemanager-env.eba-j2xi2hsp.eu-west-2.elasticbeanstalk.com/login
+http://studentrecord-env.eba-rsg8u6gy.eu-west-2.elasticbeanstalk.com/login
 
 For best experience log into these accounts as they have some sample data
 
