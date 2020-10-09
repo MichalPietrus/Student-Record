@@ -1,7 +1,7 @@
 function chooseSubject() {
     let chooseSubject = document.getElementById("chooseSubject");
     let choosedSchoolClassName = $("#schoolClass :selected").text();
-    if(choosedSchoolClassName !== '--') {
+    if (choosedSchoolClassName !== '--') {
         $.ajax({
             url: "/subject/" + choosedSchoolClassName,
             method: "POST",
@@ -22,7 +22,7 @@ function chooseSubject() {
                 let row = `
             <option value="${data[index]}">${data[index]}</option>`;
                 chooseSubjectSelect.innerHTML += row;
-        });
+            });
         }).fail(function (data) {
             console.log(data);
         });

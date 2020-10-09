@@ -43,8 +43,10 @@ public class ModeratorController {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         List<SchoolClass> schoolClasses = schoolClassService.findAll();
+
         if (user.getSchoolClass() != null)
             schoolClasses.remove(user.getSchoolClass());
+
         model.addAttribute("user", user);
         model.addAttribute("userSchoolClass", user.getSchoolClass());
         model.addAttribute("schoolClasses", schoolClasses);

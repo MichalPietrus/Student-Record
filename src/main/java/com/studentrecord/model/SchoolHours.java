@@ -29,5 +29,4 @@ public class SchoolHours {
         this.subject = subject;
         this.schoolClass = schoolClass;
     }
-
 }

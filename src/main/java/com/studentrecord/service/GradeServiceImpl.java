@@ -35,20 +35,6 @@ public class GradeServiceImpl implements GradeService {
         gradeRepository.delete(grade);
     }
 
-    /*
-    @Override
-    public void setGradeDetails(String subjectName, Integer semester, String category,
-                                Integer rating, Integer ratingWeight, User user, Grade grade) {
-        grade.setCategory(category);
-        grade.setRating(rating);
-        grade.setRatingWeight(ratingWeight);
-        setGradeDetails(subjectName, user, grade);
-        grade.setDate(new SimpleDateFormat("yyyy.MM.dd HH:mm:ss").format(new Date()));
-        grade.setSemester(semester);
-    }
-
-     */
-
     @Override
     public void setGradeDetails(String subjectName, User user, Grade grade, Integer semester) {
         grade.setSemester(semester);
@@ -58,6 +44,4 @@ public class GradeServiceImpl implements GradeService {
                 grade.setSubject(subject);
         user.addGrade(grade);
     }
-
-
 }

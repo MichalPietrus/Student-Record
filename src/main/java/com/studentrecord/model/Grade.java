@@ -35,15 +35,6 @@ public class Grade {
     @JoinColumn(name = "correction_grade_id", referencedColumnName = "id")
     private Grade correctionGrade;
 
-    public String printRatingWeight() {
-        String result;
-        if (!this.category.equals("zw") && !this.category.equals("bz") && !this.category.equals("np"))
-            result = Integer.toString(this.ratingWeight);
-        else
-            result = this.category;
-        return result;
-    }
-
     public String printRating() {
         String result;
         if (!this.category.equals("zw") && !this.category.equals("bz") && !this.category.equals("np"))
@@ -52,5 +43,4 @@ public class Grade {
             result = this.category;
         return result;
     }
-
 }

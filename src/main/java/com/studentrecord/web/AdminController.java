@@ -61,7 +61,8 @@ public class AdminController {
     }
 
     @PostMapping("/zapisz-przedmiot")
-    public String saveSubject(@ModelAttribute("subject") Subject subject, @RequestParam(value = "schoolClass.id") Integer id,
+    public String saveSubject(@ModelAttribute("subject") Subject subject,
+                              @RequestParam(value = "schoolClass.id") Integer id,
                               @RequestParam(value = "teacher.id") Long teacherId) {
         Optional<SchoolClass> classOptional = schoolClassService.findById(id);
         classOptional.ifPresent(subject::setSchoolClass);
@@ -87,7 +88,8 @@ public class AdminController {
                                   Model model) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
-        String role = user.getRoles().stream().findAny().get().getName();
+        String role = user.getRoles().stream()
+                .findAny().get().getName();
         userService.setUserDetailsAndModels(model, user);
         model.addAttribute("role", role);
         return "admin/user-details";
@@ -105,7 +107,8 @@ public class AdminController {
 
         if (userResult.hasErrors() || userDetailsResult.hasErrors() || parentResult.hasErrors() || placeOfResidentResult.hasErrors()) {
             user.setId(id);
-            model.addAttribute("role", userDB.getRoles().stream().findAny().get().getName());
+            model.addAttribute("role", userDB.getRoles().stream()
+                    .findAny().get().getName());
             return "admin/user-details";
         }
 
@@ -124,11 +127,14 @@ public class AdminController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         Role currentlySelectedRole = user.getRoles().stream().findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid role Id: " + id));
+
         List<Role> roles = Arrays.asList(new Role("STUDENT"), new Role("TEACHER"),
                 new Role("ADMIN"), new Role("MODERATOR"));
+
         model.addAttribute("currentlySelectedRole", currentlySelectedRole);
         model.addAttribute("roles", roles.stream()
-                .filter(role -> !role.getName().equals(user.getRoleNameWithoutPrefix())).collect(Collectors.toList()));
+                .filter(role -> !role.getName().equals(user.getRoleNameWithoutPrefix()))
+                .collect(Collectors.toList()));
         model.addAttribute("user", user);
         return "admin/change-role";
     }
@@ -139,10 +145,12 @@ public class AdminController {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         String changedRole;
+
         if (!role.contains("ROLE_")) {
             changedRole = "ROLE_" + role;
             user.getRoles().forEach(role1 -> role1.setName(changedRole));
         }
+
         userService.saveWithoutEncoding(user);
         return "redirect:/admin/lista-uzytkownikow/0";
     }

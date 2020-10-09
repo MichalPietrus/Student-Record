@@ -50,6 +50,7 @@ public class TeacherController {
                         schoolClasses.add(schoolClass); // If schoolClasses do not have previously downloaded class, it adds it to the class list
             }
         }
+
         model.addAttribute("schoolClasses", schoolClasses);
         return "teacher/choose-class";
     }
@@ -70,6 +71,7 @@ public class TeacherController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid schoolClass Id: " + classId));
         List<User> students = schoolClass.getUsers();
         students.sort(Comparator.comparing(User::getStudentNumber));
+
         model.addAttribute("schoolClass", schoolClass);
         model.addAttribute("subjectName", subjectName);
         model.addAttribute("users", students);
@@ -83,6 +85,7 @@ public class TeacherController {
                                    @PathVariable Integer semester) {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
+
         model.addAttribute("grade", new Grade());
         model.addAttribute("user", user);
         model.addAttribute("subjectName", subjectName);
@@ -103,6 +106,7 @@ public class TeacherController {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         gradeService.setGradeDetails(subjectName, user, grade, semester);
         userService.saveWithoutEncoding(user);
+
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
         return "redirect:/nauczyciel/uczniowie/{classId}/{subject-name}";
@@ -121,6 +125,7 @@ public class TeacherController {
         String currentCategory = grade.getCategory();
         int currentRating = grade.getRating();
         int currentRatingWeight = grade.getRatingWeight();
+
         model.addAttribute("currentCategory", currentCategory);
         model.addAttribute("currentRating", currentRating);
         model.addAttribute("currentRatingWeight", currentRatingWeight);
@@ -146,6 +151,7 @@ public class TeacherController {
         grade.setId(gradeId);
         gradeService.setGradeDetails(subjectName, user, grade, semester);
         userService.saveWithoutEncoding(user);
+
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
         return "redirect:/nauczyciel/uczniowie/{classId}/{subject-name}";
@@ -160,6 +166,7 @@ public class TeacherController {
         User user = userService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
         gradeService.deleteById(gradeId);
+
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
         return "redirect:/nauczyciel/uczniowie/{classId}/{subject-name}";
@@ -180,6 +187,7 @@ public class TeacherController {
         else
             grade = gradeService.findById(gradeId)
                     .orElseThrow(() -> new IllegalArgumentException("Invalid grade Id: " + gradeId));
+
         model.addAttribute("grade", grade);
         model.addAttribute("user", user);
         model.addAttribute("ratings", ratings);
@@ -205,6 +213,7 @@ public class TeacherController {
         grade.setIsFinal(isFinal);
         gradeService.setGradeDetails(subjectName, user, grade, semester);
         userService.saveWithoutEncoding(user);
+
         redirectAttributes.addAttribute("classId", user.getSchoolClass().getId());
         redirectAttributes.addAttribute("subject-name", subjectName);
         return "redirect:/nauczyciel/uczniowie/{classId}/{subject-name}";
@@ -222,6 +231,7 @@ public class TeacherController {
             userDetailsDB = user.getUserDetailsDB();
             placeOfResident = user.getUserDetailsDB().getPlaceOfResident();
         }
+
         model.addAttribute("userDetails", userDetailsDB);
         model.addAttribute("placeOfResident", placeOfResident);
         model.addAttribute("user", user);

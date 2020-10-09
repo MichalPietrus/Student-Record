@@ -142,5 +142,4 @@ public class User {
             result = Integer.toString(expectedFinalGrade);
         return result;
     }
-
 }

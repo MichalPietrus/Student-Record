@@ -37,5 +37,4 @@ public class Subject {
         this.teacher = teacher;
         this.schoolClass = schoolClass;
     }
-
 }

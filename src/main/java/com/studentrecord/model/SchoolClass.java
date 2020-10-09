@@ -57,5 +57,4 @@ public class SchoolClass {
         else
             return this.name;
     }
-
 }

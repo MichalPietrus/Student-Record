@@ -22,8 +22,6 @@ public interface UserService extends UserDetailsService {
 
     void setUserDetails(User user, UserDetailsDB userDetails, Parent parent, PlaceOfResident placeOfResident, User userDB);
 
-    void extractTeachers(List<User> users, List<User> teachers);
-
     void setTeacherDetails(User user, UserDetailsDB userDetails, PlaceOfResident placeOfResident, User userDB);
 
     void saveAndEncode(User user);
@@ -31,8 +29,6 @@ public interface UserService extends UserDetailsService {
     void saveWithoutEncoding(User user);
 
     Optional<User> findById(Long id);
-
-    List<User> findAll();
 
     void delete(User user);
 

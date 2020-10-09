@@ -92,11 +92,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
     public void delete(User user) {
         userRepository.delete(user);
     }
@@ -171,17 +166,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void extractTeachers(List<User> users, List<User> teachers) {
-        for (User user : users) {
-            Optional<Role> role = user.getRoles().stream()
-                    .filter(u -> u.getName().equals("ROLE_TEACHER"))
-                    .findAny();
-            if (role.isPresent())
-                teachers.add(user);
-        }
-    }
-
-    @Override
     public void setTeacherDetails(User user, UserDetailsDB userDetails, PlaceOfResident placeOfResident, User userDB) {
         int userDetailsDbId = 0;
         int userDBPlaceOfResidentId = 0;
@@ -210,5 +194,4 @@ public class UserServiceImpl implements UserService {
                 students.add(user);
         }
     }
-
 }
