@@ -8,50 +8,55 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/CenterFormStyles.css}">
     <title>Dodaj Ocenę</title>
 </head>
-<style>
-    .form-control {
-        width: 500px;
-    }
-</style>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="teacherNavbar">
-</nav>
 
+<div id="page" class="container-12">
 
-<br><br>
+    <nav role="navigation" class="navbar navbar-expand-sm navbar-light bg-light" id="teacherNavbar"></nav>
 
-<h1 style="position:relative; left: 690px">Dodaj Ocenę</h1>
+    <main role="main">
 
-<div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px; top: 10px">
-    <form th:action="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
-                     (userId=${user.id},subject-name=${subjectName},semester=${semester},isFinal=${isFinal},gradeId=${user.getExpectedFinalGradeId(semester,subjectName,isFinal)})}"
-          method="post">
-        <div class="form-group">
-            <label>Ocena
-                <select name="rating" class="form-control" required>
-                    <option th:value="${grade.rating}"
-                            th:text="${grade.rating}"></option>
-                    <option
-                            th:each="rating : ${ratings}"
-                            th:value="${rating}"
-                            th:text="${rating}"></option>
-                </select>
-            </label>
+        <h1>Dodaj Ocenę</h1>
+
+        <form th:action="@{/nauczyciel/dodaj-ocene-koncowa/{userId}/{subject-name}/{semester}/{isFinal}/{gradeId}
+                     (userId=${user.id},subject-name=${subjectName},semester=${semester},isFinal=${isFinal}
+                     ,gradeId=${user.getExpectedFinalGradeId(semester,subjectName,isFinal)})}" method="post">
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                    <label for="ratingSelect">Ocena</label>
+                    <select id="ratingSelect" name="rating" class="form-control" required>
+                        <option th:value="${grade.rating}"
+                                th:text="${grade.rating}"></option>
+                        <option
+                                th:each="rating : ${ratings}"
+                                th:value="${rating}"
+                                th:text="${rating}"></option>
+                    </select>
+                </div>
+            </div>  <!-- End of row -->
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                    <button type="submit" class="form-control btn btn-primary">
+                        Potwierdź
+                    </button>
+                </div>
+            </div>  <!-- End of row -->
+
+        </form>
+
+        <div class="row no-gutters justify-content-center Center">
+            <i class="col-12" th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
+            <i th:text="${'* Średnia ocen w semestrze : ' + user.getAverageGrade(subjectName,semester)}"></i>
         </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">Potwierdź
-            </button>
-        </div>
-    </form>
-    <div style="text-align: left">
-        <i th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
-        <br>
-        <i th:text="${'* Średnia ocen w semestrze : ' + user.getAverageGrade(subjectName,semester)}"></i>
-    </div>
-</div>
 
+    </main>
+
+</div><!-- End of container/page -->
 
 <script th:src="@{/js/teacherNavbar.js}"></script>
 <script>

@@ -10,17 +10,23 @@ function chooseSubject() {
             dataType: 'json',
         }).done(function (data) {
             console.log(data);
+
             chooseSubject.innerHTML = `            
-            <label>Wybierz przedmiot
+            <label for="chooseSubjectSelect">Wybierz przedmiot</label>
                 <select id="chooseSubjectSelect" name="subject.name" class="form-control" required>              
                 </select>
-            </label>`;
+            `;
+
             let chooseSubjectSelect = document.getElementById("chooseSubjectSelect");
+
             chooseSubjectSelect.innerHTML = `<option value="">--</option>`;
+
             $.each(data, function (index) {
                 console.log(data[index])
+
                 let row = `
             <option value="${data[index]}">${data[index]}</option>`;
+
                 chooseSubjectSelect.innerHTML += row;
             });
         }).fail(function (data) {

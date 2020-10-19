@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,115 +7,127 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" th:href="@{/css/ShowUsersStyles.css}">
     <title>Lista użytkowników</title>
 </head>
-<style>
-    .Center {
-        text-align: center;
-    }
-</style>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="adminNavbar">
-</nav>
+<div id="page" class="container-12">
 
-<br>
+    <nav role="navigation" class="navbar navbar-expand-sm navbar-light bg-light" id="adminNavbar"></nav>
 
-<div class="col-lg-12" th:switch="${users}">
-    <h2 th:case="null">Brak Użytkowników!</h2>
-    <div th:case="*">
-        <h2>Użytkownicy</h2>
+    <main role="main">
 
-        <!--   Search     -->
+        <div class="col-12" th:switch="${users}">
 
-        <form th:action="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}" method="get">
-            <input id="txtSearch" type="text" name="keyword" placeholder="Wyszukaj...">
-            <button type="submit">Przejdź</button>
-        </form>
+            <h2 th:case="null">Brak Użytkowników!</h2>
+            <div th:case="*">
 
-        <br>
+                <h2 id="header">Użytkownicy</h2>
 
-        <!--   Admin Table     -->
+                <!--   Search   -->
 
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr>
-                <th class="Center">Imię</th>
-                <th class="Center">Nazwisko</th>
-                <th class="Center">E-mail</th>
-                <th class="Center">PESEL</th>
-                <th class="Center">Szczegółowe informacje</th>
-                <th colspan="2" class="Center">Rola Użytkownika</th>
-                <th class="Center">Usuń użykownika</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.firstName}"></td>
-                <td th:text="${user.lastName}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.PESEL}"></td>
-                <td class="Center">
-                    <a th:href="@{/admin/szczegoly-uzytkownika/{id}(id=${user.id})}"
-                       class="btn btn-secondary">Edytuj</a></td>
-                <td class="Center">
-                    <button th:text="${user.getRoleNameWithoutPrefix()}" class="btn btn-info btn-md"></button>
-                </td>
-                <td class="Center">
-                    <a th:href="@{/admin/zmien-role/{id}(id=${user.id})}" class="btn btn-secondary btn-customButton">Zmień
-                        Rolę</a>
-                </td>
-                <td class="Center">
-                    <a class="btn btn-danger"
-                       th:href="@{/admin/usun-uzytkownika/{id}/{pageId}(id=${user.id},pageId=${pageId})}"
-                       onclick="if(!(confirm('Jesteś pewien że chcesz usunąć tego użytkownika ? '))) return false">Usuń
-                        użytkownika</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                <form id="search-form" th:action="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}" method="get"
+                      class="form-inline">
+                    <label for="txtSearch"></label>
+                    <input class="form-control col-10 col-sm-5 col-md-3 col-lg-2" id="txtSearch" type="search"
+                           name="keyword" placeholder="Wyszukaj...">
+                    <button id="search-button" class="btn btn-primary" type="submit">Wyszukaj</button>
+                </form>
 
-        <!--  Paging     -->
+                <!--   Admin Table     -->
 
-        <nav aria-label="...">
-            <ul class="pagination justify-content-center">
-                <li class="page-item">
-                    <div th:if="${pageId <= 0}">
-                        <a class="page-link disabled"><--</a>
-                    </div>
-                    <div th:if="${pageId > 0}">
-                        <a class="page-link" th:href="${pageId - 1}"><--</a>
-                    </div>
-                </li>
-                <li class="page-item">
-                    <div th:if="${pageId <= 0}">
-                        <a></a>
-                    </div>
-                    <div th:if="${pageId > 0}">
-                        <a class="page-link" th:href="${pageId - 1}" th:text="${pageId}"></a>
-                    </div>
-                </li>
-                <li class="page-item active">
-                    <a class="page-link" th:href="${pageId}" th:text="${pageId + 1}"></a>
-                </li>
-                <li class="page-item">
-                    <div th:if="${users.isLast()}"></div>
-                    <div th:if="${!users.isLast()}">
-                        <a class="page-link" th:href="${pageId + 1}" th:text="${pageId + 2}"></a>
-                    </div>
-                </li>
-                <li class="page-item">
-                    <div th:if="${users.isLast()}">
-                        <a class="page-link disabled">--></a></div>
-                    <div th:if="${!users.isLast()}">
-                        <a class="page-link" th:href="${pageId + 1}">--></a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</div>
+                <table class="table table-responsive-lg table-bordered table-striped">
+
+                    <thead>
+                    <tr>
+                        <th>Imię</th>
+                        <th>Nazwisko</th>
+                        <th>E-mail</th>
+                        <th>PESEL</th>
+                        <th>Szczegółowe informacje</th>
+                        <th colspan="2">Rola Użytkownika</th>
+                        <th>Usuń użykownika</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="user : ${users}">
+                        <td th:text="${user.firstName}"></td>
+                        <td th:text="${user.lastName}"></td>
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.PESEL}"></td>
+                        <td class="Center">
+                            <a th:href="@{/admin/szczegoly-uzytkownika/{id}(id=${user.id})}"
+                               class="btn btn-secondary">Edytuj</a></td>
+                        <td class="Center">
+                            <button th:text="${user.getRoleNameWithoutPrefix()}" class="btn btn-info btn-md"></button>
+                        </td>
+                        <td class="Center">
+                            <a th:href="@{/admin/zmien-role/{id}(id=${user.id})}"
+                               class="btn btn-secondary">Zmień Rolę</a>
+                        </td>
+                        <td class="Center">
+                            <a class="btn btn-danger"
+                               th:href="@{/admin/usun-uzytkownika/{id}/{pageId}(id=${user.id},pageId=${pageId})}"
+                               onclick="if(!(confirm('Jesteś pewien że chcesz usunąć tego użytkownika ? '))) return false">Usuń
+                                użytkownika</a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+
+                <!--  Paging     -->
+
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <div th:if="${pageId <= 0}">
+                                <a class="page-link disabled">«</a>
+                            </div>
+                            <div th:if="${pageId > 0}">
+                                <a class="page-link" th:href="${pageId - 1}">«</a>
+                            </div>
+                        </li>
+
+                        <li class="page-item">
+                            <div th:if="${pageId <= 0}">
+                            </div>
+                            <div th:if="${pageId > 0}">
+                                <a class="page-link" th:href="${pageId - 1}" th:text="${pageId}"></a>
+                            </div>
+                        </li>
+
+                        <li class="page-item active">
+                            <a class="page-link" th:href="${pageId}" th:text="${pageId + 1}"></a>
+                        </li>
+
+                        <li class="page-item">
+                            <div th:if="${users.isLast()}"></div>
+                            <div th:if="${!users.isLast()}">
+                                <a class="page-link" th:href="${pageId + 1}" th:text="${pageId + 2}"></a>
+                            </div>
+                        </li>
+
+                        <li class="page-item">
+                            <div th:if="${users.isLast()}">
+                                <a class="page-link disabled">»</a></div>
+                            <div th:if="${!users.isLast()}">
+                                <a class="page-link" th:href="${pageId + 1}">»</a>
+                            </div>
+                        </li>
+
+                    </ul>
+                </nav>
+
+            </div> <!-- End of case -->
+
+        </div> <!-- End of switch -->
+
+    </main> <!-- End of row -->
+
+</div> <!-- End of container/page -->
 
 <script th:src="@{/js/adminNavbar.js}"></script>
 <script>
@@ -132,7 +143,4 @@
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-</body>
-</html>
+        crossorigin="anonymous"></scri

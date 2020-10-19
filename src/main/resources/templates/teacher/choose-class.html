@@ -8,50 +8,57 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/CenterFormStyles.css}">
     <title>Wybierz klasę</title>
 </head>
-<style>
-    .form-control {
-        width: 500px;
-    }
-</style>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="teacherNavbar">
-</nav>
+
+<div id="page" class="container-12">
+
+    <nav role="navigation" class="navbar navbar-expand-sm navbar-light bg-light" id="teacherNavbar"></nav>
+
+    <main role="main">
+
+        <h1>Wybierz klasę i przedmiot</h1>
+
+        <form th:action="@{wybierz-klase}" method="post">
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-7 col-md-6 col-lg-5 col-xl-4">
+                    <label for="schoolClass">Wybierz klasę</label>
+                    <select id="schoolClass" name="schoolClass.id" class="form-control" onchange="chooseSubject()"
+                            required>
+                        <option value="">--</option>
+                        <option
+                                th:each="schoolClass : ${schoolClasses}"
+                                th:value="${schoolClass.id}"
+                                th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
+                    </select>
+                </div>
+            </div>  <!-- End of row -->
 
 
-<br><br>
+            <!--   Choose Subject     -->
 
-<h1 style="position:relative; left: 560px">Wybierz klasę i przedmiot</h1>
-
-<form th:action="@{wybierz-klase}" method="post">
-    <div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px; top: 10px">
-        <div class="form-group">
-            <label>Wybierz klasę
-                <select id="schoolClass" name="schoolClass.id" class="form-control" onchange="chooseSubject()" required>
-                    <option value="">--</option>
-                    <option
-                            th:each="schoolClass : ${schoolClasses}"
-                            th:value="${schoolClass.id}"
-                            th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
-                </select>
-            </label>
-        </div>
-
-        <!--   Choose Subject     -->
-
-        <div class="form-group" id="chooseSubject">
-        </div>
-
-        <!--   Submit     -->
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-7 col-md-6 col-lg-5 col-xl-4" id="chooseSubject"></div>
+            </div>
 
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">Potwierdź
-            </button>
-        </div>
-    </div>
-</form>
+            <!--   Submit     -->
+
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-7 col-md-6 col-lg-5 col-xl-4">
+                    <button type="submit" class="form-control btn btn-primary">Potwierdź</button>
+                </div>
+            </div>  <!-- End of row -->
+
+        </form>
+
+    </main>
+
+</div><!-- End of container/page -->
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"

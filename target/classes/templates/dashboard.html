@@ -8,135 +8,123 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" th:href="@{/css/DashboardStyle.css}">
     <title>Elektroniczny Dzienniczek</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Dzienniczek</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active dropdown" sec:authorize="hasRole('STUDENT')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudent" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Ucznia
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownStudent">
-                    <a class="dropdown-item" th:href="@{/uczen/oceny}">Oceny</a>
-                    <a class="dropdown-item" th:href="@{/uczen/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="hasRole('TEACHER')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTeacher" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Nauczyciela
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownTeacher">
-                    <a class="dropdown-item" th:href="@{/nauczyciel/wybierz-klase}">Dodaj oceny</a>
-                    <a class="dropdown-item" th:href="@{/nauczyciel/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownModerator" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Moderatora
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownModerator">
-                    <a class="dropdown-item" th:href="@{/moderator/lista-uczniow/{pageId}(pageId=${0})}">Lista uczniów
-                        (zmiana klasy)</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="hasRole('ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Administracyjny
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                    <a class="dropdown-item" th:href="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}">Lista
-                        użytkowników</a>
-                    <a class="dropdown-item" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
-                    <a class="dropdown-item" th:href="@{/admin/utworz-klase}">Stwórz klasę</a>
-                </div>
-            </li>
-            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
-            </li>
-        </ul>
-    </div>
-</nav>
 
-<br><br>
+<div id="page" class="container-12">
 
+    <!--  Navbar  -->
 
-<!--   ADMIN   -->
-
-
-<div sec:authorize="hasRole('ADMIN')" class="container"
-     style="text-align: center; position:relative; top: 20px; left: 200px">
-    <div class="row">
-        <div class="col-xl-6 col-xl-offset-3">
-            <h4>Funkcje administratora</h4>
-            <hr>
-            <a class="btn btn-dark" th:href="@{/admin/lista-uzytkownikow/0}" style="width: 170px">Lista Użytkowników</a>
-            <a class="btn btn-dark" th:href="@{/admin/utworz-klase}" style="width: 170px">Stwórz nową klasę</a>
-            <a class="btn btn-dark" th:href="@{/admin/dodaj-przedmiot}" style="width: 170px">Dodaj Przedmiot</a>
-            <br><br>
-            <h4>Funkcje moderatora</h4>
-            <hr>
-            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana
-                klasy)</a>
+    <nav role="navigation" class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="/">Dzienniczek</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active dropdown" sec:authorize="hasRole('STUDENT')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownStudent" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Panel Ucznia
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownStudent">
+                        <a class="dropdown-item" th:href="@{/uczen/oceny}">Oceny</a>
+                        <a class="dropdown-item" th:href="@{/uczen/szczegoly-uzytkownika}">Szczegóły Użytkownika</a>
+                    </div>
+                </li>
+                <li class="nav-item active dropdown" sec:authorize="hasRole('TEACHER')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownTeacher" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Panel Nauczyciela
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownTeacher">
+                        <a class="dropdown-item" th:href="@{/nauczyciel/wybierz-klase}">Dodaj oceny</a>
+                        <a class="dropdown-item" th:href="@{/nauczyciel/szczegoly-uzytkownika}">Szczegóły
+                            Użytkownika</a>
+                    </div>
+                </li>
+                <li class="nav-item active dropdown" sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownModerator" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Panel Moderatora
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownModerator">
+                        <a class="dropdown-item" th:href="@{/moderator/lista-uczniow/{pageId}(pageId=${0})}">Lista
+                            uczniów
+                            (zmiana klasy)</a>
+                    </div>
+                </li>
+                <li class="nav-item active dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Panel Administracyjny
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                        <a class="dropdown-item" th:href="@{/admin/lista-uzytkownikow/{pageId}(pageId=${0})}">Lista
+                            użytkowników</a>
+                        <a class="dropdown-item" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
+                        <a class="dropdown-item" th:href="@{/admin/utworz-klase}">Stwórz klasę</a>
+                    </div>
+                </li>
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+                </li>
+            </ul>
         </div>
-    </div>
-</div>
+    </nav>
 
+    <!--   ADMIN   -->
 
-<!--   MODERATOR   -->
+    <main role="main" class="row no-gutters justify-content-center">
+        <div class="col-11 col-sm-10 col-md-8 col-lg-6 col-xl-4">
+            <div sec:authorize="hasRole('ADMIN')">
+                <h4>Funkcje administratora</h4>
+                <hr>
+                <a class="btn btn-secondary small-button" th:href="@{/admin/lista-uzytkownikow/0}">Lista
+                    Użytkowników</a>
+                <a class="btn btn-secondary small-button" th:href="@{/admin/utworz-klase}">Stwórz nową klasę</a>
+                <a class="btn btn-secondary small-button" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
+                <h4>Funkcje moderatora</h4>
+                <hr>
+                <a class="btn btn-secondary big-button" th:href="@{/moderator/lista-uczniow/0}">Lista Uczniów (zmiana
+                    klasy)</a>
+            </div>
 
+            <!--   MODERATOR   -->
 
-<div sec:authorize="hasRole('MODERATOR')" class="container"
-     style="text-align: center; position:relative; top: 20px; left: 200px">
-    <div class="row">
-        <div class="col-xl-6 col-xl-offset-3">
-            <h4>Funkcje moderatora</h4>
-            <hr>
-            <a class="btn btn-dark" th:href="@{/moderator/lista-uczniow/0}" style="width: 250px">Lista Uczniów (zmiana
-                klasy)</a>
-        </div>
-    </div>
-</div>
+            <div sec:authorize="hasRole('MODERATOR')">
+                <h4>Funkcje moderatora</h4>
+                <hr>
+                <a class="btn btn-secondary big-button" th:href="@{/moderator/lista-uczniow/0}">Lista Uczniów (zmiana
+                    klasy)</a>
+            </div>
 
+            <!--  Teacher  -->
 
-<!--  Teacher  -->
+            <div sec:authorize="hasRole('TEACHER')">
+                <h4>Funkcje Nauczyciela</h4>
+                <hr>
+                <a class="btn btn-secondary big-button-margin" th:href="@{/nauczyciel/wybierz-klase}">Dodaj Oceny</a>
+                <a class="btn btn-secondary big-button-margin" th:href="@{/nauczyciel/szczegoly-uzytkownika}">Szczegóły
+                    użytkownika</a>
+            </div>
 
+            <!--  Student  -->
 
-<div sec:authorize="hasRole('TEACHER')" class="container"
-     style="text-align: center; position:relative; top: 20px; left: 200px">
-    <div class="row">
-        <div class="col-xl-6 col-xl-offset-3">
-            <h4>Funkcje Nauczyciela</h4>
-            <hr>
-            <a class="btn btn-dark" th:href="@{/nauczyciel/wybierz-klase}" style="width: 200px">Dodaj Oceny</a>
-            <a class="btn btn-dark" th:href="@{/nauczyciel/szczegoly-uzytkownika}" style="width: 200px">Szczegóły
-                użytkownika</a>
-        </div>
-    </div>
-</div>
+            <div sec:authorize="hasRole('STUDENT')">
+                <h4>Funkcje Ucznia</h4>
+                <hr>
+                <a class="btn btn-secondary big-button-margin" th:href="@{/uczen/oceny}">Oceny</a>
+                <a class="btn btn-secondary big-button-margin" th:href="@{/uczen/szczegoly-uzytkownika}">Szczegóły
+                    użytkownika</a>
+            </div>
 
+        </div> <!-- End of col -->
+    </main> <!-- End of row -->
 
-<!--  Student  -->
-
-
-<div sec:authorize="hasRole('STUDENT')" class="container"
-     style="text-align: center; position:relative; top: 20px; left: 200px">
-    <div class="row">
-        <div class="col-xl-6 col-xl-offset-3">
-            <h4>Funkcje Ucznia</h4>
-            <hr>
-            <a class="btn btn-dark" th:href="@{/uczen/oceny}" style="width: 200px">Oceny</a>
-            <a class="btn btn-dark" th:href="@{/uczen/szczegoly-uzytkownika}" style="width: 200px">Szczegóły
-                użytkownika</a>
-        </div>
-    </div>
 </div>
 
 
@@ -147,8 +135,4 @@
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-</body>
-</html>
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1Mq

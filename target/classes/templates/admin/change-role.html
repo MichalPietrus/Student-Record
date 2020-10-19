@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,44 +7,52 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/CenterFormStyles.css}">
     <title>Zmień Rolę</title>
 </head>
-<style>
-    .form-control {
-        width: 500px;
-    }
-</style>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="adminNavbar">
-</nav>
+<div id="page" class="container-12">
 
-<br><br>
+    <nav role="navigation" class="navbar navbar-expand-sm navbar-light bg-light" id="adminNavbar"></nav>
 
-<h1 style="position:relative; left: 720px">Zmień rolę</h1>
+    <main role="main">
 
-<div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px">
-    <form th:action="@{/admin/zapisz-role/{id}(id=${user.id})}" method="post">
-        <div class="col-md-10">
-            <label for="role"></label><h6>Wybierz role:</h6>
-            <select id="role" name="role.name" class="form-control">
-                <option th:value="${currentlySelectedRole.name}"
-                        th:text="${user.getRoleNameWithoutPrefix()}"></option>
-                <option
-                        th:each="role : ${roles}"
-                        th:value="${role.name}"
-                        th:text="${role.name}"></option>
-            </select>
-            <br>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">
-                    Potwierdź
-                </button>
-            </div>
-            <i th:text="${'* Aktualnie wybrany użytkownik : ' + user.firstName + ' ' + user.lastName}"></i>
-        </div>
-    </form>
-</div>
+        <h1>Zmień rolę</h1>
+
+        <form th:action="@{/admin/zapisz-role/{id}(id=${user.id})}" method="post">
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                    <label for="role" class="col-form-label">Wybierz role:</label>
+                    <select id="role" name="role.name" class="form-control">
+                        <option th:value="${currentlySelectedRole.name}"
+                                th:text="${user.getRoleNameWithoutPrefix()}"></option>
+                        <option
+                                th:each="role : ${roles}"
+                                th:value="${role.name}"
+                                th:text="${role.name}"></option>
+                    </select>
+                </div>
+            </div>  <!-- End of row -->
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                    <button type="submit" class="form-control btn btn-primary">
+                        Potwierdź
+                    </button>
+                </div>
+            </div>  <!-- End of row -->
+
+            <span class="row no-gutters justify-content-center">
+                <i th:text="${'* Aktualnie wybrany użytkownik : ' + user.firstName + ' ' + user.lastName}"></i>
+            </span>
+
+        </form>
+
+    </main>
+
+</div><!-- End of container/page -->
 
 
 <script th:src="@{/js/adminNavbar.js}"></script>

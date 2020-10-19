@@ -2,6 +2,10 @@ function printAdminNavbar() {
     let navbar = document.getElementById("adminNavbar");
     navbar.innerHTML = `    
     <a class="navbar-brand" href="/">Dzienniczek</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active dropdown">

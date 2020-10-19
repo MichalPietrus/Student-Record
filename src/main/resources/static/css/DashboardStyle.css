@@ -1,0 +1,23 @@
+main {
+    margin: 100px 0 0;
+    text-align: center;
+}
+
+h4 {
+    margin-top: 10px;
+}
+
+.small-button {
+    width: 170px;
+    margin: 5px auto 0;
+}
+
+.big-button {
+    width: 250px;
+    margin: 0 auto;
+}
+
+.big-button-margin {
+    width: 250px;
+    margin: 5px auto 0;
+}

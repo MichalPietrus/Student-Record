@@ -1,0 +1,18 @@
+fieldset {
+    text-align: center;
+    margin-top: 40px;
+}
+
+legend {
+    margin-bottom: 20px;
+}
+
+button {
+    justify-self: center;
+    text-align: center;
+    margin: 25px auto 20px;
+}
+
+.margin-top {
+    margin-top: 10px;
+}

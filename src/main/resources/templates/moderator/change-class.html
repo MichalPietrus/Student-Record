@@ -8,75 +8,94 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/CenterFormStyles.css}">
     <title>Zmień Klasę</title>
 </head>
-<style>
-    .form-control {
-        width: 500px;
-    }
-</style>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Dzienniczek</a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active dropdown" sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownModerator" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Moderatora
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownModerator">
-                    <a class="dropdown-item" th:href="@{/moderator/lista-uczniow/0}">Lista uczniów
-                        (zmiana klasy)</a>
-                </div>
-            </li>
-            <li class="nav-item active dropdown" sec:authorize="hasRole('ADMIN')">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Panel Administracyjny
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
-                    <a class="dropdown-item" th:href="@{/admin/lista-uzytkownikow/0}">Lista
-                        użytkowników</a>
-                    <a class="dropdown-item" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
-                    <a class="dropdown-item" th:href="@{/admin/utworz-klase}">Stwórz klasę</a>
-                </div>
-            </li>
-            <li class="nav-item active" sec:authorize="isAuthenticated()">
-                <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
-            </li>
-        </ul>
-    </div>
-</nav>
 
-<br><br>
+<div id="page" class="container-12">
 
-<h1 style="position:relative; left: 715px">Zmień klasę</h1>
+    <nav role="navigation" class="navbar navbar-expand-sm navbar-light bg-light">
+        <a class="navbar-brand" href="/">Dzienniczek</a>
 
-<div class="col-md-6 col-md-offset-3" style="position:relative;left: 530px">
-    <form th:action="@{/moderator/zmien-klase/{id}(id=${user.id})}" method="post">
-        <div class="col-md-10">
-            <label for="schoolClass"></label><h6>Wybierz klasę:</h6>
-            <select id="schoolClass" name="schoolClass.name" class="form-control">
-                <option th:if="${!user.getSchoolClassName().equals('Brak')}"
-                        th:value="${userSchoolClass.name}"
-                        th:text="${userSchoolClass.getSchoolClassNameAndYear()}"
-                ></option>
-                <option
-                        th:each="schoolClass : ${schoolClasses}"
-                        th:value="${schoolClass.name}"
-                        th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
-            </select>
-            <br>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success" style="position:relative;left: 135px;width: 250px">
-                    Potwierdź
-                </button>
-            </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item active dropdown" sec:authorize="hasAnyRole('MODERATOR','ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownModerator" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Panel Moderatora
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownModerator">
+                        <a class="dropdown-item" th:href="@{/moderator/lista-uczniow/0}">Lista uczniów
+                            (zmiana klasy)</a>
+                    </div>
+                </li>
+
+                <li class="nav-item active dropdown" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Panel Administracyjny
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownAdmin">
+                        <a class="dropdown-item" th:href="@{/admin/lista-uzytkownikow/0}">Lista
+                            użytkowników</a>
+                        <a class="dropdown-item" th:href="@{/admin/dodaj-przedmiot}">Dodaj Przedmiot</a>
+                        <a class="dropdown-item" th:href="@{/admin/utworz-klase}">Stwórz klasę</a>
+                    </div>
+                </li>
+
+                <li class="nav-item active" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/logout}">Wyloguj</a>
+                </li>
+
+            </ul>
         </div>
-        <i th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
-    </form>
-</div>
+    </nav>
+
+    <main role="main">
+
+        <h1>Zmień klasę</h1>
+
+        <form th:action="@{/moderator/zmien-klase/{id}(id=${user.id})}" method="post">
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                    <label for="schoolClass" class="col-form-label">Wybierz klasę:</label>
+                    <select id="schoolClass" name="schoolClass.name" class="form-control">
+                        <option th:if="${!user.getSchoolClassName().equals('Brak')}"
+                                th:value="${userSchoolClass.name}"
+                                th:text="${userSchoolClass.getSchoolClassNameAndYear()}"></option>
+                        <option
+                                th:each="schoolClass : ${schoolClasses}"
+                                th:value="${schoolClass.name}"
+                                th:text="${schoolClass.getSchoolClassNameAndYear()}"></option>
+                    </select>
+                </div>
+            </div> <!-- End of row -->
+
+            <div class="row no-gutters justify-content-center">
+                <div class="form-group col-11 col-sm-6 col-md-5 col-lg-4 col-xl-3">
+                    <button type="submit" class="form-control btn btn-primary">
+                        Potwierdź
+                    </button>
+                </div>
+            </div> <!-- End of row -->
+
+            <span class="row no-gutters justify-content-center">
+                <i th:text="${'* Aktualnie wybrany uczeń : ' + user.firstName + ' ' + user.lastName}"></i>
+            </span>
+
+        </form>
+
+    </main>
+
+</div>  <!-- End of container/page -->
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
