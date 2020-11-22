@@ -1,0 +1,24 @@
+main {
+    margin: 100px auto;
+}
+
+h1 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+button {
+    margin-top: 10px;
+}
+
+.Center {
+    text-align: center;
+}
+
+#addGradeMain {
+    margin-top: 50px;
+}
+
+.delete-margin-top {
+    margin-top: 0;
+}

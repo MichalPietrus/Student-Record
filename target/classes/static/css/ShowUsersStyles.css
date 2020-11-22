@@ -1,0 +1,36 @@
+th, .Center {
+    text-align: center;
+}
+
+#header {
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+#search-form {
+    margin-bottom: 25px;
+}
+
+@media screen {
+    #txtSearch {
+        margin-right: 5px;
+    }
+}
+
+@media only screen and (max-width: 575px) {
+    #search-button {
+        margin-top: 5px;
+    }
+}
+
+.Element {
+    display: inline;
+}
+
+#choosedSubject {
+    margin-top: 5px;
+}
+
+#teacherGradesTable {
+    margin-top: 15px;
+}
