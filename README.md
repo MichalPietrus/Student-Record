@@ -9,7 +9,7 @@ Languages and frameworks used in the project:
 - MySQL, Hibernate
 - HTML, CSS, Bootstrap, Javascript
 - Maven
-- AWS for deployment
+- Heroku for deployment
 
 Things I would have done differently:
 - The appearance of the page.
@@ -24,7 +24,7 @@ TODO List:
 
 Link to the site/project:
 
-http://studentrecord-env.eba-rsg8u6gy.eu-west-2.elasticbeanstalk.com/login
+https://electronic-student-record.herokuapp.com/
 
 For best experience log into these accounts as they have some sample data
 
