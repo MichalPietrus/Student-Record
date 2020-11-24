@@ -15,6 +15,12 @@ Things I would have done differently:
 - The appearance of the page.
 - Security is failing in some places, unfortunately I was unable to deal with this problem.
 
+Things i learned on this project:
+- Java
+- Bascics of spring
+- Basics of html and css
+- Maven
+
 TODO List:
 - Absences
 - Lesson plan
@@ -45,6 +51,6 @@ Teacher account :
 
 Moderator account :
 
-- E-mail : student8@gmail.com
+- E-mail : student@gmail.com
 - password : admin
 
