@@ -49,11 +49,11 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="Center">Oceny bieżące</td>
+                        <td class="Center grades-column">Oceny bieżące</td>
                         <td class="Center">Śr.I</td>
                         <td class="Center">P.</td>
                         <td class="Center">K.</td>
-                        <td class="Center">Oceny bieżące</td>
+                        <td class="Center grades-column">Oceny bieżące</td>
                         <td class="Center">Śr.II</td>
                         <td class="Center">P.</td>
                         <td class="Center">K.</td>
@@ -76,7 +76,7 @@
                                 </a>
                             </div>
                             <a th:href="@{/nauczyciel/dodaj-ocene/{userId}/{subject-name}/{semester}(userId=${user.id},subject-name=${subjectName},semester=${1})}"
-                               class="btn btn-secondary btn-sm">+</a>
+                               class="btn btn-secondary btn-sm grades-element">+</a>
                         </td>
 
                         <td>
@@ -106,7 +106,7 @@
                                    th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"></a>
                             </div>
                             <a th:href="@{/nauczyciel/dodaj-ocene/{userId}/{subject-name}/{semester}(userId=${user.id},subject-name=${subjectName},semester=${2})}"
-                               class="btn btn-secondary btn-sm">+</a>
+                               class="btn btn-secondary btn-sm grades-element">+</a>
                         </td>
 
                         <td>

@@ -34,3 +34,12 @@ th, .Center {
 #teacherGradesTable {
     margin-top: 15px;
 }
+.grades-column {
+    min-width: 180px;
+}
+.grades-element {
+    margin-top: 1px;
+}
+.grade {
+    margin-top: 1px;
+}

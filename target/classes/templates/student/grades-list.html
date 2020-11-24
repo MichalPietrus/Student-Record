@@ -46,11 +46,11 @@
                     <tbody>
                     <tr>
                         <td></td>
-                        <td class="Center">Oceny bieżące</td>
+                        <td class="Center grades-column">Oceny bieżące</td>
                         <td class="Center">Śr.I</td>
                         <td class="Center">P.</td>
                         <td class="Center">K.</td>
-                        <td class="Center">Oceny bieżące</td>
+                        <td class="Center grades-column">Oceny bieżące</td>
                         <td class="Center">Śr.II</td>
                         <td class="Center">P.</td>
                         <td class="Center">K.</td>
@@ -70,8 +70,9 @@
                         <td>
                             <div class="Element"
                                  th:each="grade : ${user.getStudentGradesBySemesterAndSubject(1,subject.name)}">
-                                <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
-                                        th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                                <button data-toggle="tooltip"
+                                        th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
+                                        th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element grade"
                                         th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
                                    ${'Waga oceny : ' + grade.ratingWeight} + '&#xA;' +
                                    ${'Kategoria : ' + grade.category} + '&#xA;' +
@@ -79,7 +80,8 @@
                                    ${'Wystawiona przez nauczyciela : ' + grade.getSubject().getTeacher().getFirstName() + ' ' + grade.getSubject().getTeacher().getLastName()} + '&#xA;' +
                                    ${'Komentarz do oceny : ' + grade.comment}"></button>
 
-                                <button th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
+                                <button data-toggle="tooltip"
+                                        th:if="${grade.category.equals('bz') || grade.category.equals('zw') || grade.category.equals('np')}"
                                         th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
                                         th:title="${'Kategoria : ' + grade.category} + '&#xA;' +
                                       ${'Data wystawienia oceny : ' + grade.date} + '&#xA;' +
@@ -109,7 +111,7 @@
                             <div class="Element"
                                  th:each="grade : ${user.getStudentGradesBySemesterAndSubject(2,subject.name)}">
                                 <button th:if="${!grade.category.equals('bz') && !grade.category.equals('zw') && !grade.category.equals('np')}"
-                                        th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element"
+                                        th:text="${grade.printRating()}" class="btn btn-secondary btn-sm Element grade"
                                         th:title="${'Ocena : ' + grade.rating} + '&#xA;' +
                                       ${'Waga oceny : ' + grade.ratingWeight} + '&#xA;' +
                                       ${'Kategoria : ' + grade.category} + '&#xA;' +

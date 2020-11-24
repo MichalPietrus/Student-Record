@@ -211,6 +211,7 @@ public class TeacherController {
         grade.setRating(rating);
         grade.setCategory(isFinal);
         grade.setIsFinal(isFinal);
+        System.out.println(grade);
         gradeService.setGradeDetails(subjectName, user, grade, semester);
         userService.saveWithoutEncoding(user);
 
