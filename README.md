@@ -6,14 +6,20 @@ Languages and frameworks used in the project:
 
 - Java
 - Spring boot, Spring Data, Spring MVC, Spring Security, Thymeleaf
-- MySQL, Hibernate
+- PostgreSQL, Hibernate
 - HTML, CSS, Bootstrap, Javascript
 - Maven
-- AWS for deployment
+- Heroku for deployment
 
 Things I would have done differently:
 - The appearance of the page.
 - Security is failing in some places, unfortunately I was unable to deal with this problem.
+
+Things i learned on this project:
+- Java
+- Bascics of spring
+- Basics of html and css
+- Maven
 
 TODO List:
 - Absences
@@ -24,7 +30,7 @@ TODO List:
 
 Link to the site/project:
 
-http://studentrecord-env.eba-rsg8u6gy.eu-west-2.elasticbeanstalk.com/login
+https://electronic-student-record.herokuapp.com/
 
 For best experience log into these accounts as they have some sample data
 
@@ -45,6 +51,6 @@ Teacher account :
 
 Moderator account :
 
-- E-mail : student8@gmail.com
+- E-mail : student@gmail.com
 - password : admin
 
