@@ -1,8 +1,8 @@
 # Electronic Student Record
 
-My main goal while creating this project was to learn spring, thymeleaf, html and MySQL as well as to consolidate my knowledge in Java.
-<br>
-Languages and frameworks used in the project:
+Student Record was my first project. While doing this project i mostly
+wanted to focus on understanding the basics of web-development. I learned the basics of html and css also
+i got to know spring data, spring boot, spring mvc and spring security.
 
 - Java
 - Spring boot, Spring Data, Spring MVC, Spring Security, Thymeleaf
